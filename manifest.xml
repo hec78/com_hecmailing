@@ -9,7 +9,7 @@
  <copyright>(c) Hecsoft 2009-2014</copyright>
  <license>GNU General Public License</license>
  <!--  The version string is recorded in the components table -->
- <version>3.0.0</version>
+ <version>1.8.3</version>
  <!-- The description is optional and defaults to the name -->
  <description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
  <scriptfile>install.hecmailing.php</scriptfile>
@@ -38,21 +38,17 @@
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 			<file driver="mysql" >sql/install.mysql.utf8.sql</file>
 	</sql>
- </install>
-  <update> <!-- Runs on update; New in 2.5 -->
-       <schemas>
-               <schemapath type="mysql">sql/updates/mysql</schemapath>
-       </schemas>
-  </update>
+	</install>
+
  <administration>
   <!-- Administration Menu Section -->
-  <menu view="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>
+  <menu task="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>
   <submenu>
     
-    <menu view="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING_GROUPLIST</menu> 
-  <menu view="contact" img="components/com_hecmailing/user16.png">COM_HECMAILING_CONTACTS</menu> 
-  <menu view="templates" img="components/com_hecmailing/template.png" >COM_HECMAILING_MENUTEMPLATE</menu> 
-    <menu view="param" img="components/com_hecmailing/param.png">COM_HECMAILING_PARAMETERS</menu> 
+    <menu task="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING_GROUPLIST</menu> 
+  <menu task="contact" img="components/com_hecmailing/user16.png">COM_HECMAILING_CONTACTS</menu> 
+  <menu task="templates" img="components/com_hecmailing/template.png" >COM_HECMAILING_MENUTEMPLATE</menu> 
+    <menu task="param" img="components/com_hecmailing/param.png">COM_HECMAILING_PARAMETERS</menu> 
   </submenu>
 
   <!-- Administration Main File Copy Section -->
@@ -76,9 +72,5 @@
   </files>  
  	 
  </administration>
- <updateservers>
-       <!-- Note: No spaces or linebreaks allowed between the server tags -->
-       <server type="extension" priority="1" name="Version stable">http://joomla.hecsoft.net/update/hecmailing-update.xml</server>
- </updateservers>
 </extension>
 
