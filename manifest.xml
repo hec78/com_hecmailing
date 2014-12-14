@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2.0" method="upgrade">
+ <name>HEC Mailing</name>
+ <!-- The following elements are optional and free of formatting conttraints -->
+ <creationDate>Apr. 2012</creationDate>
+ <author>Herve CYR</author>
+ <authorEmail>dev@hecsoft.net</authorEmail>
+ <authorUrl>http://www.hecsoft.net</authorUrl>
+ <copyright>(c) Hecsoft 2009-2014</copyright>
+ <license>GNU General Public License</license>
+ <!--  The version string is recorded in the components table -->
+ <version>3.0.0</version>
+ <!-- The description is optional and defaults to the name -->
+ <description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
+ <scriptfile>install.hecmailing.php</scriptfile>
+ <!-- Site Main File Copy Section -->
+ <!-- Note the folder attribute: This attribute describes the folder
+      to copy FROM in the package to install therefore files copied
+      in this section are copied from /site/ in the package -->
+  
+ <files folder="site">
+  <filename>controller.php</filename>
+  <filename>hecmailing.php</filename>
+  <filename>release_note.txt</filename>
+  <filename>index.html</filename>
+  
+  <folder>views</folder>
+  <folder>models</folder>
+  <folder>images</folder>
+  <folder>css</folder>
+ <folder>language</folder>
+  <folder>libraries</folder>
+  <folder>joomfish</folder>
+
+ </files>
+ <install>
+     <sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file driver="mysql" >sql/install.mysql.utf8.sql</file>
+	</sql>
+ </install>
+  <update> <!-- Runs on update; New in 2.5 -->
+       <schemas>
+               <schemapath type="mysql">sql/updates/mysql</schemapath>
+       </schemas>
+  </update>
+ <administration>
+  <!-- Administration Menu Section -->
+  <menu view="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>
+  <submenu>
+    
+    <menu view="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING_GROUPLIST</menu> 
+  <menu view="contact" img="components/com_hecmailing/user16.png">COM_HECMAILING_CONTACTS</menu> 
+  <menu view="templates" img="components/com_hecmailing/template.png" >COM_HECMAILING_MENUTEMPLATE</menu> 
+    <menu view="param" img="components/com_hecmailing/param.png">COM_HECMAILING_PARAMETERS</menu> 
+  </submenu>
+
+  <!-- Administration Main File Copy Section -->
+  <files folder="admin">
+   <filename>controller.php</filename>
+   <filename>access.xml</filename>
+   	<filename>config.xml</filename>
+   <filename>hecmailing.php</filename>
+   <filename>config.xml</filename>
+   <filename>index.html</filename>
+   <folder>tables</folder>
+   <folder>controllers</folder>
+   <folder>assets</folder>
+   <folder>helpers</folder>
+   <folder>language</folder>
+   <folder>models</folder>
+   <folder>sql</folder>
+   <folder>views</folder>
+   <filename>update.php</filename>
+	<filename>install.hecmailing.php</filename>
+  </files>  
+ 	 
+ </administration>
+ <updateservers>
+       <!-- Note: No spaces or linebreaks allowed between the server tags -->
+       <server type="extension" priority="1" name="Version stable">http://joomla.hecsoft.net/update/hecmailing-update.xml</server>
+ </updateservers>
+</extension>
+

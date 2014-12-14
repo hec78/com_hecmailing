@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="usertype" type="text" default="Administrator;Super Administrator" size="50" label="User types allowed" description="Users types allowed for use mail send (; between each type)" />
+		<param name="groupaccess" type="text" default="" size="50" label="Group name of allowed users" description="HecMailing group name which contain users allowed to use send mail" />
+		<param name="send_all" type="radio" default="0" label="Send to all users" description="if NO, users can't send email to all users, FIRST for first in list and LAST for last in list">
+			<option value="0">OPTION_NO</option>
+			<option value="1">FIRST</option>
+			<option value="2">LAST</option>
+		</param>
+		<param name="ask_select_group" type="radio" default="1" label="Ask select group" description="if YES, a dummy 'select' line is added in group list and selected by default">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		<param name="backup_mail" type="radio" default="0" label="Backup sent e-mail" description="if YES, all sent e-mail will be saved.">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		<param name="default_use_profil" type="radio" default="0" label="Use profil check as default" description="if YES, 'use profil' checkbox is checked by default.">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		<param name="image_incorpore" type="radio" default="1" label="Image in content by Default" description="if YES, 'Image in content' checkbox is checked by default.">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		
+		<param name="send_to_blocked" type="radio" default="0" label="Send mail to blocked users?" description="if YES, mails are sent to blocked user.">
+			<option value="0">OPTION_NO</option>
+			<option value="1">YES, IF ALL USERS OR JOOMLA GROUP</option>
+			<option value="2">YES, IF USER LIST</option>
+			<option value="3">YES, FOR ALL</option>
+		</param>
+		<param name="send_count" type="text" default="1" label="Send mail by block" description="Size of the block of mails for send" />
+		<param name="attach_path" type="text" default="images/stories/hecmailing" label="Attachment path" description="Folder where attachment files will be saved" />
+		<param name="browse_path" type="text" default="images/stories" label="Base browser path" description="Folder can be browsed" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="edit_width" type="text" default="500" size="5" label="Editor width" description="Width in px of the editor" />
+		<param name="edit_height" type="text" default="400" size="5" label="Editor Height" description="Editor height in pixel" />
+		<param name="attach_input_count" type="text" default="0" size="2" label="Default attachment input count" description="Number of upload input fields by default" />
+		<param name="show_mail_sent" type="radio" default="1" label="Show Mail sent button" description="if YES, show sent email button.">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		
+		<param name="@spacer" type="spacer" default="" label="Contact" description="" />
+		<param name="captcha_use" type="radio" default="1" label="Use captcha?" description="if YES, the captcha will be used">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		<param name="captcha_private_key" type="text" default="6LexAQwAAAAAAKTT3bwI9SR2mCAfExdLlS-DHfQt" label="ReCaptcha private Key" description="Go to http://recaptcha.net/ to get yours keys" />
+		<param name="captcha_public_key" type="text" default="6LexAQwAAAAAANErhkc2zLD3wmsiZWeU1Cstc50_" label="ReCaptcha public Key" description="Go to http://recaptcha.net/ to get yours keys" />
+		<param name="captcha_theme" type="radio" default="0" label="Captcha Theme" description="Choose the theme of the contact captcha">
+			<option value="">standard</option>
+			<option value="red">Red</option>
+			<option value="white">White</option>
+			<option value="clean">Clean</option>
+			<option value="blackglass">Black Glass</option>
+		</param>
+		<param name="captcha_show_logged" type="radio" default="1" label="Show for logged user" description="if YES, the captcha will shown for logged users">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+		<param name="debug" type="radio" default="1" label="Debug component" description="if YES, all actions are loggued">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</param>
+	</params>
+	<fieldset name="general" label="PARAMTAB_GENERAL_LABEL"	description="PARAMTAB_GENERAL_DESC"	>
+		<field name="debug" type="list" default="0" label="DEBUG_LABEL" description="DEBUG_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+			
+		</field>
+		<field name="show_mail_sent" type="list" default="1" label="SHOW_MAIL_SENT_LABEL" description="SHOW_MAIL_SENT_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+			
+		</field>
+	</fieldset>
+	<fieldset name="security"
+		label="PARAMTAB_SECURITY_LABEL"
+		description="PARAMTAB_SECURITY_DESC"
+	>
+		<field name="usertype" type="text" 
+				default="Administrator;Super Administrator" size="50" 
+				label="USER_TYPE_ALLOWED_LABEL" description="USER_TYPE_ALLOWED_DESC" />
+		<field name="groupaccess" type="text" 
+				default="" size="50" 
+				label="ALLOWED_USERS_GROUP_NAME_LABEL" description="ALLOWED_USERS_GROUP_NAME_DESC" />
+		<field name="send_all" type="list" default="0" label="SEND_ALL_LABEL" description="SEND_ALL_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">FIRST</option>
+			<option value="2">LAST</option>
+		</field>
+	</fieldset>
+	<fieldset name="mail"
+		label="PARAMTAB_MAIL_LABEL"
+		description="PARAMTAB_MAIL_DESC"
+	>
+		<field name="ask_select_group" type="radio" default="1" label="ASK_SELECT_GROUP_LABEL" description="ASK_SELECT_GROUP_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+		<field name="backup_mail" type="radio" default="0" label="BACKUP_SENT_EMAIL_LABEL" description="BACKUP_SENT_EMAIL_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+		<field name="default_use_profil" type="radio" default="0" label="DEFAULT_USE_PROFIL_LABEL" description="DEFAULT_USE_PROFIL_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+		<field name="image_incorpore" type="radio" default="1" label="DEFAULT_IMAGE_IN_CONTENT_LABEL" description="DEFAULT_IMAGE_IN_CONTENT_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+		
+		<field name="send_to_blocked" type="list" default="0" label="SEND_TO_BLOCKED_LABEL" description="SEND_TO_BLOCKED_LABEL">
+			<option value="0">OPTION_NO</option>
+			<option value="1">YES_IF_ALL</option>
+			<option value="2">YES_IF_USER</option>
+			<option value="3">YES_FOR_ALL</option>
+		</field>
+		<field name="send_count" type="text" default="1" label="SEND_COUNT_LABEL" description="SEND_COUNT_DESCR"></field>
+		
+	</fieldset>
+	<fieldset name="path"
+		label="PARAMTAB_PATH_LABEL"
+		description="PARAMTAB_PATH_DESC"
+	>
+		<field name="attach_path" type="text" default="images/stories/hecmailing" label="ATTACH_PATH_LABEL" description="ATTACH_PATH_DESC" width="80" />
+		<field name="browse_path" type="text" default="images/stories" label="BASE_BROWSE_PATH_LABEL" description="BASE_BROWSE_PATH_DESC" width="80" />
+		
+	</fieldset>
+	<fieldset name="editor"
+		label="PARAMTAB_EDITOR_LABEL"
+		description="PARAMTAB_EDITOR_DESC"
+	>
+		<field name="edit_width" type="text" default="500" size="5" label="EDITOR_WIDTH_LABEL" description="EDITOR_WIDTH_DESC" />
+		<field name="edit_height" type="text" default="400" size="5" label="EDITOR_HEIGHT_LABEL" description="EDITOR_HEIGHT_DESC" />
+		<field name="attach_input_count" type="text" default="0" size="2" label="ATTACH_INPUT_COUNT_LABEL" description="ATTACH_INPUT_COUNT_DESC" />
+	</fieldset>
+	<fieldset name="captcha"
+		label="PARAMTAB_CAPTCHA_LABEL"
+		description="PARAMTAB_CAPTCHA_DESC"
+	>
+		<field name="captcha_use" type="radio" default="1" label="USE_CAPTCHA_LABEL" description="USE_CAPTCHA_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+		<field name="captcha_private_key" type="text" default="6LexAQwAAAAAAKTT3bwI9SR2mCAfExdLlS-DHfQt" label="CAPTCHA_PRIVATEKEY_LABEL" description="CAPTCHA_PRIVATEKEY_DESC" />
+		<field name="captcha_public_key" type="text" default="6LexAQwAAAAAANErhkc2zLD3wmsiZWeU1Cstc50_" label="CAPTCHA_PUBLICKEY_LABEL" description="CAPTCHA_PUBLICKEY_DESC" />
+		<field name="captcha_theme" type="list" default="0" label="CAPTCHA_THEME_LABEL" description="Choose the theme of the contact captcha">
+			<option value="">CAPTCHA_THEME_STANDARD</option>
+			<option value="red">CAPTCHA_THEME_RED</option>
+			<option value="white">CAPTCHA_THEME_WHITE</option>
+			<option value="clean">CAPTCHA_THEME_CLEAN</option>
+			<option value="blackglass">CAPTCHA_THEME_BLACK</option>
+		</field>
+		<field name="captcha_show_logged" type="radio" default="1" label="CAPTCHA_FORLOGGED_LABEL" description="CAPTCHA_FORLOGGED_DESC">
+			<option value="0">OPTION_NO</option>
+			<option value="1">OPTION_YES</option>
+		</field>
+	</fieldset>
+</config>

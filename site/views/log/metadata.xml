@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+<layout title="Send Mail Log List" >
+
+</layout>
+<view title="Sended Mail List">
+		<message><![CDATA[Choose a Sended Mail List Form.]]></message>
+	</view>
+</metadata>

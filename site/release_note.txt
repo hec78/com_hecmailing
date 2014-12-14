@@ -1,0 +1,95 @@
+***************************************************************
+*    HEC Mailing version 1.8.3 release notes                  *
+*-------------------------------------------------------------*
+* by H.Cyr 5 nov 2009 (updated : 26 sep 2014 )                *
+* @package hecMailing for Joomla                              *
+* @copyright Copyright (C) 2014 Hecsoft All rights reserved.  *
+* @license GNU/GPL                                            *
+***************************************************************
+
+CHANGE LOG
+ Version  Date          Changes
+  1.8.3   26 sep. 2014  Correct group email problem
+  1.8.2   01 jun. 2013  Fixe Updade problem
+                        Allow to Update with Stable or Test version  
+  1.8.1   29 apr. 2013  Fixe javascript problem (form.js file missing in package)
+  1.8.0   17 apr. 2013  Use of JQuery for Webservice and Dialogs
+                        Add HECMailing group use in a group (group of group)
+						Change group add (admin). We use a web service for list group detail (joomla or hecmailing)
+                        Simplify javascript code
+  1.7.8   25 mar. 2013  Fixe Import problem
+                        Add support for Mac File import
+  1.7.7   26 jan 2013   Fixe Joomla 2.5 send mail problem (real name)<br>
+                        Fixe Install problem when MySQL is not UTF8 charset<br>
+  1.7.6   30 aug. 2012  Fixe Can't send mail to blocked users
+                        Feature Add recipient Name 
+  1.7.5   06 apr. 2012  Fixe double message when send Contact
+                        Fixe Admin Menu Translation Problem with joomla 1.5
+  1.7.4   28 mar. 2012  Fixe component admin parameter problem on Joomla 1.5.x
+                        Fixe Group right checkbox problem on joomla 1.5.x
+                        Fixe use authorization issue on joomla 1.5.x
+  1.7.3   23 jan. 2012  Correct use of joomla group problem
+  1.7.2   13 jan. 2012  de-DE language by Georg Straube 
+  1.7.1   28 dec. 2011  Correct Group Management problems
+                        Add template for contact
+						Correct Admin menu problem
+  1.7.0   21 sept 2011  Joomla 1.6+ compliant version
+  0.13.5  21 sept 2011  Work with short_open_tag inactive
+  0.13.4  24 may  2011  Choose default upload input count
+                        Change Add attachment method to be IE8 compliant            
+  0.13.3  19 may  2011  Add PHP 5.0.x compliance
+  0.13.2  14 jan. 2011	Admin regression fixe
+  0.13.1  11 jan. 2011	German translations by Ingo
+  0.13.0  10 dec. 2010  Import email list from file to group (which was accidentaly removed in 0.12.0)
+  0.12.0  14 nov. 2010  Bug : Contact send to all users and not selected group
+  0.11.0     nov. 2010  joomfish compliant
+                        Some Notice deleted (wamp/easy php)
+                        Don't use global $mainframe to be compliant with joomla 1.6
+                        Auto update of the component
+                        Add Donation button
+                        Show parametrers in form (and not with button)
+  0.10.0  20 oct. 2010  Group permission (user or joomla group) to show only allowed groups un group list
+                        Import email list from file to group
+  0.9.1   14 aug. 2010  Mode install.hecmailing.php from admin to root (Install problem) 
+                        Added Backend Deutch translation (yahoo translator :( )
+                        Added Send contact to all email at the same time (before, one message per mail address)
+                        Modifications by Arjan Mels :
+                           Added Dutch translation
+                           Corrected many links/paths (in controller.php & form views default.php) to allow joomla installation in subdirectory
+                        Small corrections to installtion xml file (to include some missing images)
+                        getdir integrated into hecmailing.php to be able to use Joomla security features
+  0.9.0   15 june 2010  Request #3016614 : Suppress sent email
+                        Bug #3013589 : Delete Failed message
+                        Bug # 2970606 Contact : Can't add or edit contact
+                        Bug #2975181 General : Add some missing translations
+                        Request #2975177 General : Use jt dialog box instead of self made
+                        Request #2975179 Contact : Change captcha --> Use ReCaptcha
+                        Request #2975183 Contact : If user is logged, fill name and email fields
+                        Bug #2975175 Contact : No body for contact email
+  0.8.2   10 feb. 2010  Bug #2913937 Problem with group
+                        Translate buttons (Add user, Add email, Add Group and Delete) in English
+  0.8.1	  28 jan. 2010  Bug #18750 Bad URL for link / URL lien erronée
+                        Bug #19566 LogDetail : mail sent ok list is too large / Liste des destinataire ok et erreur trop large
+                        Bug #19567 E-mail sent : Embedded image is not shown in email sent detail / Les images incorporées ne sont pas visibles dans le détail des eamil envoyés
+                        Bug #19568 E-mail sent detail : error when no attachment / Erreur lorsqu'il n'y a aucun fichier joint
+                        Bug #19569 Send again email : error when no attachment/ Erreur lorsqu'il n'y a aucun fichier joint
+  0.8.0   12 jan. 2010  Ajout fonctionnalite images incorporées
+  0.7.0   30 dec. 2009  Ajout fonctionnalite piece jointe lors envoi de messages
+  0.6.0      dec. 2009  Ajout fonctionnalite contact
+  0.5.0   13 nov. 2009  Affichage nom + adresse emmetteur au lieu adresse + adresse
+                        Consultation de la liste des messages envoyés<br>
+                        Consultation contenu des messages envoyés+ possibilit&eacute; r&eacute;-envoi
+  0.4.0      nov. 2009  Correction structure table hecmailing_groupdetail (champ gdet_id_detail doit etre en auto increment pour pouvoir supprimer des entrees)
+                        Ajout langue Allemand (Merci a Ingo Busse pour sa traduction) pour le front-end
+  0.3.0      oct. 2009 	Prise en compte groupe "Tous utilisateurs" et affichage nombre mails envoyes
+  0.2.0      july 2009  Correction probleme affichage image lors utilisation template
+  0.1.0      apr. 2009  Version Alpha1
+ 		
+INSTALLATION/SETUP
+   FR  Utiliser le module d'installation standard de joomla à partir de l'interface d'administration. Cette installation va mettre à jour les fichier et modifier la structure des tables si le composant est dejà installé.
+   EN  Use standard joomla installation module from the back-end. This installation will update your component and yours tables if it installed yet.
+   DE  Das Standardjoomlamodul ab l' benutzen; d'schnittstelle; Verwaltung, um den Bestandteil zu installieren. Diese Einrichtung wird die Kartei auf den neuesten Stand bringen und wird die Struktur der Tafeln ändern, wenn der Bestandteil bereits installiert wird.
+	
+ATTENTION/WARNING
+   FR  Ne pas copier uniquement les fichiers car la table hecmailing_groupdetail n'a pas la bonne structure
+   EN  Don't copy files because old hecmailing_groupdetail table don't have the right structure!!!!!

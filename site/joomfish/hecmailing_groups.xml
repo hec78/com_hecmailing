@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+<name>HEC Mailing Groups</name>
+<author>Herve CYR</author>
+<version>1.0</version>
+<description>Definition for the HEC Mailing component</description>
+<reference>
+    <table name="hecmailing_groups">
+        <field type="referenceid" name="grp_id_groupe" translate="0">Group ID</field>
+        <field type="titletext" name="grp_nm_groupe" translate="1">Group Name</field>
+        <field type="textarea" name="grp_cm_groupe" translate="1">Group Comment</field>
+    </table>
+    
+    
+</reference>
+</joomfish>

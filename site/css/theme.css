@@ -1,0 +1,173 @@
+
+/* Liste des adhérents */
+tr .adh_actif {
+	background-color: #99FF99;
+	color: #003300;
+}
+
+tr .adh_inactif {
+	background-color: #999999;
+	color: #CCCCCC;
+}
+
+tr .adh_header {
+	color: #FFFFFF;
+	background-color: #000099;
+	border-top-width: medium;
+	border-right-width: medium;
+	border-bottom-width: medium;
+	border-left-width: medium;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+}
+
+table .adh {
+	border: 3px none #000066;
+	width: 100%;
+}
+
+
+td .value {
+	background-color: #CCCCCC;
+	border: 2px groove #000000;
+	color: #000000;
+}
+
+
+/* Bouton en CSS */
+div.button {
+
+    height: 20px;
+    width: 150px;
+    
+	padding-top: 10px;
+    text-align:center;
+}
+div.button a {
+	text-decoration: none;
+	height: 100%;
+	width: 100%;
+	display: block;
+	background-color: #999999;
+	border-bottom-color: #333333;
+	border-right-color: #555555;
+	border-left-color: #BBBBBB;
+	border-top-color: #DDDDDD;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+}
+div.button a:link {
+    color: #000000;
+    font-weight: bold;
+    background-color: #999999;
+    border-style: solid;
+    border-bottom-color: #333333;
+    border-right-color: #555555;
+    border-left-color: #BBBBBB;
+    border-top-color: #DDDDDD;
+}
+div.button a:visited {
+    color: #000000;
+    font-weight: normal;
+    background-color: #999999;
+    border-style: solid;
+    border-bottom-color: #333333;
+    border-right-color: #555555;
+    border-left-color: #BBBBBB;
+    border-top-color: #DDDDDD;
+}
+div.button a:hover {
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #777777;
+    border-style: solid;
+    border-bottom-color: #333333;
+    border-right-color: #555555;
+    border-left-color: #BBBBBB;
+    border-top-color: #DDDDDD;
+}
+div.button a:active {
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #666666;
+    border-style: solid;
+    border-top-color: #333333;
+    border-left-color: #555555;
+    border-right-color: #BBBBBB;
+    border-bottom-color: #DDDDDD;
+}
+
+
+/* Fiches adhérent */
+table .frame {
+	background-color: #0066CC;
+	margin: 0px;
+	padding: 0px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	color: #FFFFFF;
+	width: 100%;
+}
+table .ficheadh {
+	background-color: #0066CC;
+	border: 0px solid #FFFFFF;
+}
+
+table .ficheadh tr {
+	background-color: #0066CC;
+	border-top: 2px solid #FFFFFF;
+	
+}
+
+
+/* Tab */
+div.tabArea {
+  font-size: medium;
+  font-weight: bold;
+}
+
+a.tab {
+  background-color: #3399FF;
+  border: 1px solid #000000;
+  border-bottom-width: 0px;
+  padding: 2px 1em 2px 1em;
+  text-decoration: none;
+}
+
+a.selectedtab {
+	background-color: #0066CC;
+	border: 1px solid #000000;
+	border-bottom-width: 0px;
+	padding: 2px 1em 2px 1em;
+	text-decoration: none;
+	color: #33CCFF;
+}
+
+a.tab, a.tab:visited {
+  color: #FFFFFF;
+}
+
+a.tab:hover {
+	background-color: #d0d0d0;
+	color: #606060;
+	cursor: auto;
+}
+

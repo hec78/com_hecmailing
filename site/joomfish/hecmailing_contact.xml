@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+<name>HEC Mailing Contact</name>
+<author>Herve CYR</author>
+<version>1.0</version>
+<description>Definition for the HEC Mailing Contact component</description>
+<reference>
+    <table name="hecmailing_contact">
+        <field type="referenceid" name="ct_id_contact" translate="0">Contact ID</field>
+        <field type="titletext" name="ct_nm_contact" translate="1">Contact Name</field>
+        <field type="textarea" name="ct_cm_contact" translate="1">Contact Comment</field>
+        <field type="htmltext" name="ct_vl_info" translate="1">Contact Text</field>
+		<field type="htmltext" name="ct_vl_template" translate="1">Contact Template</field>
+		<field type="textarea" name="ct_vl_prefixsujet" translate="1">Contact Subject prefix</field>
+    </table>
+    
+</reference>
+</joomfish>
