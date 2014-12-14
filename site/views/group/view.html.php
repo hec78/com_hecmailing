@@ -26,7 +26,7 @@ jimport('joomla.application.component.view');
 jimport('joomla.html.toolbar');
 jimport('joomla.html.parameter');
 
-class hecMailingViewGroup extends JView 
+class hecMailingViewGroup extends JViewLegacy 
 { 
 	function display ($tpl=null) 
 	{ 

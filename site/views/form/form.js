@@ -30,7 +30,7 @@ function loadTemplate()
 	{
 		$( "#loadtmpl" ).dialog('close');
   		iIdTemplate.value=selected;
-  		Joomla.submitbutton('load');
+  		Joomla.submitbutton('form.load');
 	}
 }
 
@@ -351,7 +351,8 @@ function checksend()
 		alert(text_msg_empty_subject);
 		return false;
 	}
-	submitbutton('send');
+	submitbutton('form.send');
+	return true;
 }
 
 var current_group=0;

@@ -33,7 +33,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingLog extends JModel 
+class ModelhecMailingLog extends JModelLegacy 
 { 
     var $_id = 0; 
 	var $_list=null;
@@ -67,7 +67,8 @@ class ModelhecMailingLog extends JModel
 			$query = $this->_buildQuery();
 			$this->_list = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));  
 			$user=&JFactory::getUser();
-			if ($user->usertype == 'Super Administrator' || $user->usertype == 'Administrator') { $admin=true; } 
+			//if ($user->usertype == 'Super Administrator' || $user->usertype == 'Administrator') { $admin=true; }
+			if (array_search('Super Administrator', $user->groups) || array_search('Administrator', $user->groups)) { $admin=true; } 
 			else { $admin=false;}
 		}
 		return $this->_list;
@@ -81,7 +82,9 @@ class ModelhecMailingLog extends JModel
 		$where = array();
 		$db =& $this->getDBO();
 		$user=&JFactory::getUser();
-		if ($user->usertype == 'Super Administrator' || $user->usertype == 'Administrator')  { $admin=true; } 
+		
+		if (array_search('Super Administrator', $user->groups) || array_search('Administrator', $user->groups)) { $admin=true; } 
+		//if ($user->usertype == 'Super Administrator' || $user->usertype == 'Administrator')  { $admin=true; } 
 		else { $admin=false;}
 		$option=JRequest::getVar( 'option', 'com_hecmailing' );
 		$group = $mainframe->getUserStateFromRequest( $option.'group',        'group',        0,    'int' );

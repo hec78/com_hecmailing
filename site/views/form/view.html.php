@@ -26,7 +26,7 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view'); 
 jimport('joomla.html.toolbar');
-class hecMailingViewForm extends JView 
+class hecMailingViewForm extends JViewLegacy 
 { 
     
    function display ($tpl=null) 
@@ -68,7 +68,15 @@ class hecMailingViewForm extends JView
       {
         $default_use_profil="";
       }
+      if ($pparams->get('read_check','0')=='1')
+      {
+      	$read_check = "checked=\"checked\"";
       
+      }
+      else
+      {
+      	$read_check="";
+      }
       if ($pparams->get('image_incorpore','1')=='1')
       {
         $image_incorpore = "checked=\"checked\"";
@@ -168,6 +176,7 @@ class hecMailingViewForm extends JView
       $this->assignRef('rights', $rights);
       $this->assignRef('from', $from);
       $this->assignRef('default_use_profil', $default_use_profil);
+      $this->assignRef('read_check', $read_check);
       $this->assignRef('upload_input_count', intval($upload_input_count));
       $this->assignRef('saved', $saved);
       $this->assignRef('height', $height);

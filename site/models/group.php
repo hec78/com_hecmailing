@@ -37,7 +37,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingGroup extends JModel 
+class ModelhecMailingGroup extends JModelLegacy 
 { 
    /**
 	 * User id

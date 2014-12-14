@@ -112,7 +112,7 @@ require_once('components/com_hecmailing/libraries/recaptcha/recaptchalib.php');
  * @package hecMailing
  */
  
-class hecMailingController extends JController
+class hecMailingController extends JControllerLegacy
 {
 	var $_db =null;
 	var $_err="";
@@ -126,9 +126,9 @@ class hecMailingController extends JController
 	 */
     function hecMailingController()
     {
-    	$this->_log = &JLog::getInstance('com_hecmailing.log.php');
-      parent::__construct();
-		  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
+    	//$this->_log = &JLog::getInstance('com_hecmailing.log.php');
+      	parent::__construct();
+		$this->params = &JComponentHelper::getParams( 'com_hecmailing' );
     }
 
    /**
@@ -255,7 +255,7 @@ class hecMailingController extends JController
       {
 		    $params = &JComponentHelper::getParams( 'com_hecmailing' );
 		    $usr =& JFactory::getUser();
-		    $utype = $usr->usertype;
+		    //$utype = $usr->usertype;
 		    // Check if current user is in authorized joomla groups
 			  $adminType = $params->get('usertype','ADMINISTRATOR;SUPER ADMINISTRATOR');
   			
@@ -907,7 +907,11 @@ class hecMailingController extends JController
     		// Insert email info
     		//Create data object
 	        $rowdetail = new JObject();
-	        $rowdetail->log_dt_sent = & JFactory::getDate()->toFormat();
+	        /*if(version_compare(JVERSION,'3.3.0','<'))
+	        	$rowdetail->log_dt_sent = & JFactory::getDate()->toFormat();
+	        else 
+	        	$rowdetail->log_dt_sent = & JFactory::getDate()->format();*/
+	        $rowdetail->log_dt_sent = JFactory::getDate()->format();
 	        $rowdetail->log_vl_subject = $subject ;
 	        $rowdetail->log_vl_body = $bodytolog  ;
 	        $rowdetail->log_vl_from = $from   ;
@@ -1116,7 +1120,7 @@ class hecMailingController extends JController
 		          else
 		          {
 		        	$recipient[] = $email;	
-		        	$this->_log->addEntry(array('comment'=>"Send contact to ".$email));
+		        	//$this->_log->addEntry(array('comment'=>"Send contact to ".$email));
 		          }
 		        }
 		        if 	(count($recipient)>0)	// if there is at least one email ok ...
@@ -1131,7 +1135,7 @@ class hecMailingController extends JController
 		       			else
 		       			{
 		       				$nb+=count($recipient);
-		       				$this->_log->addEntry(array('comment'=>"Send contact to ".";".join($recipient)));
+		       				//$this->_log->addEntry(array('comment'=>"Send contact to ".";".join($recipient)));
 		       			}
 		      	}
 		        else

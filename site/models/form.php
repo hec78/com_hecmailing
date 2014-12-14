@@ -29,7 +29,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingForm extends JModel 
+class ModelhecMailingForm extends JModelLegacy 
 { 
    /**
 	 * User id
@@ -47,7 +47,7 @@ class ModelhecMailingForm extends JModel
   	  parent::__construct(); 
    	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = ($this->params->get('debug') == 1);
-      $this->isLog = true;
+      $this->isLog = false;
       if ($this->isLog)
       {
         $this->_log = &JLog::getInstance('com_hecmailing.log.php');

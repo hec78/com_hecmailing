@@ -25,7 +25,7 @@ defined('_JEXEC') or die ('restricted access');
 jimport('joomla.application.component.view'); 
 jimport('joomla.html.toolbar');
 
-class hecMailingViewContact extends JView 
+class hecMailingViewContact extends JViewLegacy 
 { 
 	function display ($tpl=null) 
 	{ 

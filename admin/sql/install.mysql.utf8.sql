@@ -55,6 +55,15 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_log_attachment (
 	PRIMARY KEY (log_id_message, log_nm_file)
 ) COMMENT='Pieces jointes des mails envoyes';
 
+CREATE TABLE IF NOT EXISTS #__hecmailing_log_mails (
+	log_id_message integer NOT NULL,
+	user_id integer NULL,
+	email varchar(100) NOT NULL,
+	status smallint DEFAULT 1 COMMENT 'Statut d''envoi, 1 Envoye, 2 Lu, 9 Erreur',
+	PRIMARY KEY (log_id_message, email)
+) COMMENT='Detail des mails envoyes';
+
+
 CREATE TABLE IF NOT EXISTS #__hecmailing_contact (
 	ct_id_contact integer NOT NULL AUTO_INCREMENT COMMENT 'Identifiant du contact',
 	grp_id_groupe integer NOT NULL COMMENT 'Identifiant du groupe associe',

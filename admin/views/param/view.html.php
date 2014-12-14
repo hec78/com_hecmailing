@@ -62,7 +62,7 @@ class HecMailingViewParam extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		//JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = JHelperContent::getActions('com_hecmailing');
 

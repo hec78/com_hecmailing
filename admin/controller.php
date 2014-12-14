@@ -77,7 +77,8 @@ class HecMailingController extends JControllerLegacy
 			return false;
 		}*/
 		
-
+		$this->input->set('view', $view);
+		$this->input->set('layout', $layout);
 		return parent::display();
 	}
 }

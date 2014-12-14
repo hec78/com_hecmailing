@@ -23,7 +23,7 @@
 /* No direct access */
 
 defined ('_JEXEC') or die ('restricted access');
-
+if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 function checkWebServiceOrigine()
 {
 	return true;

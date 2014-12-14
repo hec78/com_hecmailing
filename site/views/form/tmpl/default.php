@@ -209,7 +209,7 @@ function submitbutton2(pressbutton) {
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_USE_PROFILE'); ?> :</td><td><input type="checkbox" name="useprofil" value="1" id="useprofil" <?php echo $this->default_use_profil; ?>> <small><?php echo JText::_('COM_HECMAILING_USE_PROFILE_TEXT'); ?></small></td></tr>
   
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL'); ?> :</td><td><input type="checkbox" name="backup_mail" value="1" id="backup_mail" <?php echo $this->backup_mail; ?>> <small><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL_TEXT'); ?></small></td></tr>
-  
+  <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_READ_CHECK'); ?> :</td><td><input type="checkbox" name="read_check" value="1" id="read_check" <?php echo $this->read_check; ?>> <small><?php echo JText::_('COM_HECMAILING_READ_CHECK_TEXT'); ?></small></td></tr>
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_CONTENT_IMAGE'); ?> :</td><td><input type="checkbox" name="incorpore" value="1" id="incorpore" <?php echo $this->image_incorpore; ?>> <small><?php echo JText::_('COM_HECMAILING_CONTENT_IMAGE_TEXT'); ?></small></td></tr>
   
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_SUBJECT'); ?> :</td><td><input style="width:100%"  type="text" id="subject" name="subject" value="<?php echo $this->subject; ?>"></td></tr>
