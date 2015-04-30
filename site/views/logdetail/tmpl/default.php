@@ -19,7 +19,7 @@ $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing
 ?>
 
 <script language="javascript" type="text/javascript">
-<!--
+
 	function submitbutton2(pressbutton) {
 		myform = document.getElementById("adminForm");;
 		mytask = document.getElementById("task");
@@ -36,7 +36,7 @@ $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing
 		}
 
 		<?php
-			$editor =& JFactory::getEditor();
+			$editor =JFactory::getEditor();
 			echo $editor->save( 'body' );
 		?>
 		alert('submit task='+document.getElementById("task").value);
@@ -52,7 +52,20 @@ $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing
     {
 		document.getElementById("loadtmpl").style.visibility = "hidden";
     }
-//-->
+    function showEmails()
+    {
+        var tbl = document.getElementById("emails");
+        if (tbl.style.display != "none") {
+            tbl.style.display = "none";
+        	document.getElementById("showhideemailsbutton").innerHTML="v";
+        } else {
+        	   tbl.style.display = "block";
+        	   tbl.style.width="100%";
+           	document.getElementById("showhideemailsbutton").innerHTML="^";
+        }
+        return false;
+    }
+
 </script>
 <div>
 <form action="index.php" method="post" name="adminForm" id="adminForm" ENCTYPE="multipart/form-data">
@@ -89,8 +102,19 @@ $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing
 <tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_DATE_SEND'); ?>:</td><td><?php echo $data->log_dt_sent; ?></td></tr>
 <tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_SENDER'); ?>:</td><td><?php echo $data->log_vl_from; ?></td></tr>
 <tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_GROUP'); ?>:</td><td><?php echo $data->grp_nm_groupe; ?></td></tr>
-<tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_SEND_OK'); ?>:</td><td><?php echo $okformatte; ?></td></tr>
-<tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_SEND_ERR'); ?>:</td><td><?php echo $errformatte; ?></td></tr>
+<tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_EMAILS'); ?>:</td>
+<td><button id="showhideemailsbutton" onClick="showEmails();return false;" >v</button>
+<table id="emails" width="100%" style="display:none"><thead><tr><th><?php echo JText::_('COM_HECMAILING_TO'); ?></th><th><?php echo JText::_('COM_HECMAILING_STATUS'); ?></th><th><?php echo JText::_('COM_HECMAILING_DATE'); ?></th></tr></thead><tbody>
+<?php 
+	$libStatus = array("1"=>JText::_('COM_HECMAILING_STATUS_SENT'),"2"=>JText::_('COM_HECMAILING_STATUS_READ'),"9"=>JText::_('COM_HECMAILING_STATUS_ERROR'));
+	foreach($data->mails_sent as $email) {
+		if ($email->name!="") $name = "(".$email->name.")";
+		
+		echo "<tr><td>".$email->email." ".$name."</td><td>".$libStatus["".$email->status]."</td><td>".$email->timestamp."</td></tr>\n";
+	}
+ ?>
+ </tbody></table>
+</td></tr>
 <tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_SUBJECT'); ?>:</td><td><?php echo $data->log_vl_subject; ?></td></tr>
 <tr valign="top"><td nowrap class="key"><?php echo JText::_('COM_HECMAILING_ATTACHMENT'); ?>:</td><td><?php
 	echo "<i>";
@@ -115,6 +139,7 @@ else
 echo JHTML::_( 'form.token' ); ?>
 <input type="hidden" name="option" id="option" value="com_hecmailing">
 <input type="hidden" name="task" id="task" value="">
+<input type="hidden" name="view" id="view" value="logdetail">
 </form>
 </div>
 

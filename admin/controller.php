@@ -55,10 +55,14 @@ class HecMailingController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$view   = $this->input->get('view', 'groups');
+		$view   = $this->input->get('view', '');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
-
+		$task   = $this->input->get('task','');
+		
+		if ($view=='' && $task!='') $view = $task;
+		else if ($view=='') $view = "groups";
+		
 		if (!$this->canView($view))
 		{
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -76,6 +80,7 @@ class HecMailingController extends JControllerLegacy
 
 			return false;
 		}*/
+		
 		
 		$this->input->set('view', $view);
 		$this->input->set('layout', $layout);

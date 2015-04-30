@@ -223,5 +223,95 @@ class HecMailingHelper
 		  }
 		fclose($fd);
 	}
+	
+	/**
+	 * Method to send a mail (override of joomla sendMail with attachments and embedded images)
+	 *
+	 * @access	public
+	 */
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null, $inline=null )
+	{
+		// Get a JMail instance
+		$mail =JFactory::getMailer();
+		$mail->setSender(array($from, $fromname));
+		$mail->setSubject($subject);
+		$mail->setBody($body);
+	
+		// Are we sending the email as HTML?
+		if ( $mode ) { $mail->IsHTML(true);  }
+		if (isset($recipient))
+		{
+			if (is_array($recipient))
+			{
+				foreach($recipient as $adr)
+				{
+					$mail->AddAddress($adr[0],$adr[1]);
+				}
+			}
+			else
+			{
+				$mail->AddAddress($recipient[0],$recipient[1]);
+			}
+		}
+	
+		if (isset($cc))
+		{
+			if (is_array($cc))
+			{
+				foreach($cc as $adr)
+				{
+					$mail->addBCC($adr[0],$adr[1]);
+				}
+			}
+			else
+			{
+				$mail->addBCC($cc[0],$cc[1]);
+			}
+		}
+		if (isset($bcc))
+		{
+			if (is_array($bcc))
+			{
+				foreach($bcc as $adr)
+				{
+					$mail->addBCC($adr[0],$adr[1]);
+				}
+			}
+			else
+			{
+				$mail->addBCC($bcc[0],$bcc[1]);
+			}
+		}
+			
+		// Add embedded images
+		if (isset($inline))
+		{
+			foreach ($inline as $att)
+			{
+				$mail->AddEmbeddedImage($att[0], $att[1], $name = $att[2]);
+			}
+		}
+		if (isset($attachment))
+			$mail->addAttachment($attachment);	// Add attachments
+			
+		// Take care of reply email addresses
+		if( is_array( $replyto ) )
+		{
+			$numReplyTo = count($replyto);
+			for ( $i=0; $i < $numReplyTo; $i++)
+			{
+			$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
+			}
+			}
+			elseif( isset( $replyto ) )
+			{
+			$mail->addReplyTo( array( $replyto, $replytoname ) );
+			}
+			// Send email and return Send function return code
+			return  $mail->Send();
+	
+	}
+	
+	
 }
 ?>

@@ -133,26 +133,10 @@ class HecMailingControllerGroup extends JControllerForm
 	{
 		$msg="";
 		$app=JFactory::getApplication();
-		$cid=$app->input->get("cid",array(),"array");
-		if (count($cid)==1) {$id=$cid[0];} else { $id=0;}
-			
+		$id=$app->input->get("cid",array(),"array");
 		$link=  JRoute::_('index.php?option=com_hecmailing&view=group&layout=edit&id='.$id,FALSE);
 		$app->redirect ($link, $msg);
-		
-		
 	}
-	
-	public function add($key = NULL, $urlVar = NULL)
-	{
-		$msg="";
-		$app=JFactory::getApplication();
-		
-		$link=  JRoute::_('index.php?option=com_hecmailing&view=group&layout=edit&id=0',FALSE);
-		$app->redirect ($link, $msg);
-	
-	
-	}
-	
 	
 	public function cancel($key=NULL)
 	{

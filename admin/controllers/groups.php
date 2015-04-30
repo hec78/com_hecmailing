@@ -136,4 +136,52 @@ class HecMailingControllerGroups extends JControllerAdmin
 
 		return parent::checkin();
 	}
+	
+	public function getGroupContent()
+	{
+		$app=JFactory::getApplication();
+		
+		$groupType = $app->input->get('grouptype', 0, 'get', 'int');
+		$currentGroup = $app->input->get('groupid', 0, 'get', 'int');
+		$type = JRequest::getCmd('group-type');
+		$db =JFactory::getDBO();
+		switch($groupType)
+		{
+			case 1:
+			case 3:
+				if(version_compare(JVERSION,'1.6.0','<')){
+					//Code pour Joomla! 1.5  
+					$query = "Select id, name From #__core_acl_aro_groups order by id";
+				}
+				else 
+				{
+					//Code pour Joomla >= 1.6.0
+					$query = "SELECT id, title FROM  #__usergroups  ORDER BY id";
+				}
+				break;
+			case 5:
+				$query = "Select grp_id_groupe, grp_nm_groupe FROM #__hecmailing_groups WHERE grp_id_groupe!=".$currentGroup." ORDER BY grp_nm_groupe";
+				break;
+		}
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			$data = JText::_('MSG_ERROR_SAVE_CONTACT').':'.$query.'/'.$db->getErrorMsg(true);
+		}
+		else
+			$data = $db->loadRowList();
+		 
+		// Get the document object.
+		$document =JFactory::getDocument();
+	 
+		// Set the MIME type for JSON output.
+		$document->setMimeEncoding('application/json');
+	 
+		// Change the suggested filename.
+		JResponse::setHeader('Content-Disposition','attachment;filename="group'.$groupType.'.json"');
+	 
+		// Output the JSON data.
+		echo json_encode($data);
+		die;
+	}
+	
 }

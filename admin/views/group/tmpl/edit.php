@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @package hecMailing for Joomla
+ * @version		3.0.0
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright Copyright (C) 2009-2015 Hecsoft All rights reserved.
+ * @license GNU/GPL
  */
 
 defined('_JEXEC') or die;
@@ -21,23 +21,17 @@ JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
 $cparams = JComponentHelper::getParams ('com_hecmailing');
 $document = JFactory::getDocument();
 $burl = "../";
-/*$document->addScript($burl."components/com_hecmailing/libraries/jt/dom-drag.js");
-$document->addScript($burl."components/com_hecmailing/libraries/jt/jt_.js");
-$document->addScript($burl."components/com_hecmailing/libraries/jt/jt_DialogBox.js");
-$document->addScript($burl."components/com_hecmailing/libraries/jt/jt_AppDialogs.js");
-$document->addStyleSheet($burl."components/com_hecmailing/libraries/jt/jt_DialogBox.css");
-$document->addStyleSheet($burl."components/com_hecmailing/libraries/jt/veils.css");*/
-$document->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");
 $document->addStyleSheet($burl."components/com_hecmailing/css/dialog.css");
-$document->addStyleSheet($burl."components/com_hecmailing/css/hecmailing.css");
 $document->addScript("components/com_hecmailing/assets/js/group.js");
-$document->addScript("components/com_hecmailing/libraries/jquery-1.11.1.min.js");
+if(version_compare(JVERSION,'3.0.0','<')){
+	$document->addScript("components/com_hecmailing/libraries/jquery-1.11.1.min.js");
+}
 $document->addScript("components/com_hecmailing/libraries/jquery-ui.min.js");
+$document->addStyleSheet("components/com_hecmailing/libraries/jquery-ui.css");
 ?>
 <script type="text/javascript">
   <!--
-  		
-		webservice = '<?php echo JURI::root().'index.php?option=com_hecmailing&task=groups.getgroupcontent';?>';
+		webservice = '<?php echo JURI::base().'index.php?option=com_hecmailing&task=groups.getGroupContent';?>';
   		submit_MustName = '<?php echo JText::_( 'COM_HECMAILING_YOU_MUST_PROVIDE_A_NAME', true ); ?>';
   		text_user ="<?php echo JText::_('COM_HECMAILING_USER', true); ?>";
   		text_mail="<?php echo JText::_('COM_HECMAILING_EMAIL', true); ?>";
@@ -49,8 +43,6 @@ $document->addScript("components/com_hecmailing/libraries/jquery-ui.min.js");
   		text_perms='<?php echo JText::_('COM_HECMAILING_PERMISSIONS', true) ?> ';
   		text_noperm='<?php echo JText::_("COM_HECMAILING_NO_SELECTED_PERM_ITEM"); ?>';
 		text_group="<?php echo JText::_('COM_HECMAILING_GROUP', true); ?>";
-		
-
   //-->
 </script>
 <!-- DEBUT DIALOGUES -->
@@ -128,7 +120,8 @@ $document->addScript("components/com_hecmailing/libraries/jquery-ui.min.js");
    <?php echo JText::_('COM_HECMAILING_GROUP')." : ".$this->hecgroups ?>
  </div><br/>
  <div class="buttons"><button onclick="javascript:addGroupe();return false;"><img src="../components/com_hecmailing/images/ok16.png" ><?php echo JText::_('COM_HECMAILING_ADD'); ?></button>
- <button onclick="javascript:cancelGroup();return false;"><img src="../components/com_hecmailing/images/cancel16.png" ><?php echo JText::_('COM_HECMAILING_CANCEL'); ?></button></div> 
+ <button onclick="javascript:cancelGroup();return false;"><img src="../components/com_hecmailing/images/cancel16.png" ><?php echo JText::_('COM_HECMAILING_CANCEL'); ?></button></div>
+ 
 </div>
 <!-- FIN DIALOGUES -->
 <?php $row=$this->item; ?>
@@ -150,7 +143,7 @@ $document->addScript("components/com_hecmailing/libraries/jquery-ui.min.js");
         		<td ><fieldset class="radio"><?php echo $this->published; ?></fieldset></td>
         	</tr></table>	</fieldset>
         	<fieldset class="adminform">
-        	<legend><?php echo JText::_( 'DETAIL' ); ?></legend>
+        	<legend><?php echo JText::_( 'COM_HECMAILING_GROUPDETAIL' ); ?></legend>
 				<div class="button">
 					 <button id="btnnewuser" onclick="javascript:showAddNewUser();return false;" ><img src="../components/com_hecmailing/images/user16.png" ><?php echo JText::_( 'COM_HECMAILING_NEW_USER' ); ?></button>
 					 <button id="btnnewmail" onclick="javascript:showAddNewMail();return false;" ><img src="../components/com_hecmailing/images/email16.png" ><?php echo JText::_( 'COM_HECMAILING_NEW_MAIL' ); ?></button>

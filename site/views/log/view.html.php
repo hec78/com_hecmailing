@@ -24,10 +24,10 @@ class hecMailingViewLog extends JViewLegacy
 		// Modif Joomla 1.6+
 		$option=JRequest::getVar( 'option', 'com_hecmailing' );
 		$mainframe = JFactory::getApplication();
-		$currentuser= &JFactory::getUser();
-		$pparams = &$mainframe->getParams();
+		$currentuser= JFactory::getUser();
+		$pparams = $mainframe->getParams();
 		$intcss=1;
-		$model = & $this->getModel(); 
+		$model = $this->getModel(); 
 	    $group = $mainframe->getUserStateFromRequest( $option.'group',        'group',        0,    'int' );
 		$owner = $mainframe->getUserStateFromRequest( $option.'owner',        'owner',        0,    'int' );
 		$filter_order        = $mainframe->getUserStateFromRequest( $option.'filter_order',        'filter_order',  'name', 'cmd' );

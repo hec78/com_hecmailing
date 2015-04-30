@@ -133,7 +133,7 @@ class HecMailingControllerContact extends JControllerForm
 	{
 		$msg="";
 		$app=JFactory::getApplication();
-		$id=$app->input->get("cid",array(),"array")[0];
+		$id=$app->input->get("cid",array(),"array");
 		$link=  JRoute::_('index.php?option=com_hecmailing&view=contact&layout=edit&id='.$id,FALSE);
 		$app->redirect ($link, $msg);
 	}

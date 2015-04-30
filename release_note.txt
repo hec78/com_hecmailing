@@ -1,0 +1,12 @@
+***************************************************************
+*    HEC Mailing version 3.0.0 (J3.x!) release notes          *
+*-------------------------------------------------------------*
+* by H.Cyr 30 april 2015                                      *
+* @package hecMailing for Joomla                              *
+* @copyright Copyright (C) 2015 Hecsoft All rights reserved.  *
+* @license GNU/GPL                                            *
+***************************************************************
+
+CHANGE LOG
+ Version  Date          Changes
+  3.0.0   30 apr. 2015  Joomla 3.x initial release version

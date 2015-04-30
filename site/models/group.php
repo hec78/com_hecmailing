@@ -1,6 +1,6 @@
 <?php 
 /**
-* @version 1.7.0
+* @version 3.0.0
 * @package hecMailing for Joomla
 * @copyright Copyright (C) 2009 Hecsoft All rights reserved.
 * @license GNU/GPL
@@ -37,7 +37,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingGroup extends JModelLegacy 
+class HecMailingModelGroup extends JModelLegacy 
 { 
    /**
 	 * User id
@@ -53,12 +53,12 @@ class ModelhecMailingGroup extends JModelLegacy
    function __construct() 
    { 
   	  parent::__construct(); 
-   	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
+   	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = $this->params->get('Log');
-      $this->isLog = true;
+      $this->isLog = false;
       if ($this->isLog)
       {
-        $this->_log = &JLog::getInstance('com_hecmailing.log.php');
+        //$this->_log = JLog::getInstance('com_hecmailing.log.php');
       }
    } 
 

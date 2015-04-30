@@ -1,8 +1,8 @@
-// @version 1.8.0
+// @version 3.0.0
 // @package hecMailing for Joomla
 // @module views.form.tmpl.default.php (associated javascript module)
 // @subpackage : View Form (Sending mail form)
-// @copyright Copyright (C) 2008-2013 Hecsoft All rights reserved.
+// @copyright Copyright (C) 2008-2015 Hecsoft All rights reserved.
 // @license GNU/GPL
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@ function loadTemplate()
 	selected = s.options[s.selectedIndex].value;
 	if (selected>0)
 	{
-		$( "#loadtmpl" ).dialog('close');
+		jQuery( "#loadtmpl" ).dialog('close');
   		iIdTemplate.value=selected;
   		Joomla.submitbutton('form.load');
 	}
@@ -45,9 +45,9 @@ function saveTemplate()
 	}
 	else
 	{
-		$( "#savetmpl" ).dialog('close');
+		jQuery( "#savetmpl" ).dialog('close');
 		iSaveTemplate.value=val;
-		Joomla.submitbutton('save');
+		Joomla.submitbutton('form.save');
 		
 	}
 	
@@ -55,7 +55,7 @@ function saveTemplate()
 
 function showLoadTemplate()
 {
-   	$( "#loadtmpl" ).dialog({
+   	jQuery( "#loadtmpl" ).dialog({
 		resizable: false,
 		height:250,
 		width : 300,
@@ -67,7 +67,7 @@ function showLoadTemplate()
 
 function showSaveTemplate()
 {
-	$( "#savetmpl" ).dialog({
+	jQuery( "#savetmpl" ).dialog({
 		resizable: false,
 		height:250,
 		width : 330,
@@ -79,18 +79,18 @@ function showSaveTemplate()
 
 function cancelSaveTmpl()
 {
-	$( "#savetmpl" ).dialog("close");
+	jQuery( "#savetmpl" ).dialog("close");
 }
 
 function cancel()
 {
-	$( "#loadtmpl" ).dialog("close");
+	jQuery( "#loadtmpl" ).dialog("close");
    
 }
 
 function showBrowse()
 {
-	$( "#browseDlg" ).dialog({
+	jQuery( "#browseDlg" ).dialog({
 		resizable: false,
 		height:600,
 		width : 400,
@@ -103,7 +103,7 @@ function showBrowse()
 
 function hideBrowse()
 {
-	$( "#browseDlg" ).dialog('close');
+	jQuery( "#browseDlg" ).dialog('close');
   	return false;  
 }
 
@@ -295,18 +295,18 @@ function fillList(dirname)
 	  		dirname='';
 	  	}
 
-	  var url = currentURI+'?task=getdir&format=json&option=com_hecmailing&dir=' + encodeURI(  dirname ) ;
+	  var url = currentURI+'index.php?task=form.getdir&option=com_hecmailing&dir=' + encodeURI(  dirname ) ;
 		
 		try {
-			$.getJSON( url, {
-				format: "json"
+			jQuery.getJSON( url, {
+				output: "json"
 			})
 			.done(function( data ) {
 				resetList(lst);
 				curdir = data['dir'];
 				items= data['list'];
 				
-				$.each( items, function( i, item ) {
+				jQuery.each( items, function( i, item ) {
 					var isfolder=false;
 	  				if (item.substr(0,1) == '@')
 	  				{
@@ -317,6 +317,9 @@ function fillList(dirname)
 	  				addElement(lst,item, isfolder);
 				
 				});
+			}).fail(function( jqxhr, textStatus, error ) {
+			    var err = textStatus + ", " + error+ "("+url+")";
+			    alert( "Request Failed: " + err );
 			});
 		}
 		catch(ex) {
@@ -352,7 +355,6 @@ function checksend()
 		return false;
 	}
 	submitbutton('form.send');
-	return true;
 }
 
 var current_group=0;
@@ -370,8 +372,26 @@ function showManageButton(selectBox)
 	{
 		btn.style.visibility = 'hidden';
 	}
+	btn.style.visibility = 'hidden';
 }
 function manage_group()
 {
-	window.open("index2.php?option=com_hecmailing&task=manage_group&tmpl=component&idgroup='; ?>"+current_group,text_manage,"directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,toolbar=no,width=800,height=600");
+	url=baseURI+"/index.php?option=com_hecmailing&view=group&layout=default&idgroup="+current_group;
+	jQuery.ajax({
+	    url: url,
+	    success: function(data){
+	        $("#dialogManageGroup").html(data);
+	        jQuery("#dialogManageGroup").open();
+	    }   
+	});
+
+	jQuery("#dialogManageGroup").dialog(
+	       {
+	        bgiframe: true,
+	        autoOpen: false,
+	        height: 100,
+	        modal: true
+	       }
+	);
+	//window.open(url,text_manage,"directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,toolbar=no,width=800,height=600");
 }

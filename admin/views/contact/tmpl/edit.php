@@ -52,7 +52,7 @@ $document->addStyleSheet($burl."components/com_hecmailing/css/hecmailing.css");
 		<input type="hidden" name="option" value="com_hecmailing" />
 		<input type="hidden" name="id" value="<?php echo $data->ct_id_contact; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $data->ct_id_contact; ?>" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="contact.save" />
 		<?php echo JHTML::_( 'form.token' ); ?>
 </form>
 

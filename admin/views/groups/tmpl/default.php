@@ -15,7 +15,7 @@ $document =JFactory::getDocument();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
-$document->addScript("components/com_hecmailing/admin.hecmailing.js");
+//$document->addScript("components/com_hecmailing/admin.hecmailing.js");
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
@@ -196,5 +196,4 @@ JText::script('COM_HECMAILING_GROUPS_CONFIRM_DELETE');
 	<?php echo JHTML::_( 'form.token' ); ?>
 	<div class="warning"><?php echo  JText::_( 'COM_HECMAILING_WARNING_CHANGE_GROUP' ); ?></div>
 </form>
-</div>
 		

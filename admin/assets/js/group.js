@@ -105,8 +105,8 @@ function showAddNewGroupe()
 {
 	jQuery( "#dialogGroup" ).dialog({
 				resizable: false,
-				height:600,
-				width : 350,
+				height:350,
+				width : 600,
 				modal: true,
 				draggable: true, 
 				
@@ -321,6 +321,7 @@ function addRowPerm (imgtype, libtype, idtype, id, text , perm_send, perm_manage
 /**************** User permission ***************************/
 function showAddNewUserPerm()
 {
+	var dlg = jQuery( "#dialogUserPerm" );
   	jQuery( "#dialogUserPerm" ).dialog({
 		resizable: false,
 		height:350,
@@ -444,12 +445,13 @@ function cancelDelPerm()
 
 
 /*************** WebService ****************************/
-function appendOptionLast(elSel,id,name)
+
+function appendOptionLast(id,name)
 {
   var elOptNew = document.createElement('option');
   elOptNew.text = name;
   elOptNew.value = id;
-  
+  var elSel = document.getElementById("newgroupe");
   try {
     elSel.add(elOptNew, null); // standards compliant; doesn't work in IE
   }
@@ -461,17 +463,16 @@ function appendOptionLast(elSel,id,name)
 function changeType(baseurl,grouptype, groupid)
 {
 	var url = baseurl+"&groupid="+groupid+"&grouptype="+grouptype;
+	jQuery("#dialogGroup #newgroupe").empty();
 	try {
 		jQuery.getJSON( url, {
 			groupid: groupid,
-			grouptype: grouptype,
-			format: "json"
+			grouptype: grouptype
+			
 		})
 		.done(function( data ) {
-			var cboValues = document.getElementById("newgroupe");
-			cboValues.options.length = 0;
-			$.each( data, function( i, item ) {
-				appendOptionLast(cboValues, item[0],item[1]);
+			jQuery.each( data, function( i, item ) {
+				appendOptionLast(item[0],item[1]);
 			});
 		});
 	}

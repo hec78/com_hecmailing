@@ -35,10 +35,10 @@ class hecMailingViewForm extends JViewLegacy
 		$mainframe = JFactory::getApplication();
      
    
-		$currentuser= &JFactory::getUser();
-		$pparams = &$mainframe->getParams();
+		$currentuser= JFactory::getUser();
+		$pparams =$mainframe->getParams();
 			
-	  $model = & $this->getModel(); 
+	  $model = $this->getModel('Form'); 
       $groupe=0; 
       if ($pparams->get('send_all','0')=='1')
       {
@@ -68,15 +68,7 @@ class hecMailingViewForm extends JViewLegacy
       {
         $default_use_profil="";
       }
-      if ($pparams->get('read_check','0')=='1')
-      {
-      	$read_check = "checked=\"checked\"";
       
-      }
-      else
-      {
-      	$read_check="";
-      }
       if ($pparams->get('image_incorpore','1')=='1')
       {
         $image_incorpore = "checked=\"checked\"";
@@ -176,8 +168,7 @@ class hecMailingViewForm extends JViewLegacy
       $this->assignRef('rights', $rights);
       $this->assignRef('from', $from);
       $this->assignRef('default_use_profil', $default_use_profil);
-      $this->assignRef('read_check', $read_check);
-      $this->assignRef('upload_input_count', intval($upload_input_count));
+      $this->assignRef('upload_input_count', $upload_input_count);
       $this->assignRef('saved', $saved);
       $this->assignRef('height', $height);
       $this->assignRef('width', $width);

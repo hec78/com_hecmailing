@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+<layout title="COM_HECMAILING_GROUP_VIEW_DEFAULT_TITLE" option="COM_HECMAILING_GROUP_VIEW_DEFAULT_OPTION">
+		<help
+			key = "COM_HECMAILING_GROUP_VIEW_DEFAULT_HELP"
+		/>
+		<message>
+			<![CDATA[COM_HECMAILING_CONTACT_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

@@ -347,8 +347,8 @@ class HecMailingModelGroup extends JModelAdmin
 			if (!$f['error'] )
 			{
 				$this->addLog('comment',"File Ok=".$f['tmp_name']);
-				$ndelim = $tmppost['import_delimiter'];
-				$ldelim = $tmppost['import_linedelimiter'];
+				$ndelim = $data['import_delimiter'];
+				$ldelim = $data['import_linedelimiter'];
 				switch($ndelim)
 				{
 					case '1':
@@ -380,8 +380,8 @@ class HecMailingModelGroup extends JModelAdmin
 					default:
 						$ldelim="*";
 				}
-				$col = (int)$tmppost['import_column'];
-				$len =$tmppost['import_len'];
+				$col = (int)$data['import_column'];
+				$len =$data['import_len'];
 				if (isset($len ))
 				{
 					$len=(int)$len;
@@ -418,7 +418,7 @@ class HecMailingModelGroup extends JModelAdmin
 						}
 						else
 						{
-						  $cols = split($delim,$buffer);
+						  $cols = explode($delim,$buffer);
 						  if ($col<count($cols)) { $adr=$cols[$col];  }
 						}
 					}

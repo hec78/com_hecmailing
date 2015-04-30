@@ -24,10 +24,7 @@
 			<option value="0">OPTION_NO</option>
 			<option value="1">OPTION_YES</option>
 		</param>
-		<param name="read_check" type="radio" default="1" label="Check if message read" description="if YES, a tag will put in email to check if it read.">
-			<option value="0">OPTION_NO</option>
-			<option value="1">OPTION_YES</option>
-		</param>
+		
 		<param name="send_to_blocked" type="radio" default="0" label="Send mail to blocked users?" description="if YES, mails are sent to blocked user.">
 			<option value="0">OPTION_NO</option>
 			<option value="1">YES, IF ALL USERS OR JOOMLA GROUP</option>

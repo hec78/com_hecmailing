@@ -29,7 +29,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingForm extends JModelLegacy 
+class hecMailingModelForm extends JModelLegacy 
 { 
    /**
 	 * User id
@@ -45,12 +45,12 @@ class ModelhecMailingForm extends JModelLegacy
    function __construct() 
    { 
   	  parent::__construct(); 
-   	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
+   	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = ($this->params->get('debug') == 1);
       $this->isLog = false;
       if ($this->isLog)
       {
-        $this->_log = &JLog::getInstance('com_hecmailing.log.php');
+        $this->_log = JLog::getInstance('com_hecmailing.log.php');
       }
    } 
 
@@ -77,7 +77,7 @@ function Log($text)
  * @param string $blockcond2 : 2nd Block condition
  * @return string
  */
-   function getGroupeQuery($groupe, $douseprofil, $blockcond1, $blockcond2)
+   function getGroupeQuery($groupe, $douseprofile, $blockcond1, $blockcond2)
    {
 		if (intval($douseprofile)==1)
 		  $useprofile= " AND u.sendEmail=1 ";
@@ -85,17 +85,17 @@ function Log($text)
 		  $useprofile="";
 	      
 		// Cas des id user joomla
-	    $query = "SELECT email, name
+	    $query = "SELECT u.id,u.email, u.name
 	              FROM #__users u inner join #__hecmailing_groupdetail gd ON u.id=gd.gdet_id_value AND gd.gdet_cd_type=2
 	              WHERE gd.grp_id_groupe=".$groupe. $useprofile;
 	    // Cas des username
-	    $query .= " UNION SELECT email, name
+	    $query .= " UNION SELECT u.id,u.email, u.name
 	                FROM #__users u inner join #__hecmailing_groupdetail gd ON u.username=gd.gdet_vl_value AND gd.gdet_cd_type=1
 	                WHERE gd.grp_id_groupe=".$groupe. $useprofile;
 	    // Cas des groupes joomla
 	    if(version_compare(JVERSION,'1.6.0','<')){
 		   //Code pour Joomla! 1.5  
-			$query .= " UNION SELECT u.email as email, u.name as name
+			$query .= " UNION SELECT u.id,u.email as email, u.name as name
 						FROM #__users u 
 						inner join #__core_acl_aro c on c.value=u.id
 						inner join #__core_acl_groups_aro_map gm on gm.aro_id=c.id AND c.section_value='users'
@@ -104,12 +104,12 @@ function Log($text)
 	      }
 	      else {
 	      	   //Code pour Joomla! 1.6+ 
-            $query .= " UNION SELECT email, name
+            $query .= " UNION SELECT u.id,u.email, u.name
 	                FROM #__users u inner join #__user_usergroup_map m ON u.id=m.user_id inner join #__hecmailing_groupdetail gd ON m.group_id=gd.gdet_id_value AND gd.gdet_cd_type=3 
 	                WHERE gd.grp_id_groupe=".$groupe. $useprofile.$blockcond1;
 	      }
 	      // Cas des adresse e-mail
-	      $query .= " UNION SELECT gd.gdet_vl_value as email, gd.gdet_vl_value as name
+	      $query .= " UNION SELECT 0,gd.gdet_vl_value as email, gd.gdet_vl_value as name
 	                FROM #__hecmailing_groupdetail gd 
 	                WHERE gd.gdet_cd_type=4 AND gd.grp_id_groupe=".$groupe;
 		return $query;
@@ -149,7 +149,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
     }
     if ($groupe>0)
     {
-      	$query = $this->getGroupeQuery($groupe, $douseprofil, $blockcond1, $blockcond2);
+      	$query = $this->getGroupeQuery($groupe, $douseprofile, $blockcond1, $blockcond2);
 		
 	}
 	else	/* Tous les utilisateurs de la base (Actifs, non block�s) */
@@ -203,7 +203,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
 	$rowsout=array();
 	foreach($rows as $r)
 	{
-		$rowsout[$r[0]] = $r;
+		$rowsout[$r[1]] = $r;
 	}
 	
     return $rowsout;
@@ -253,7 +253,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
    function getGroupes($tous, $save, $askselect)
    {
       $db=$this->getDBO();
-      $user =&JFactory::getUser();
+      $user =JFactory::getUser();
       $admintype = $this->params->get('usertype');
       
       $admingroup = $this->params->get('groupaccess');
@@ -327,7 +327,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
 		// Modif Joomla 1.6+
 		$mainframe = JFactory::getApplication();
 
-		$user =&JFactory::getUser();
+		$user =JFactory::getUser();
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 		$val = array();
@@ -347,7 +347,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
   function isInGroupe($groupe)
    {
       $db=$this->getDBO();
-      $user =&JFactory::getUser();
+      $user =JFactory::getUser();
       $query = "SELECT *
                 FROM #__hecmailing_groupdetail gd inner join  #__hecmailing_groups g on gd.grp_id_groupe=g.grp_id_groupe
                 WHERE g.grp_nm_groupe=".$db->Quote($groupe)." AND gdet_id_value=".$user->id." AND gdet_cd_type=2";
@@ -369,7 +369,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
         }else{
           //Code pour Joomla >= 1.6.0
           $db=$this->getDBO();
-          $user =&JFactory::getUser();
+          $user =JFactory::getUser();
           $userid = $user->get( 'id' );
           $listUserTypeAllowed = explode(";",$admintype);
           $query = "select count(*) FROM #__usergroups g LEFT JOIN #__user_usergroup_map AS map ON map.group_id = g.id ";
@@ -391,7 +391,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
 	function hasGroupe()
 	{
 		$db=$this->getDBO();
-      $user =&JFactory::getUser();
+      $user =JFactory::getUser();
       $admintype = $this->params->get('usertype');
       
       $admingroup = $this->params->get('groupaccess');

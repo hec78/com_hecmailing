@@ -1,6 +1,6 @@
 <?php 
 /**
-* @version 1.8.0
+* @version 3.1.0
 * @package hecMailing for Joomla
 * @module views.form.tmpl.default.php
 * @subpackage : View Form (Sending mail form)
@@ -28,15 +28,11 @@ $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
 // Modif pour J1.6+ : change $mainframe->addCustomHeadTag en   $document->addCustomTag
 $document->addCustomTag('<link rel="stylesheet" href="components/com_hecmailing/css/toolbar.css" type="text/css" media="screen" />');
-$document->addCustomTag('<link rel="stylesheet" href="components/com_hecmailing/css/dialog.css" type="text/css" media="screen" />');
-$document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing/libraries/jt/jt_DialogBox.css" type="text/css" />');
-$document->addCustomTag ('<script src="components/com_hecmailing/libraries/jt/dom-drag.js" type="text/javascript"></script>');
-$document->addCustomTag ('<script src="components/com_hecmailing/libraries/jt/jt_.js" type="text/javascript"></script>');
-$document->addCustomTag ('<script src="components/com_hecmailing/libraries/jt/jt_DialogBox.js" type="text/javascript"></script>');
-$document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing/libraries/jt/veils.css" type="text/css" />');
-$document->addCustomTag ('<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" type="text/css" />');
-$document->addCustomTag ('<script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>');
-$document->addCustomTag ('<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>');
+$document->addCustomTag ('<link rel="stylesheet" href="administrator/components/com_hecmailing/libraries/jquery-ui.css" type="text/css" />');
+if(version_compare(JVERSION,'3.0.0','<')){
+	$document->addScript("administrator/components/com_hecmailing/libraries/jquery-1.11.1.min.js");
+}
+$document->addCustomTag ('<script src="administrator/components/com_hecmailing/libraries/jquery-ui.min.js" type="text/javascript"></script>');
 $document->addCustomTag ('<script src="components/com_hecmailing/views/form/form.js" type="text/javascript"></script>');
 
 ?>
@@ -82,7 +78,7 @@ $document->addCustomTag ('<script src="components/com_hecmailing/views/form/form
 }
 
 </style>
-
+<div id="dialogManageGroup" title="<?php echo JText::_('COM_HECMAILING_MANAGE_GROUP_TITLE'); ?>" style="display:none" ></div>
 <div id="loadtmpl" style="display:none" title="<?php echo JText::_('COM_HECMAILING_LOAD_TEMPLATE'); ?>" >
   <div class="image"><img src="components/com_hecmailing/images/disk.gif" width="64px"></div>
   <div class="content"><br/>
@@ -138,7 +134,7 @@ var text_msg_empty_subject = '<?php echo JText::_('COM_HECMAILING_MSG_EMPTY_SUBJ
 var text_manage = '<?php JText::_('MANAGE_GROUP') ?>';
 var text_msg_tmplname_empty= '<?php echo JText::_('COM_HECMAILING_MSG_EMPTY_TEMPLATE_NAME'); ?>';
 var current_group=0;
-var currentURI = '<?php echo JURI::current(); ?>';
+var currentURI = '<?php echo JURI::base(false); ?>';
 var baseURI = '<?php echo JURI::base( true ); ?>';
 
 
@@ -157,7 +153,7 @@ function submitbutton2(pressbutton) {
         return;
     }
   <?php
-    $editor =& JFactory::getEditor();
+    $editor =JFactory::getEditor();
     echo $editor->save( 'body' );
   ?>
   myform.submit();
@@ -204,12 +200,11 @@ function submitbutton2(pressbutton) {
 
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_SENDER'); ?> :</td><td><?php echo $this->from; ?></td></tr>
   
-  <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_GROUP'); ?> :</td><td><?php echo $this->groupes; ?><button id="manage_button" style="visibility:hidden;" onClick="manage_group();return false;">MANAGE</button></td></tr>
+  <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_GROUP'); ?> :</td><td><?php echo $this->groupes; ?><button id="manage_button" style="visibility:hidden;" onClick="manage_group();return false;"><?php echo JText::_('COM_HECMAILING_MANAGE_GROUP_BUTTON'); ?></button></td></tr>
   
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_USE_PROFILE'); ?> :</td><td><input type="checkbox" name="useprofil" value="1" id="useprofil" <?php echo $this->default_use_profil; ?>> <small><?php echo JText::_('COM_HECMAILING_USE_PROFILE_TEXT'); ?></small></td></tr>
   
-  <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL'); ?> :</td><td><input type="checkbox" name="backup_mail" value="1" id="backup_mail" <?php echo $this->backup_mail; ?>> <small><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL_TEXT'); ?></small></td></tr>
-  <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_READ_CHECK'); ?> :</td><td><input type="checkbox" name="read_check" value="1" id="read_check" <?php echo $this->read_check; ?>> <small><?php echo JText::_('COM_HECMAILING_READ_CHECK_TEXT'); ?></small></td></tr>
+<!--   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL'); ?> :</td><td><input type="checkbox" name="backup_mail" value="1" id="backup_mail" <?php echo $this->backup_mail; ?>> <small><?php echo JText::_('COM_HECMAILING_BACKUP_MAIL_TEXT'); ?></small></td></tr>-->  
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_CONTENT_IMAGE'); ?> :</td><td><input type="checkbox" name="incorpore" value="1" id="incorpore" <?php echo $this->image_incorpore; ?>> <small><?php echo JText::_('COM_HECMAILING_CONTENT_IMAGE_TEXT'); ?></small></td></tr>
   
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_SUBJECT'); ?> :</td><td><input style="width:100%"  type="text" id="subject" name="subject" value="<?php echo $this->subject; ?>"></td></tr>
@@ -243,7 +238,7 @@ function submitbutton2(pressbutton) {
   </td></tr>
   <tr valign="top"><td class="key"><?php echo JText::_('COM_HECMAILING_BODY'); ?> :</td><td>
   <?php
-  $editor =& JFactory::getEditor();
+  $editor =JFactory::getEditor();
   echo $editor->display('body', $this->body, $this->width, $this->height, '60', '20', true);
   ?>
   <input type="hidden" name="localcount" id="localcount" value="<?php echo $ilocal; ?>"><input type="hidden" name="attachcount" id="attachcount" value="<?php echo $iattach; ?>"></td></tr>

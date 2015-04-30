@@ -87,7 +87,7 @@ class HecMailingViewGroup extends JViewLegacy
 			$heclist[] = JHTML::_('select.option', $g[0], $g[1], 'id', 'name');
 		}
 	  
-		$this->hecgroups = JHTML::_('select.genericlist',  $heclist, 'newgroupe', 'class="inputbox" size="1"', 'id', 'name', 0);
+		$this->hecgroups = JHTML::_('select.genericlist',  $glist, 'newgroupe', 'class="inputbox" size="1"', 'id', 'name', 0);
 	
   
 		$this->groups = JHTML::_('select.genericlist',  $glist, 'newgroupej', 'class="inputbox" size="1"', 'id', 'name', 0);
@@ -95,8 +95,8 @@ class HecMailingViewGroup extends JViewLegacy
 		
 		$typesgroupselmt=array();
 		$typesgroupselmt[] = JHTML::_('select.option', 3, "Joomla", 'id', 'name');
-		$typesgroupselmt[] = JHTML::_('select.option', 5, "HEC MAiling", 'id', 'name');
-		$this->typesgroups = JHTML::_('select.genericlist',  $typesgroupselmt, 'typegroupe', 'class="inputbox" size="1" onChange="changeType(webservice,this.options[this.selectedIndex].value, '.$id.');"', 'id', 'name', 0);
+		//$typesgroupselmt[] = JHTML::_('select.option', 5, "HEC Mailing", 'id', 'name');
+		$this->typesgroups = JHTML::_('select.genericlist',  $typesgroupselmt, 'typegroupe', 'class="inputbox" size="1" onChange="changeType(webservice,this.options[this.selectedIndex].value, '.$id.');"', 'id', 'name', 3);
 
 		// build the html radio buttons for published
 		$this->published 		= JHTML::_('select.booleanlist',  'published', '', $this->item->published );

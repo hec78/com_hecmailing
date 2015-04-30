@@ -36,7 +36,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla
  */
-class ModelhecMailingContact extends JModelLegacy 
+class HecMailingModelContact extends JModelLegacy 
 { 
    /**
 	 * User id
@@ -52,12 +52,12 @@ class ModelhecMailingContact extends JModelLegacy
    function __construct() 
    { 
   	  parent::__construct(); 
-   	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
+   	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = $this->params->get('Log');
-      $this->isLog = true;
+      $this->isLog = false;
       if ($this->isLog)
       {
-        $this->_log = &JLog::getInstance('com_hecmailing.log.php');
+        //$this->_log = &JLog::getInstance('com_hecmailing.log.php');
       }
    } 
 

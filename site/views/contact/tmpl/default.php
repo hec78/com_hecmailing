@@ -25,19 +25,13 @@ $resp = null;
 # the error code from reCAPTCHA, if any
 $error = null;
 
-/*"<table><tr>
-		<td><img id='cryptogram' src='" . $cpath . "/cryptographp.php?cfg=0&'></td>
-		<td><a title='".JText::_("RESET CAPTCHA")."' style=\"cursor:pointer\" onclick=\"javascript:document.images.cryptogram.src=\'".$cpath."/cryptographp.php?cfg=0&&\'+Math.round(Math.random(0)*1000)+1\"><img src=\"".$cpath."/images/reload.png\"></a> </td>
-		<td valign=\"bottom\" align=\"center\">".JText::_('COPY_CODE').":<br><input type=\"text\" name=\"captcha\" size=\"20\" id=\"captcha\"></td>
-  		</tr></table>";*/
+
 // Modif Joomla 1.6+
 $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
 // Modif pour J1.6+ : change $mainframe->addCustomHeadTag en   $document->addCustomTag
 $document->addCustomTag('<link rel="stylesheet" href="components/com_hecmailing/css/toolbar.css" type="text/css" media="screen" />');
 $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing/css/dialog.css" type="text/css" media="screen" />');
-/*$mainframe->addCustomHeadTag ('<script type="text/javascript" src="components/com_hecmailing/libraries/jcap/md5.js"></script>');
-$mainframe->addCustomHeadTag ('<script type="text/javascript" src="components/com_hecmailing/libraries/jcap/jcap.js"></script>');*/
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -63,8 +57,7 @@ function submitbutton2(pressbutton) {
     }
     
     <?php
-            $editor =& JFactory::getEditor();
-            echo $editor->save( 'body' );
+           // echo $editor->save( 'body' );
     ?>
     alert('submit task='+document.getElementById("task").value);
     myform.submit();
@@ -188,7 +181,7 @@ function checksend()
   //submitbutton('sendContact');
   var myform = document.getElementById("adminForm");
   var mytask = document.getElementById("task");
-  mytask.value = 'sendContact';
+  mytask.value = 'contact.send';
   myform.submit();
 }
  
@@ -209,7 +202,7 @@ $help_url = 'http://joomla.hecsoft.net/index.php?option=com_content&view=article
 </script>
 
 
-<form action="index.php?option=com_hecmailing&task=send_contact" method="post" name="adminForm" id="adminForm" ENCTYPE="multipart/form-data" >
+<form action="index.php?option=com_hecmailing&task=contact.send" method="post" name="adminForm" id="adminForm" ENCTYPE="multipart/form-data" >
 <input type="hidden" id="required" name="required" value="uword">
 <div class="componentheading"><?php echo $this->title; ?></div>
 <div id="component-hecmailing">
@@ -298,7 +291,7 @@ else
 
 <input type="hidden" name="option" id="option" value="com_hecmailing">
 <!-- <input type="hidden" name="view" id="view" value="contact">  -->
-<input type="hidden" name="task" id="task" value="send_contact">
+<input type="hidden" name="task" id="task" value="contact.send">
 <div><?php echo JText::sprintf("COM_HECMAILING_VERSION_FOOTER",$this->version); ?></div>
 </form>
 
