@@ -105,7 +105,7 @@ function showAddNewGroupe()
 {
 	jQuery( "#dialogGroup" ).dialog({
 				resizable: false,
-				height:350,
+				height:600,
 				width : 600,
 				modal: true,
 				draggable: true, 

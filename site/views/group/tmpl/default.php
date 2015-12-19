@@ -21,10 +21,10 @@ $document->addCustomTag ('<link rel="stylesheet" href="components/com_hecmailing
     	JHTML::_('behavior.tooltip');
     	jimport('joomla.html.pane');
       // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
-    	//$pane = JPane::getInstance('sliders', array('allowAllClose' => true));
+    	$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
     	JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
     	$cparams = JComponentHelper::getParams ('com_hecmailing');
-    	$document =JFactory::getDocument();
+    	$document =& JFactory::getDocument();
     	$burl = "";
     	$document->addScript($burl."components/com_hecmailing/libraries/jt/dom-drag.js");
     	$document->addScript($burl."components/com_hecmailing/libraries/jt/jt_.js");

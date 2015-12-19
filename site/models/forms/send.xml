@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<fields>
+    <fieldset name="basic">
+        <field name="from" type="sender" hint="COM_HECMAILING_SENDER_DESC" description="COM_HECMAILING_SENDER_DESC"
+               label="COM_HECMAILING_SENDER" class="required"
+          />
+		<field name="groupe" type="hecmailinggroups" hint="COM_HECMAILING_GROUP_DESC" description="COM_HECMAILING_GROUP_DESC"
+               label="COM_HECMAILING_GROUP" class="inputbox" onchange="showManageButton(this)" none_value="COM_HECMAILING_GROUP_SELECT" width="100%"
+          />
+        <field name="image_incorporee" type="radio" hint="COM_HECMAILING_CONTENT_IMAGE_DESC"
+               label="COM_HECMAILING_CONTENT_IMAGE_LABEL" default="1" >
+               <option value="0">COM_HECMAILING_CONTENT_IMAGE_EXTERNAL_LINK</option>
+               <option value="1">COM_HECMAILING_CONTENT_IMAGE_EMBEDDED</option>
+        </field>
+		<field name="message_read_notification" type="list" label="" description="" >
+			<option value="0">COM_HECMAILING_READTAG_POSITION_NONE</option>
+			<option value="1">COM_HECMAILING_READTAG_POSITION_TOP</option>
+			<option value="2">COM_HECMAILING_READTAG_POSITION_BOTTOM</option>
+			<option value="3">COM_HECMAILING_READTAG_POSITION_OTHER</option>
+		</field>
+		<field name="message_subject" type="text" hint="COM_HECMAILING_SUBJECT_HINT" description="COM_HECMAILING_SUBJECT_DESC"
+               label="COM_HECMAILING_SUBJECT" class="required"
+          />
+          <field name="attachment" type="attachments" hint="COM_HECMAILING_ATTACHMENT_DESC" description="COM_HECMAILING_ATTACHMENT_DESC"
+               label="COM_HECMAILING_ATTACHMENT" label_attachment="COM_HECMAILING_ADD_ATTACHMENT" label_browse="COM_HECMAILING_BROWSE_SERVER"
+          />
+          <field name="message_body" type="editor" hint="COM_HECMAILING_BODY_DESC" description="COM_HECMAILING_BODY_DESC"
+               label="COM_HECMAILING_BODY"
+          />
+    </fieldset>
+    </fields>
+</form>

@@ -333,7 +333,7 @@ function getMailAdrFromGroupe($groupe, $douseprofile)
 		$val = array();
 		$val[] = JHTML::_('select.option', $user->email.';'.$user->name, $user->name, 'email', 'name');
 		$val[] = JHTML::_('select.option', $MailFrom.';'.$FromName, JText::_('COM_HECMAILING_DEFAULT').'('.$FromName.')', 'email', 'name');
-       
+        
 		return $val;
    }
 

@@ -1,8 +1,8 @@
 <?php
 /**
-* @version 3.0.0
+* @version 1.8.3
 * @package hecMailing for Joomla
-* @copyright Copyright (C) 2009-2015 Hecsoft All rights reserved.
+* @copyright Copyright (C) 2009 Hecsoft All rights reserved.
 * @license GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify

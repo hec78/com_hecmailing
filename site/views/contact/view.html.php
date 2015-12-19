@@ -32,9 +32,9 @@ class hecMailingViewContact extends JViewLegacy
       
 		// Modif Joomla 1.6+
 		$mainframe = JFactory::getApplication();
-        $currentuser= JFactory::getUser();
-		$pparams = $mainframe->getParams();
-		$model = $this->getModel(); 
+        $currentuser= &JFactory::getUser();
+		$pparams = &$mainframe->getParams();
+		$model = & $this->getModel(); 
 		$contact = JRequest::getInt('contact', 0);  
 		$height = $pparams->get('edit_width','400');
 		$width = $pparams->get('edit_height','400');
@@ -87,8 +87,8 @@ class hecMailingViewContact extends JViewLegacy
 			$lang = $currentuser->getParam('language', '');
 		}
 
-		JLoader::import ( 'hecmailing',JPATH_COMPONENT_ADMINISTRATOR.DS."helpers");
-		$ver =   HecMailingHelper::getComponentVersion();
+		JLoader::import ( 'helper',JPATH_COMPONENT_ADMINISTRATOR);
+		$ver =   getComponentVersion();
 
 		/* Recuperer les champs déjà saisis */
 		$email = JRequest::getString('email', $email, 'post');

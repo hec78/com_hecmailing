@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+<layout title="Standard Send Mail Form" >
+</layout>
+<view title="Standard Send Mail Form">
+		<message><![CDATA[Choose a Standard Send Mail Form.]]></message>
+	</view>
+
+</metadata>

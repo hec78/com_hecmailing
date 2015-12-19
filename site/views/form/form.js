@@ -1,8 +1,8 @@
-// @version 3.0.0
+// @version 1.8.0
 // @package hecMailing for Joomla
 // @module views.form.tmpl.default.php (associated javascript module)
 // @subpackage : View Form (Sending mail form)
-// @copyright Copyright (C) 2008-2015 Hecsoft All rights reserved.
+// @copyright Copyright (C) 2008-2013 Hecsoft All rights reserved.
 // @license GNU/GPL
 //
 // This program is free software; you can redistribute it and/or modify
@@ -372,26 +372,8 @@ function showManageButton(selectBox)
 	{
 		btn.style.visibility = 'hidden';
 	}
-	btn.style.visibility = 'hidden';
 }
 function manage_group()
 {
-	url=baseURI+"/index.php?option=com_hecmailing&view=group&layout=default&idgroup="+current_group;
-	jQuery.ajax({
-	    url: url,
-	    success: function(data){
-	        $("#dialogManageGroup").html(data);
-	        jQuery("#dialogManageGroup").open();
-	    }   
-	});
-
-	jQuery("#dialogManageGroup").dialog(
-	       {
-	        bgiframe: true,
-	        autoOpen: false,
-	        height: 100,
-	        modal: true
-	       }
-	);
-	//window.open(url,text_manage,"directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,toolbar=no,width=800,height=600");
+	window.open("index2.php?option=com_hecmailing&task=manage_group&tmpl=component&idgroup='; ?>"+current_group,text_manage,"directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=yes,toolbar=no,width=800,height=600");
 }

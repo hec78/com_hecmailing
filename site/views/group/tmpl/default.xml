@@ -5,7 +5,7 @@
 			key = "COM_HECMAILING_GROUP_VIEW_DEFAULT_HELP"
 		/>
 		<message>
-			<![CDATA[COM_HECMAILING_CONTACT_VIEW_DEFAULT_DESC]]>
+			<![CDATA[COM_HECMAILING_GROUP_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 </metadata>

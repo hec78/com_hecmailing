@@ -52,12 +52,12 @@ class HecMailingModelContact extends JModelLegacy
    function __construct() 
    { 
   	  parent::__construct(); 
-   	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
+   	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = $this->params->get('Log');
-      $this->isLog = false;
+      $this->isLog = true;
       if ($this->isLog)
       {
-        //$this->_log = &JLog::getInstance('com_hecmailing.log.php');
+        $this->_log = &JLog::getInstance('com_hecmailing.log.php');
       }
    } 
 

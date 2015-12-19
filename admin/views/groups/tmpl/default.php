@@ -194,6 +194,6 @@ JText::script('COM_HECMAILING_GROUPS_CONFIRM_DELETE');
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
-	<div class="warning"><?php echo  JText::_( 'COM_HECMAILING_WARNING_CHANGE_GROUP' ); ?></div>
+	
 </form>
 		

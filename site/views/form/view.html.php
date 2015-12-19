@@ -68,6 +68,8 @@ class hecMailingViewForm extends JViewLegacy
       {
         $default_use_profil="";
       }
+      $default_sender =intval($pparams->get('default_sender','0'));
+      
       
       if ($pparams->get('image_incorpore','1')=='1')
       {
@@ -118,7 +120,8 @@ class hecMailingViewForm extends JViewLegacy
       }
       
       $tmpfrom = $model->getFrom();
-      $from = JHTML::_('select.genericlist',  $tmpfrom, 'from', 'class="inputbox" size="1"', 'email', 'name');
+      $default =$tmpfrom[$default_sender];  
+      $from = JHTML::_('select.genericlist',  $tmpfrom, 'from', 'class="inputbox" size="1"', 'email', 'name', $default->email);
      $idmsg = JRequest::getInt('idTemplate', 0, 'post');
      $idlog = JRequest::getInt('idlog', 0);
 		  $savedlist = $model->getSavedMails();

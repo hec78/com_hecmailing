@@ -1,10 +1,10 @@
 <?php 
 /**
-* @version 3.0.0
+* @version 1.7.0
 * @package hecMailing for Joomla
 * @subpackage : View Form (Sending mail form)
 * @module views.form.tmpl.view.html.php
-* @copyright Copyright (C) 2008-2015 Hecsoft All rights reserved.
+* @copyright Copyright (C) 2008-2011 Hecsoft All rights reserved.
 * @license GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
@@ -33,8 +33,8 @@ class hecMailingViewGroup extends JViewLegacy
       
 		// Modif Joomla 1.6+
 		$mainframe = JFactory::getApplication();
-        $db		=JFactory::getDBO();
-		$user 	=JFactory::getUser();
+        $db		=& JFactory::getDBO();
+		$user 	=& JFactory::getUser();
 
 		$idgroup 	= JRequest::getInt('idgroup',0);
 		$option = JRequest::getCmd('option');
@@ -43,7 +43,7 @@ class hecMailingViewGroup extends JViewLegacy
 		
 		
 		
-		$row =JTable::getInstance('groupe', 'Table');
+		$row =& JTable::getInstance('groupe', 'Table');
 		// load the row from the db table
 		$edit=true;
 		if($edit)
@@ -105,10 +105,10 @@ class hecMailingViewGroup extends JViewLegacy
 	      $ulist[] = JHTML::_('select.option', $u[0], $u[2], 'id', 'name');
 	    }
 		$users = JHTML::_('select.genericlist',  $ulist, 'newuser', 'class="inputbox" size="1"', 'id', 'name', 0);
-		/*if($edit)
+		if($edit)
 			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $idgroup, $query );
 		else
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );*/
+			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 	if(version_compare(JVERSION,'1.6.0','<')){
 	       //Code pour Joomla! 1.5  
 	  		$query = "Select id, name From #__core_acl_aro_groups order by id";
@@ -135,7 +135,7 @@ class hecMailingViewGroup extends JViewLegacy
 		// get params definitions
 		$file 	= JPATH_ADMINISTRATOR .'/components/com_hecmailing/config.xml';
 		$paramstxt="";
-		$params = new JRegistry( $paramstxt, $file, 'component' );
+		$params = new JParameter( $paramstxt, $file, 'component' );
 
 	
 	

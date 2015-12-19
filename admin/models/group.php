@@ -118,6 +118,7 @@ class HecMailingModelGroup extends JModelAdmin
 			$query->select("gn.title AS jgroup_name");
 			$query->join("LEFT","#__usergroups gn ON ug.groupid=gn.id");
 		}
+		$query->where ("ug.grp_id_groupe=".$pk);
 		$db->setQuery($query);
 		try
 		{

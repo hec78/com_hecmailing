@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HECMAILING_LIST_VIEW_MESSAGES_TITLE" option="View">
+        <message>
+                        <![CDATA[COM_HECMAILING_LIST_VIEW_MESSAGES_DESC]]>
+        </message>
+	</layout>
+</metadata>
