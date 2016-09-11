@@ -1,14 +1,15 @@
 ***************************************************************
-*    HEC Mailing version 3.2.0 (J3.x!) release notes          *
+*    HEC Mailing version 3.3.0 (J3.x!) release notes          *
 *-------------------------------------------------------------*
-* by H.Cyr 19 december 2015                                   *
+* by H.Cyr 11 september 2016                                   *
 * @package hecMailing for Joomla                              *
-* @copyright Copyright (C) 2015 Hecsoft All rights reserved.  *
+* @copyright Copyright (C) 2016 Hecsoft All rights reserved.  *
 * @license GNU/GPL                                            *
 ***************************************************************
 
 CHANGE LOG
  Version  Date          Changes
+  3.3.0   11 sep. 2016  Fixe embedded image issue
   3.2.0   19 dec. 2015  Ajax send
                         Add statistics
                         Read information

@@ -173,7 +173,11 @@ endif;
 
 	function jQueryCode() {
 		jQuery('.return').click(function () {window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=messages'); ?>';});
-		jQuery('.sending').click(function () {window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=sending&id='.$id); ?>';});
+		jQuery('.sending').click(function () 
+		{
+			//window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=send&idmessage='.$id); ?>';
+			window.location.href = 'index.php?option=com_hecmailing&view=send&idmessage=<?php echo $id; ?>';
+		});
 	}
 	jQuery(document).ready(function() {
 	    jQuery('#recipient_table').dataTable( {

@@ -91,6 +91,8 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_message (
   PRIMARY KEY (`id`),
   KEY `fk_message_group` (`group_id`)
 ) COMMENT='Liste des message envoyes/a envoyer';
+
+/*Table structure for table `j3_hecmailing_message_attachment` */
 CREATE TABLE IF NOT EXISTS #__hecmailing_message_attachment (
   `message_id` int(11) NOT NULL COMMENT 'Id du message (champ id table message)',
   `file` varchar(250) NOT NULL COMMENT 'Emplacement du fichier sur le serveur',
@@ -100,16 +102,20 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_message_attachment (
   KEY `fk_message_attachment_message` (`message_id`)
 ) COMMENT='Pieces jointes des messages envoyes';
 
+/*Table structure for table `j3_hecmailing_message_recipient` */
+
+
+
 CREATE TABLE IF NOT EXISTS #__hecmailing_message_recipient (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identifiant du recipient',
   `message_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Identifiant du message (champ id table message)',
   `userid` int(11) NOT NULL DEFAULT '0' COMMENT 'Identifiant de l''utilisateur Joomla ou null',
   `email` varchar(200) NOT NULL COMMENT 'Adresse E-Mail',
   `name` varchar(200) DEFAULT NULL COMMENT 'Nom d''affichage de l''utilsateur',
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Status d''envoi : 0 A Envoyer, 1 Envoye, 9 Erreur Envoi,8 Domaine Exclus',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Status d''envoi : 0 A Envoyer, 1 Envoyé, 9 Erreur Envoi,8 Domaine Exclus',
   `error` text COMMENT 'Message d''erreur',
-  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date et Heure Soumission, Envoi ou Lecture',
+  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date et Heure Soumission, Envoi ou Lecture',
   `params` text COMMENT 'Parametres a utiliser pour le remplacement des variables presentes dans le corps',
   PRIMARY KEY (`id`),
-  KEY `fk_message_recipient_message` (`message_id`)
+  KEY `fk_message_recipient_message` (`message_id`),
 )  COMMENT='Liste des destinataires';

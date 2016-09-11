@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @version     1.0.0
- * @package     com_kwpressource
+ * @version     1.0.1
+ * @package     com_hecmailing
  * @copyright   Copyright (C) 2015. Kantar Worldpanel Tous droits réservés.
  * @license     GNU General Public License version 2 ou version ultérieure ; Voir LICENSE.txt
  * @author      Hervé CYR <herve.cyr@kantarworldpanel.com> - http://www.kantarworldpanel.com/fr
@@ -25,15 +25,22 @@ class HecMailingMailFrontendHelper {
 	
 	
 	
-	public static function startsWith($haystack, $needle) {
-		// search backwards starting from haystack length characters from the end
-		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
-	}
-	public static function endsWith($haystack, $needle) {
-		// search forward starting from end minus needle length characters
-		return $needle === "" || strpos($haystack, $needle, strlen($haystack) - strlen($needle)) !== FALSE;
+	
+	public static function startsWith($haystack, $needle)
+	{
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
 	}
 	
+	public static function endsWith($haystack, $needle)
+	{
+		$length = strlen($needle);
+		if ($length == 0) {
+			return true;
+		}
+	
+		return (substr($haystack, -$length) === $needle);
+	}
 	
 	public static function extractEmbeddedImagesFromHTML($html)
 	{
@@ -49,7 +56,7 @@ class HecMailingMailFrontendHelper {
 			$cidname='image_'.$num;
 			$src=$img["src"];
 			if (isset($src)) $src=$src->__toString();
-			if (!HecMailingMailFrontendHelper::startsWith("http://", $src) && !HecMailingMailFrontendHelper::startsWith("https://", $src))
+			if (!HecMailingMailFrontendHelper::startsWith($src,"http://") && !HecMailingMailFrontendHelper::startsWith($src,"https://"))
 			{
 				//$file = JPATH_BASE.DIRECTORY_SEPARATOR.$src;
 				$file = $src;
@@ -94,7 +101,8 @@ class HecMailingMailFrontendHelper {
 		foreach ($images as $img) {
 			$src=$img["src"];
 			if (isset($src)) $src=$src->__toString();
-			if (!HecMailingMailFrontendHelper::startsWith("http://", $src) && !HecMailingMailFrontendHelper::startsWith("https://", $src))
+			
+			if (!HecMailingMailFrontendHelper::startsWith($src,"http://") && !HecMailingMailFrontendHelper::startsWith($src,"https://"))
 			{
 				$img['src']=JURI::base().$src;
 			}
@@ -110,9 +118,10 @@ class HecMailingMailFrontendHelper {
 		$links=$xml->xpath('//a');
 		$num=1;
 		foreach ($links as $link) {
-			$href=$img["href"];
+			$href=$link["href"];
 			if (isset($href)) $href=$href->__toString();
-			if (!HecMailingMailFrontendHelper::startsWith("http://", $href) && !HecMailingMailFrontendHelper::startsWith("https://", $href))
+			
+			if (!HecMailingMailFrontendHelper::startsWith($href,"http://") && !HecMailingMailFrontendHelper::startsWith($href, "https://"))
 			{
 				$link['href']=JURI::base().$href;
 			}
