@@ -54,7 +54,7 @@ function addRow(imgtype, libtype, idtype, id, text)
     chknode.type="checkbox";
 	
     img = document.createElement("img");
-    img.src=base_url+"components/com_hecmailing/images/"+imgtype;
+    img.src=base_url+"components/com_hecmailing/assets/images/"+imgtype;
     textnode1=document.createTextNode(libtype);
     textnode2=document.createTextNode(text);
     hid = document.createElement("input");
@@ -291,7 +291,7 @@ function addRowPerm (imgtype, libtype, idtype, id, text , perm_send, perm_manage
 	
 	
 	img = document.createElement("img");
-	img.src=base_url+"components/com_hecmailing/images/"+imgtype;
+	img.src=base_url+"components/com_hecmailing/assets/images/"+imgtype;
 	textnode1=document.createTextNode(libtype);
 	textnode2=document.createTextNode(text);
 	hid = document.createElement("input");

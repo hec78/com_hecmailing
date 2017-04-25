@@ -1,7 +1,7 @@
 ***************************************************************
-*    HEC Mailing version 3.3.0 (J3.x!) release notes          *
+*    HEC Mailing version 3.4.1 (J3.x!) release notes          *
 *-------------------------------------------------------------*
-* by H.Cyr 11 september 2016                                   *
+* by H.Cyr 25 april 2017                                      *
 * @package hecMailing for Joomla                              *
 * @copyright Copyright (C) 2016 Hecsoft All rights reserved.  *
 * @license GNU/GPL                                            *
@@ -9,6 +9,10 @@
 
 CHANGE LOG
  Version  Date          Changes
+  3.4.1   25 apr. 2017  Add create folder feature in attachment windows
+                        Rework Admin languages files
+						Fix CanDo issue
+						Change core.admin to core.manage right to access to group management
   3.4.0   01 jan. 2017  Fix some css 
                         Correct resend issue 
                         Clean directory structure (remove joomfish, move images in assets...)						

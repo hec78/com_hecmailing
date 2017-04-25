@@ -62,13 +62,17 @@ class HecMailingViewParam extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		//JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = JHelperContent::getActions('com_hecmailing');
 
 		JToolbarHelper::title(JText::_('COM_HECMAILING_PARAMETERS_TITLE'));
 
-		JToolbarHelper::preferences('com_hecmailing');
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_hecmailing');
+			JToolbarHelper::divider();
+		}
 		
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_HECMAILING_CONTACT_EDIT');

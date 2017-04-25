@@ -33,7 +33,7 @@ class HecMailingHelper
 		// Groups and Levels are restricted to core.admin
 		$canDo = JHelperContent::getActions('com_hecmailing');
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.manage'))
 		{
 			JHtmlSidebar::addEntry(
 				JText::_('COM_HECMAILING_SUBMENU_GROUPS'),

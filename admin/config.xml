@@ -27,6 +27,11 @@
 			<option value="1">COM_HECMAILING_FIRST</option>
 			<option value="2">COM_HECMAILING_LAST</option>
 		</field>
+		<field name="can_create_dir" type="list" default="1" label="COM_HECMAILING_CAN_CREATE_DIR_LABEL" description="COM_HECMAILING_CAN_CREATE_DIR_DESC">
+			<option value="0">COM_HECMAILING_OPTION_NO</option>
+			<option value="1">COM_HECMAILING_OPTION_YES</option>
+			
+		</field>
 	</fieldset>
 	<fieldset name="mail"	label="COM_HECMAILING_PARAMTAB_MAIL_LABEL"	description="COM_HECMAILING_PARAMTAB_MAIL_DESC" addfieldpath="/administrator/components/com_hecmailing/models/fields">
 		<field name="ask_select_group" type="radio" default="1" label="COM_HECMAILING_ASK_SELECT_GROUP_LABEL" description="COM_HECMAILING_ASK_SELECT_GROUP_DESC">
@@ -110,5 +115,21 @@
 			<option value="0">COM_HECMAILING_OPTION_NO</option>
 			<option value="1">COM_HECMAILING_OPTION_YES</option>
 		</field>
+	</fieldset>
+		<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			component="com_hecmailing"
+			section="component"
+		/>
 	</fieldset>
 </config>

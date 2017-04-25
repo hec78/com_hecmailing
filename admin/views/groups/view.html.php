@@ -79,7 +79,7 @@ class HecMailingViewGroups extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_users');
+		$canDo = JHelperContent::getActions('com_hecmailing');
 
 		JToolbarHelper::title(JText::_('COM_HECMAILING_VIEW_GROUPS_TITLE'), 'HECMailing groups');
 
@@ -102,7 +102,7 @@ class HecMailingViewGroups extends JViewLegacy
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::preferences('com_hecmailings');
+			JToolbarHelper::preferences('com_hecmailing');
 			JToolbarHelper::divider();
 		}
 

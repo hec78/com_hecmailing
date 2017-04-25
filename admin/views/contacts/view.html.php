@@ -79,7 +79,7 @@ class HecMailingViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_users');
+		$canDo = JHelperContent::getActions('com_hecmailing');
 
 		JToolbarHelper::title(JText::_('COM_HECMAILING_VIEW_CONTACTS_TITLE'), 'HECMailing contacts');
 

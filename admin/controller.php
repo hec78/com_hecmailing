@@ -35,7 +35,7 @@ class HecMailingController extends JControllerLegacy
 			// Special permissions.
 			case 'groups':
 			case 'group':
-				return $canDo->get('core.admin');
+				return $canDo->get('core.manage');
 				break;
 
 			// Default permissions.
