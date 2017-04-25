@@ -1,6 +1,6 @@
 <?php
 /**
-* @version 1.8.0
+* @version 3.4.0
 * @package hecMailing for Joomla
 * @subpackage : View Form (Sending mail form)
 * @module views.form.tmpl.view.html.php
@@ -36,24 +36,18 @@ class hecMailingViewSend extends JViewLegacy
 		$state      = $this->get('State');
 		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
-   
+		$this->idmessage= 0;
 		$currentuser= JFactory::getUser();
 		$pparams =$app->getParams();
-			
+		$rights="";	
 		  $model = $this->getModel('Send'); 
 	      $groupe=0; 
-	      $send_all=($pparams->get('send_all','0')=='1');
+	      
 	      
 	      if ($pparams->get('backup_mail','0')=='1'){$backup_mail = "checked=\"checked\"";}else{$backup_mail="";}
 	      $signature=$pparams->get('default_signature','');
 	      $default_use_readtag= $pparams->get('default_use_readtag','0');
-	      $readtagopt=array();
-	      $readtagopt[] = JHTML::_('select.option', 0, JText::_('COM_HECMAILING_READTAG_POSITION_NONE'), 'message_readtag_notification', 'message_readtag_notification_label');
-	      $readtagopt[] = JHTML::_('select.option', 1, JText::_('COM_HECMAILING_READTAG_POSITION_TOP'), 'message_readtag_notification', 'message_readtag_notification_label');
-	      $readtagopt[] = JHTML::_('select.option', 2, JText::_('COM_HECMAILING_READTAG_POSITION_BOTTOM'), 'message_readtag_notification', 'message_readtag_notification_label');
-	      $readtagopt[] = JHTML::_('select.option', 3, JText::_('COM_HECMAILING_READTAG_POSITION_OTHER'), 'message_readtag_notification', 'message_readtag_notification_label');
-	      $use_readtag = JHTML::_('select.genericlist',  $readtagopt, 'use_readtag', 'class="inputbox" size="1" ', 'message_readtag_notification', 'message_readtag_notification_label', intval($default_use_readtag));
-	      
+	         
 	      $default_sender =intval($pparams->get('default_sender','0'));
 	      if ($pparams->get('image_incorpore','1')=='1') { $image_incorpore = "checked=\"checked\"";  } else { $image_incorpore="";  }
 	      if ($pparams->get('ask_select_group','1')=='1') {  $askselect = true;  $groupe=-2; } else {  $askselect=false;  }
@@ -65,22 +59,9 @@ class hecMailingViewSend extends JViewLegacy
 	      $browse_path = $pparams->get('browse_path','/images/stories');
 	      $height = $pparams->get('edit_width','400');
 	      $width = $pparams->get('edit_height','400');
-	      
-	      $groupelist = $model->getGroupes($send_all,false, $askselect);
-	      if (!$groupelist)
-	      {
-	        $groupes = JText::_("COM_HECMAILING_NO_GROUP");
-	      }
-	      else
-	      {
-	        
-	        $groupes = JHTML::_('select.genericlist',  $groupelist[0], 'groupe', 'class="inputbox" size="1" onchange="showManageButton(this)"', 'grp_id_groupe', 'grp_nm_groupe', intval($groupe));
-	        $rights = "var rights={".join(",",$groupelist[1])."};";
-	      }
-	      
 	      $tmpfrom = $model->getFrom();
-	      $default =$tmpfrom[$default_sender];  
-	      $from = JHTML::_('select.genericlist',  $tmpfrom, 'from', 'class="inputbox" size="1"', 'email', 'name', $default->email);
+	      $default =$tmpfrom[$default_sender];
+	      $from=$default->email;
 	      $idtemplate = $app->input->getInt('idTemplate', 0, 'post');
 		  $idmessage = $app->input->getInt('idmessage', 0);
 		  $savedlist = $model->getSavedMails();
@@ -97,20 +78,22 @@ class hecMailingViewSend extends JViewLegacy
       	
       	$infomsg = $model->getMessage($idmessage);
       	//$this->assignRef('idmsg', 0);
-      	$this->assignRef('idmessage', $infomsg->id);
-        $this->assignRef('subject', $infomsg->message_subject);
-        $this->assignRef('body', $infomsg->message_body);
-        $this->assignRef('attachment', $infomsg->attachment);
-        
+      	$this->idmessage= $idmessage;
+        $this->subject= $infomsg->message_subject;
+        $this->body= $infomsg->message_body;
+        $this->attachment=$infomsg->attachment;
+        $groupe=$infomsg->group_id;
+        $from=$infomsg->message_from;
       }
       else if ($idtemplate>0)
       {
         $infomsg = $model->getSavedMail($idtemplate);
-        $this->assignRef('idmsg', $infomsg[0]);
-        $this->assignRef('subject', $infomsg[1]);
-        $this->assignRef('body', $infomsg[2]);
+        $this->idmsg= $infomsg[0];
+        $this->subject= $infomsg[1];
+        $this->body= $infomsg[2];
+        
         $att=array();
-        $this->assignRef('attachment',$att);
+        $this->attachment=$att;
       }
       else
       {
@@ -118,28 +101,50 @@ class hecMailingViewSend extends JViewLegacy
       	$subject="";
       	$att=array();
       
-      	$this->assignRef('idmsg', $idmsg);
-        $this->assignRef('subject', $subject);
-        $this->assignRef('body', $body);
-      	$this->assignRef('attachment',$att);
+      	$this->idmsg= 0;
+        $this->subject= $subject;
+        $this->body= $body;
+      	$this->attachment=$att;
       }
+      
+      $groupelist = $model->getGroupes($send_all,false, $askselect);
+      if (!$groupelist)
+      {
+      	$groupes = JText::_("COM_HECMAILING_NO_GROUP");
+      }
+      else
+      {
+      	 
+      	$groupes = JHTML::_('select.genericlist',  $groupelist[0], 'groupe', 'class="inputbox" size="1" onchange="showManageButton(this)"', 'grp_id_groupe', 'grp_nm_groupe', intval($groupe));
+      	$rights = "var rights={".join(",",$groupelist[1])."};";
+      }
+       
+      foreach($tmpfrom as $frm)
+      {
+      	$emailsplit=explode(";",$frm->email);
+      	if ($emailsplit[0]==$from) { $from=$frm->email; break;}
+      }
+      $from = JHTML::_('select.genericlist',  $tmpfrom, 'from', 'class="inputbox" size="1"', 'email', 'name', $from);
+      
+           
   	  $msg='';
-  	  $this->assignRef('msg', $msg);
-  	  $this->assignRef('signature', $signature);
-  	  $this->assignRef('use_readtag', $use_readtag);
-      $this->assignRef('groupes', $groupes);
-      $this->assignRef('show_mail_sent', $show_mail_sent);
-      $this->assignRef('rights', $rights);
-      $this->assignRef('from', $from);
-      $this->assignRef('default_use_profil', $default_use_profil);
-      $this->assignRef('upload_input_count', $upload_input_count);
-      $this->assignRef('saved', $saved);
-      $this->assignRef('height', $height);
-      $this->assignRef('width', $width);
-      $this->assignRef('backup_mail', $backup_mail);
-      $this->assignRef('browse_path', $browse_path);
-      $this->assignRef('image_incorpore', $image_incorpore);
-      $viewLayout = JRequest::getVar( 'layout', 'default' );
+  	  $this->msg= $msg;
+  	  $this->signature= $signature;
+  	  //$this->use_readtag= $use_readtag;
+  	  //$this->groupe=$groupe;
+      //$this->groupes= $groupes;
+      $this->show_mail_sent= $show_mail_sent;
+      $this->rights= $rights;
+      $this->from= $from;
+      $this->default_use_profil= false; //$default_use_profil;
+      $this->upload_input_count= $upload_input_count;
+      $this->saved= $saved;
+      $this->height= $height;
+      $this->width= $width;
+      $this->backup_mail= $backup_mail;
+      $this->browse_path= $browse_path;
+      $this->image_incorpore= $image_incorpore;
+      $viewLayout = $app->input->get( 'layout', 'default' );
 	  $this->_layout = $viewLayout;
       
       parent::display($tpl); 

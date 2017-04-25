@@ -20,11 +20,13 @@
 			<option value="3">COM_HECMAILING_READTAG_POSITION_OTHER</option>
 		</field>
 		<field name="message_subject" type="text" hint="COM_HECMAILING_SUBJECT_HINT" description="COM_HECMAILING_SUBJECT_DESC"
-               label="COM_HECMAILING_SUBJECT" class="required"
+               label="COM_HECMAILING_SUBJECT" class="required" style="width:100%"
           />
           <field name="attachment" type="attachments" hint="COM_HECMAILING_ATTACHMENT_DESC" description="COM_HECMAILING_ATTACHMENT_DESC"
                label="COM_HECMAILING_ATTACHMENT" label_attachment="COM_HECMAILING_ADD_ATTACHMENT" label_browse="COM_HECMAILING_BROWSE_SERVER"
+               can_create_folder="0" controller="send" width="800"
           />
+          
           <field name="message_body" type="editor" hint="COM_HECMAILING_BODY_DESC" description="COM_HECMAILING_BODY_DESC"
                label="COM_HECMAILING_BODY"
           />

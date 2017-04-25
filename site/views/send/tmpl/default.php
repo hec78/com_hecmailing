@@ -1,11 +1,11 @@
 <?php 
 /**
-* @version 3.2.0
+* @version 3.4.0
 * @package hecMailing for Joomla
 * @module views.send.tmpl.default.php
 * @subpackage : View Send (Sending mail form)
 * @author : Hervé CYR
-* @copyright Copyright (C) 2008-2015 Hecsoft All rights reserved.
+* @copyright Copyright (C) 2008-2017 Hecsoft All rights reserved.
 * @license GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
@@ -156,7 +156,7 @@ var baseURI = '<?php echo JURI::base( true ); ?>';
 
 ?>
 <hr><br>
-<dl>
+<div>
 	<?php
 	// Iterate through the fields and display them.
 	foreach($this->form->getFieldset('basic') as $field):
@@ -165,17 +165,19 @@ var baseURI = '<?php echo JURI::base( true ); ?>';
 	        echo $field->input;
 	    else:
 	    ?>
+	    <dl class="dl-horizontal">
 	    <dt>
 	        <?php echo $field->label; ?>
 	    </dt>
 	    <dd<?php echo ($field->type == 'Editor' || $field->type == 'Textarea') ? ' style="clear: both; margin: 0;"' : ''?>>
 	        <?php echo $field->input ?>
 	    </dd>
+	    </dl>
 	    <?php
 	    endif;
 	endforeach;
 ?>
-</dl>
+</div>
 
 
 </form>

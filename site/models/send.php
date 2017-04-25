@@ -1,9 +1,10 @@
 <?php 
 /**
-* @version 1.8.0
-* @package hecMailing for Joomla
-* @copyright Copyright (C) 2013 Hecsoft All rights reserved.
-* @license GNU/GPL
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Hervé CYR
+* @license   GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -132,6 +133,8 @@ class hecMailingModelSend extends JModelForm
 			{
 				
 				$this->_item[$pk] = $this->getMessage($pk);
+				if ($this->_item[$pk])
+					$this->_item[$pk]->groupe=$this->_item[$pk]->group_id;
 				JFactory::getApplication()->setUserState('com_hecmailing.send.data', $this->_item[$pk]);
 			}
 			catch (Exception $e)
@@ -180,22 +183,12 @@ function Log($text)
 	    $query .= " UNION SELECT u.id,u.email, u.name
 	                FROM #__users u inner join #__hecmailing_groupdetail gd ON u.username=gd.gdet_vl_value AND gd.gdet_cd_type=1
 	                WHERE gd.grp_id_groupe=".$groupe. $useprofile;
-	    // Cas des groupes joomla
-	    if(version_compare(JVERSION,'1.6.0','<')){
-		   //Code pour Joomla! 1.5  
-			$query .= " UNION SELECT u.id,u.email as email, u.name as name
-						FROM #__users u 
-						inner join #__core_acl_aro c on c.value=u.id
-						inner join #__core_acl_groups_aro_map gm on gm.aro_id=c.id AND c.section_value='users'
-						inner join #__hecmailing_groupdetail gd ON gd.gdet_cd_type=3 AND gd.gdet_id_value=gm.group_id
-						WHERE gd.grp_id_groupe=".$groupe. $useprofile.$blockcond1;
-	      }
-	      else {
+	   
 	      	   //Code pour Joomla! 1.6+ 
             $query .= " UNION SELECT u.id,u.email, u.name
 	                FROM #__users u inner join #__user_usergroup_map m ON u.id=m.user_id inner join #__hecmailing_groupdetail gd ON m.group_id=gd.gdet_id_value AND gd.gdet_cd_type=3 
 	                WHERE gd.grp_id_groupe=".$groupe. $useprofile.$blockcond1;
-	      }
+	   
 	      // Cas des adresse e-mail
 	      $query .= " UNION SELECT 0,gd.gdet_vl_value as email, gd.gdet_vl_value as name
 	                FROM #__hecmailing_groupdetail gd 
@@ -358,12 +351,12 @@ function getMailAdrFromGroupe($groupe)
      {
      	if (($r[2] & 6)>0)
      	{
-     		$val[] = JHTML::_('select.option', $r[0], $r[1]."*", 'grp_id_groupe', 'grp_nm_groupe');
+     		$val[] = JHTML::_('select.option', intval($r[0]), $r[1]."*", 'grp_id_groupe', 'grp_nm_groupe');
      		$rights[]=$r[0].":".$r[2];
      	}
      	else
      	{
-        	$val[] = JHTML::_('select.option', $r[0], $r[1], 'grp_id_groupe', 'grp_nm_groupe');
+        	$val[] = JHTML::_('select.option', intval($r[0]), $r[1], 'grp_id_groupe', 'grp_nm_groupe');
      	}
      }
      
@@ -385,11 +378,11 @@ function getMailAdrFromGroupe($groupe)
     function getFrom()
    {
 		// Modif Joomla 1.6+
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$user =JFactory::getUser();
-		$MailFrom 	= $mainframe->getCfg('mailfrom');
-		$FromName 	= $mainframe->getCfg('fromname');
+		$MailFrom 	= $app->get('mailfrom');
+		$FromName 	= $app->get('fromname');
 		$val = array();
 		$val[] = JHTML::_('select.option', $user->email.';'.$user->name, $user->name, 'email', 'name');
 		$val[] = JHTML::_('select.option', $MailFrom.';'.$FromName, JText::_('COM_HECMAILING_DEFAULT').'('.$FromName.')', 'email', 'name');
@@ -423,10 +416,7 @@ function getMailAdrFromGroupe($groupe)
 
    function isAdminUserType($admintype)
    {
-        if(version_compare(JVERSION,'1.6.0','<')){
-            //Code pour Joomla! 1.5  
-            return strpos($admintype, $user->usertype);
-        }else{
+        
           //Code pour Joomla >= 1.6.0
           $db=$this->getDBO();
           $user =JFactory::getUser();
@@ -445,7 +435,7 @@ function getMailAdrFromGroupe($groupe)
   	      	return false;
 	        }
 	        return true;
-      }
+      
    }
 
 	function hasGroupe()
@@ -576,9 +566,10 @@ function getMailAdrFromGroupe($groupe)
     */
    function prepare_send($data, $files)
    {
-	   	$mainframe = JFactory::getApplication();
+	   	
+	   	$app = JFactory::getApplication();
 	   	// Check for request forgeries
-	   	JRequest::checkToken() or jexit( 'Invalid Token' );
+	   	JSession::checkToken() or jexit( 'Invalid Token' );
 	   	//get a refrence of the page instance in joomla
 	   	$document=JFactory::getDocument();
 	   	
@@ -588,11 +579,11 @@ function getMailAdrFromGroupe($groupe)
 	   
 	   	jimport( 'joomla.mail.helper' );
 	   
-	   	$SiteName 	= $mainframe->getCfg('sitename');
-	   	$MailFrom 	= $mainframe->getCfg('mailfrom');
-	   	$FromName 	= $mainframe->getCfg('fromname');
+	   	$SiteName 	= $app->get('sitename');
+	   	$MailFrom 	= $app->get('mailfrom');
+	   	$FromName 	= $app->get('fromname');
 	    $formdata   = $data['jform']; 
-	   	$link 		= base64_decode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
+	   	$link 		= base64_decode( $app->input->get( 'link', '', 'post', 'base64' ) );
 	   
 	   	$params = JComponentHelper::getParams( 'com_hecmailing' );
 	   
@@ -623,7 +614,7 @@ function getMailAdrFromGroupe($groupe)
 	   			{
 	   				if (strpos($data[$field], $header) !== false)
 	   				{
-	   					JError::raiseError(403, '');
+	   					raise (new Exception('', 403));
 	   				}
 	   			}
 	   		}
@@ -674,7 +665,7 @@ function getMailAdrFromGroupe($groupe)
 	   		if (!JFolder::create($path.$attach_path))
 	   		{
 	   			$error	= JText::sprintf('COM_HECMAILING_CANT_CREATE_DIR', $path.$attach_path);
-	   			JError::raiseWarning(0, $error );
+	   			raise (new Exception($error) );
 	   		}
 	   		// Create dummy index.html file for prevent list directory content
 	   		$text="<html><body bgcolor=\"#FFFFFF\"></body></html>";
@@ -725,7 +716,7 @@ function getMailAdrFromGroupe($groupe)
 	   	if ( ! $from || ! JMailHelper::isEmailAddress($from) )
 	   	{
 	   		$error	= JText::sprintf('COM_HECMAILING_EMAIL_INVALID', $fromvalue ."/".$from."/".$sender);
-	   		JError::raiseWarning(0, $error );
+	   		raise (new Exception( $error ));
 	   	}
 	   
 	   	// Clean the email data
@@ -736,6 +727,11 @@ function getMailAdrFromGroupe($groupe)
 	   	$inline=array();
 	   	$bodytolog = $body;
 	   
+	   	// Check answers
+	   	$answers = HecMailingMailFrontendHelper::extractQuestionsFromHTML($body);
+	   	$body=$answers->html;
+	   	
+	   	
 	   	// if embedded image is enabled
 	   	if ($image_incorpore)
 	   	{
@@ -773,7 +769,7 @@ function getMailAdrFromGroupe($groupe)
 	   			
 	   		// Insert email info
 	   		//Create data object
-	   		$rowdetail = new JObject();
+	   		$rowdetail = new stdClass();
 	   		/*if(version_compare(JVERSION,'1.6.0','<')){ $rowdetail->log_dt_sent = JFactory::getDate()->toFormat(); }
 	   		 else { 	$rowdetail->log_dt_sent = JFactory::getDate()->format("%Y-%M-%d %H:%M:%S"); }*/
 	   		$rowdetail->message_date = JFactory::getDate();
@@ -793,7 +789,7 @@ function getMailAdrFromGroupe($groupe)
 	   		// Insert attachments
 	   		foreach($attach as $att)
 	   		{
-	   			$rowfile = new JObject();
+	   			$rowfile = new stdClass();
 	   			$rowfile->message_id =$messageid  ;
 	   			$rowfile->file = $att['file']  ;
 	   			$rowfile->filename = $att['filename']  ;
@@ -819,9 +815,10 @@ function getMailAdrFromGroupe($groupe)
 	   				$status=0;
 	   				$error="";
 	   			}
-	   
+
+	   			
 	   			// Insert emails
-	   			$rowuser = new JObject();
+	   			$rowuser = new stdClass();
 	   			$rowuser->message_id =$messageid ;
 	   			$rowuser->userid = $elmt->id  ;
 	   			$rowuser->email = $email;
@@ -829,8 +826,22 @@ function getMailAdrFromGroupe($groupe)
 	   			$rowuser->status = $status;
 	   			$rowuser->error = $error;
 	   			$rowuser->params = "";
-	   				
 	   			$ret = $db->insertObject('#__hecmailing_message_recipient', $rowuser);
+	   			$recipient_id = $db->insertid();
+	   			
+	   			// Insert Answers
+	   			$token=HecMailingMailFrontendHelper::random_str(32);
+	   			foreach($answers->questions as $question)
+	   			{
+	   			
+	   				$question->message_id =$messageid ;
+	   				$question->recipient_id = $recipient_id;
+	   				$question->token=$token;
+	   				$question->answer_list = implode(";", $question->answers);
+	   				$ret = $db->insertObject('#__hecmailing_answers', $question);
+	   			}
+	   			
+	   			
 	   				
 	   
 	   		}

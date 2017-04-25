@@ -1,11 +1,25 @@
 <?php
-
 /**
- * @version     1.0.0
- * @package     com_hecmailing
- * @copyright   Copyright (C) 2014. Tous droits réservés.
- * @license     GNU General Public License version 2 ou version ultérieure ; Voir LICENSE.txt
- * @author      Hervé CYR <herve.cyr@kantarworldpanel.com> - 
+ * @version   3.4.0
+ * @package   HEC Mailing for Joomla
+ * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+ * @author    Herv� CYR
+ * @license   GNU/GPL
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
  */
 // No direct access.
 defined('_JEXEC') or die;
@@ -79,7 +93,7 @@ class HecMailingModelMessage extends JModelItem
 			{
 				// Convert the JTable to a clean JObject.
 				$properties  = $table->getProperties(1);
-				$this->_item = JArrayHelper::toObject($properties, 'JObject');
+				$this->_item = ArrayHelper::toObject($properties, 'JObject');
 				
 				$query = $db->getQuery(true);
 				$query->select('*')->from("#__users")->where("id=".$this->_item->user_id);
@@ -180,6 +194,48 @@ class HecMailingModelMessage extends JModelItem
 		return $table->delete($id);
 	}
 
-	
+	function answer($messageId, $recipientId, $question, $answer, $hashcode)
+	{
+		$db=$this->getDBO();
+		try {
+			$query = $db->getQuery(true);
+			$query->select("`token`,`answer_code`")
+				->from("`#__hecmailing_answers`")
+				->where( "`message_id`=".intval($messageId)." AND `recipient_id`=".intval($recipientId)."  
+						AND `question_code`=".$db->quote($question));
+			$db->setQuery($query);
+			$info = $db->loadObject();
+			
+			if ($info)
+			{
+				$hashcheck=crypt($info->token,$answer);
+				if ($hashcheck==$hashcode)
+				{
+					
+					$query = $db->getQuery(true);
+					$query->update("`#__hecmailing_answers`")
+						->set("`answer_code`=".$db->quote($answer))
+						->set("`answer_timestamp`=now()")
+						->where( "`message_id`=".intval($messageId)." AND `recipient_id`=".intval($recipientId)."
+						AND `question_code`=".$db->quote($question));
+					if  ($db->execute())
+						return array(true,"");
+					else return array(false,JText::_("COM_HECMAILING_ANSWER_ERROR_UPDATE"));
+				}
+				else
+				{
+					return array(false,JText::_("COM_HECMAILING_ANSWER_ERROR_BADTOKEN"));
+				}
+			}
+			else
+			{
+				return array(false,JText::_("COM_HECMAILING_ANSWER_ERROR_NOTEXISTS"));
+			}
+		}
+		catch (Exception $e)
+		{
+			return array(false,JText::_("COM_HECMAILING_ANSWER_ERROR_QUERY"));
+		}
+	}
 
 }

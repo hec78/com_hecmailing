@@ -9,7 +9,12 @@
 
 CHANGE LOG
  Version  Date          Changes
-  3.3.0   11 sep. 2016  Fixe embedded image issue
+  3.4.0   01 jan. 2017  Fix some css 
+                        Correct resend issue 
+                        Clean directory structure (remove joomfish, move images in assets...)						
+						Fix some deprecated issues
+						Update English language
+  3.3.0   11 sep. 2016  Fix embedded image issue
   3.2.0   19 dec. 2015  Ajax send
                         Add statistics
                         Read information

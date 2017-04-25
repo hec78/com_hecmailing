@@ -1,10 +1,11 @@
 <?php 
 use Joomla\Input\Files;
 /**
-* @version 1.8.0
-* @package hecMailing for Joomla
-* @copyright Copyright (C) 2013 Hecsoft All rights reserved.
-* @license GNU/GPL
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Hervé CYR
+* @license   GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -75,7 +76,7 @@ class hecMailingModelSending extends JModelLegacy
 	{
 		$db=$this->getDBO();
 		$query = "UPDATE #__hecmailing_message_recipient SET status=".$status.",error=".$db->quote($error).",timestamp=now()
-      			  WHERE message_id=".$messageId." AND id=".$recipientId;
+      			  WHERE message_id=".$messageId." AND id=".$recipientId." AND status!=".$status;
 		
 		$db->setQuery($query);
 		return $db->execute();
@@ -112,7 +113,7 @@ class hecMailingModelSending extends JModelLegacy
       {
           return false;
       }
-      $query = "SELECT mr.id,mr.userid,IFNULL(u.email,mr.email) as email,IFNULL(u.name,mr.name) as name,status 
+      $query = "SELECT mr.id,mr.userid,IFNULL(u.email,mr.email) as email,IFNULL(u.name,mr.name) as name,status  
       			FROM #__hecmailing_message_recipient mr LEFT JOIN #__users u ON mr.userid=u.id 
       			WHERE message_id=".$idMessage;
       if (!$getsent) $query.=" AND status=0";
@@ -127,6 +128,20 @@ class hecMailingModelSending extends JModelLegacy
       else  
       {  	
       	$message->attachments = $attlist;  
+      }
+      if ($message->recipients)
+      {
+	      foreach($message->recipients as $recipient){
+		      $query = "SELECT 	`message_id`, `recipient_id`,`question_code`,	`token`,	`question_title`,	`answer_list`
+			 		FROM `#__hecmailing_answers` 
+		      		WHERE message_id=".$idMessage." AND recipient_id=".$recipient->id;
+		      $db->setQuery($query);
+		      if (!$answerlist = $db->loadObjectList()) { 	$recipient->answers=null;  }
+		      else
+		      {
+		      	$recipient->answers=  $answerlist;
+		      }
+	      }
       }
       $query = "SELECT tosend.nb as tosendcount, sent.nb as sentcount,readx.nb as readcount, error.nb as errorcount , excluded.nb as excludedcount
       			FROM (SELECT count(*) as nb FROM #__hecmailing_message_recipient WHERE status=0 AND message_id=".$idMessage.") as tosend,
@@ -185,7 +200,7 @@ class hecMailingModelSending extends JModelLegacy
 	   		if ( ! $from || ! JMailHelper::isEmailAddress($from) )
 	   		{
 	   			$error	= JText::sprintf('COM_HECMAILING_EMAIL_INVALID', $fromvalue ."/".$from."/".$sender);
-	   			JError::raiseWarning(0, $error );
+	   			raise (new Exception($error ));
 	   		}
 	   		
 	   		
@@ -264,6 +279,21 @@ class hecMailingModelSending extends JModelLegacy
 		   			$body=str_replace("{idrecipient}",$recip->id,$body );
 		   			$body=str_replace("{email}",$recip->email,$body );
 		   			$body=str_replace("{name}",$recip->name,$body );
+		   			$body=str_replace("{message_id}",$message->id,$body );
+		   			$body=str_replace("{recipient_id}",$recip->id,$body );
+		   			// Replace HashCode for answers
+		   			foreach($recip->answers as $question)
+		   			{
+		   				$i=$question->answer_index;
+		   				$answer_list=explode(";", $question->answer_list);
+		   				foreach($answer_list as $answer_code)
+		   				{
+			   				$hashcode = crypt($answer->token, $answer_code);
+			   				$var="answer_hashcode_".$i;
+			   				$body=str_replace($var,$hashcode,$body );
+			   				$i++;
+		   				}
+		   			}
 		   			
 		   			
 		   		}

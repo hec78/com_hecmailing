@@ -44,7 +44,8 @@ class hecMailingViewSending extends JViewLegacy
       	$message = $model->getMessage($idMessage);
       	$params 	= JComponentHelper::getParams( 'com_hecmailing' );
       	$count=$params->get('send_count','1');
-      	$this->assignRef('count', $count);
+      	#$this->assignRef('count', $count);
+      	$this->count=$count;
       	if (!$message)
       	{
       		$this->_layout = 'nomessage';

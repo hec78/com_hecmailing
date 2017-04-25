@@ -1,9 +1,10 @@
 <?php
 /**
-* @version 3.3.0
-* @package hecMailing for Joomla
-* @copyright Copyright (C) 2005-2013 Hecsoft All rights reserved.
-* @license GNU/GPL
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Hervé CYR
+* @license   GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,7 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
 */
 
 /* No direct access */

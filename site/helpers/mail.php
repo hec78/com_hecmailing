@@ -1,11 +1,25 @@
 <?php
-
 /**
- * @version     1.0.1
- * @package     com_hecmailing
- * @copyright   Copyright (C) 2015. Kantar Worldpanel Tous droits réservés.
- * @license     GNU General Public License version 2 ou version ultérieure ; Voir LICENSE.txt
- * @author      Hervé CYR <herve.cyr@kantarworldpanel.com> - http://www.kantarworldpanel.com/fr
+ * @version   3.4.0
+ * @package   HEC Mailing for Joomla
+ * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+ * @author    Hervé CYR
+ * @license   GNU/GPL
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
  */
 defined('_JEXEC') or die;
 
@@ -210,6 +224,102 @@ class HecMailingMailFrontendHelper {
 					$j++;
 				}
 				return $ok;
+	}
+	
+	/**
+	 * Generate a random string, using a cryptographically secure
+	 * pseudorandom number generator (random_int)
+	 *
+	 * For PHP 7, random_int is a PHP core function
+	 * For PHP 5.x, depends on https://github.com/paragonie/random_compat
+	 *
+	 * @param int $length      How many characters do we want?
+	 * @param string $keyspace A string of all possible characters
+	 *                         to select from
+	 * @return string
+	 */
+	function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+	{
+		$str = '';
+		$max = mb_strlen($keyspace, '8bit') - 1;
+		for ($i = 0; $i < $length; ++$i) {
+			$str .= $keyspace[random_int(0, $max)];
+		}
+		return $str;
+	}
+	
+	public static function extractQuestionsFromHTML($html)
+	{
+		// Exemple de contenu :
+		/* 
+		 
+		Bonjour,
+		
+		
+		
+		La réunion de préparation aura lieu le Jeudi 5 Janv. 2017 :
+		
+		{answer question="ReunionMeetingIndoor2017" code="Oui" }Je participerai{/answer}
+		
+		{answer question="ReunionMeetingIndoor2017" code="Non" }Non je participerai pas{/answer}
+		
+		
+		
+		Le meeting indoor aura lieu le 5 Fev. 2017 :
+		
+		{answer question="MeetingIndoor2017" code="Oui" }Je participerai{/answer} ou {answer question="MeetingIndoor2017" code="Non" }Non je participerai pas{/answer}
+		*/
+		$answer_list=array();
+		$question_list=array();
+		$baselink=JURI::base()."index.php?option=com_hecmailing&task=message.answer";
+		preg_match_all("({answer.+}(.+){\/answer.*})Us",$html, $answers);
+		$answer_index=0;
+		if ($answers != null)
+		{
+			
+			foreach ($answers[0] as $answer )
+			{
+				
+				preg_match('(question.*=.*"(.+)")U',$answer, $question);
+				if ($question!=null) $question=$question[1]; else $question='';
+				preg_match('(code.*=.*"(.+)")U',$answer, $code);
+				if ($code!=null) $code=$code[1]; else $code='';
+				$answerlib=$answers[1][$answer_index];
+				
+				$link = '<a href="'.$baselink.'&message_id={message_id}&recipient_id={recipient_id}&question='.$question.'&answer='.$code.'&hashcode={answer_hashcode_'.$answer_index.'}" target="_blank" >'.$answerlib.'</a>';
+				$html=str_replace($answer,$link,$html);
+				$aobj=new stdClass();
+				$aobj->question_code=$question;
+				$aobj->answer_code=$code;
+				$aobj->answer_title=$answerlib;
+				$aobj->answer_index=$answer_index;
+				$answer_list[]= $aobj;
+				
+				if (!isset($question_list[$question]))
+				{
+					$qobj=new stdClass();
+					$qobj->question_code=$question;
+					$qobj->question_title="";
+					$qobj->answers=array();
+					$qobj->answers[]=$code;
+					$qobj->answer_index=$answer_index; // 1st answer link index 
+					$question_list[$question]= $qobj;
+				}
+				else 
+				{
+					$question_list[$question]->answers[]=$answer;
+				}
+				
+				
+				$answer_index++;
+			}
+		}
+		
+		$obj=new stdClass();
+		$obj->html = $html;
+		$obj->answers = $answer_list;
+		$obj->questions = $question_list;
+		return $obj;
 	}
 }
 ?>

@@ -30,7 +30,8 @@ $options = array(
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_hecmailing&view=message'); ?>" method="post"
 	name="adminForm" id="adminForm">
-<div><button class="return" onClick="Joomla.submitform('messages');return false;">Messages</button><button class="sending">(RE)Envoi</button></div>
+<div><button class="return" onClick="Joomla.submitform('messages');return false;"><?php echo JText::_('COM_HECMAILING_FORM_LBL_MESSAGE_BUTTON_MESSAGES'); ?></button>
+<button class="send" onClick="Joomla.submitform('send');return false;"><?php echo JText::_('COM_HECMAILING_FORM_LBL_MESSAGE_BUTTON_SENDAGAIN'); ?></button></div>
 <?php 
 echo JHtmlTabs::start('tabs_id',$options);
 echo JHtmlTabs::panel(JText::_('COM_HECMAILING_FORM_LBL_MESSAGE_PANEL_MESSAGE'),'panel-id-1');
@@ -153,6 +154,7 @@ endif;
 ?>
 	<div>
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="idmessage" value="<?php echo $this->item->id; ?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php //echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php// echo $listDirn; ?>" />
@@ -173,11 +175,7 @@ endif;
 
 	function jQueryCode() {
 		jQuery('.return').click(function () {window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=messages'); ?>';});
-		jQuery('.sending').click(function () 
-		{
-			//window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=send&idmessage='.$id); ?>';
-			window.location.href = 'index.php?option=com_hecmailing&view=send&idmessage=<?php echo $id; ?>';
-		});
+		jQuery('.send').click(function () {window.location.href = '<?php echo JRoute::_('index.php?option=com_hecmailing&view=send&idmessage='.$this->item->id); ?>';});
 	}
 	jQuery(document).ready(function() {
 	    jQuery('#recipient_table').dataTable( {

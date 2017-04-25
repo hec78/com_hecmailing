@@ -2,14 +2,14 @@
 <extension type="component" version="3.2.0" method="upgrade">
  <name>HEC Mailing</name>
  <!-- The following elements are optional and free of formatting conttraints -->
- <creationDate>Dec. 2015</creationDate>
+ <creationDate>Apr. 2017</creationDate>
  <author>Herve CYR</author>
- <authorEmail>dev@hecsoft.net</authorEmail>
+ <authorEmail>contact@hecsoft.net</authorEmail>
  <authorUrl>http://joomla.hecsoft.net</authorUrl>
- <copyright>(c) Hecsoft 2009-2016</copyright>
+ <copyright>(c) Hecsoft 2009-2017</copyright>
  <license>GNU General Public License</license>
  <!--  The version string is recorded in the components table -->
- <version>3.2.0</version>
+ <version>3.4.0</version>
  <!-- The description is optional and defaults to the name -->
  <description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
  <scriptfile>install.hecmailing.php</scriptfile>
@@ -23,19 +23,18 @@
   <filename>hecmailing.php</filename>
   <filename>release_note.txt</filename>
   <filename>index.html</filename>
-   <filename>router.php</filename>
+  <filename>router.php</filename>
   <folder>assets</folder>
   <folder>controllers</folder>
   <folder>helpers</folder>
-  <folder>joomfish</folder>
   <folder>language</folder>
   <folder>libraries</folder>
   <folder>models</folder>
   <folder>views</folder>
-  <folder>tables</folder>
+  
   
  </files>
-<install>
+ <install>
      <sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 			<file driver="mysql" >sql/install.mysql.utf8.sql</file>

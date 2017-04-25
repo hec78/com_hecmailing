@@ -1,12 +1,26 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
- *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Hervé CYR
+* @license   GNU/GPL
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
+*/
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT.'/controller.php';
 /**
@@ -268,7 +282,8 @@ class HecMailingControllerSend extends HecMailingController
 	function send()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		//JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 		// get the model
 		$model = $this->getModel();
 		// get POST data
@@ -297,26 +312,28 @@ class HecMailingControllerSend extends HecMailingController
 	{
 		//get a reference of the page instance in joomla
 		$document=JFactory::getDocument();
+		$app=JFactory::getApplication();
 		//get the view name from the query string
-		$viewName = JRequest::getVar('view', 'form');
+		$viewName = $app->input->get('view', 'form');
 	
 		$viewType= $document->getType();
 	
 		$viewName	= 'form';
 		$layout		= 'default';
-		JRequest::setVar('view' , $viewName);
-		JRequest::setVar('layout', $layout);
+		$app->input->set('view' , $viewName);
+		$app->input->set('layout', $layout);
 	
 		//get our view
 		$view = $this->getView($viewName, $viewType);
+		try {
+			//get the model
+			$model = $this->getModel();
 	
-		//get the model
-		$model = $this->getModel();
-	
-		//some error check
-		if (!JError::isError($model))
-		{
 			$view->setModel ($model, true);
+		}
+		catch (Exception $err)
+		{
+			$app->enqueueMessage($err->getMessage());
 		}
 		 
 		//set the template and display it
@@ -332,13 +349,14 @@ class HecMailingControllerSend extends HecMailingController
 	 */
 	function cancel()
 	{
+		$app=JFactory::getApplication();
 		// Show alert message
 		echo "<script>alert('".JText::_("COM_HECMAILING_CANCEL_ALERT")."');</script>";
-		$userid = JRequest::getVar( 'id', 0, 'post', 'int' );
+		$userid = $app->input->get( 'id', 0, 'post', 'int' );
 		//$this->display();
 		$msg=JText::_('COM_HECMAILING_CANCEL_MSG');
 	
-		JRequest::setVar( 'Itemid', 0 );
+		$app->input->set( 'Itemid', 0 );
 		$return = JURI::current();
 		$this->setRedirect( $return, $msg );
 	}
@@ -384,6 +402,13 @@ class HecMailingControllerSend extends HecMailingController
 	
 	function getdir()
 	{
+		$app=JFactory::getApplication();
+		if (JFactory::getUser()->guest)
+			$conf=array('cancreatedir'=>false, 'canupload'=>false);
+		else 
+			$conf=array('cancreatedir'=>true, 'canupload'=>true);
+		$message="";
+		$status='ok';
 		if ($this->checkWebServiceOrigine())
 		{
 			if (array_key_exists("dir", $_POST))
@@ -392,7 +417,7 @@ class HecMailingControllerSend extends HecMailingController
 			}
 			else
 			{
-				$dir= JRequest::getVar('dir','');;
+				$dir= $app->input->get('dir','');;
 			}
 			$list=array();
 			$params = JComponentHelper::getParams( 'com_hecmailing' );
@@ -436,16 +461,22 @@ class HecMailingControllerSend extends HecMailingController
 					}
 					closedir($dh);
 				}
+			} else {
+				$list[] = array();
+				$status='error';
+				$message=JText::sprintf("COM_HECMAILING_WEBSERVICE_GETLIST_FOLDERDOESNTEXIST",$dir);
 			}
-			$error="";
+			
 		}
 		else
 		{
 			$list[] = array();
-			$error=JText::_("COM_HECMAILING_WEBSERVICE_NOTALLOWED");
+			$status='error';
+			$message=JText::_("COM_HECMAILING_WEBSERVICE_NOTALLOWED");
 		}
+		
 		sort($list);
-		$data = array('dir'=> $relatdir, 'list' => $list, 'error'=>$error);
+		$data = array('dir'=> $relatdir, 'list' => $list, 'status'=>$status, 'params'=>$conf, 'message'=>$message);
 		// Get the document object.
 		$document =JFactory::getDocument();
 		
@@ -453,7 +484,7 @@ class HecMailingControllerSend extends HecMailingController
 		$document->setMimeEncoding('application/json');
 		
 		// Change the suggested filename.
-		JResponse::setHeader('Content-Disposition','attachment;filename="getdirlist.json"');
+		$app->setHeader('Content-Disposition','attachment;filename="getdirlist.json"');
 		
 		// Output the JSON data.
 		echo json_encode($data);
@@ -470,6 +501,9 @@ class HecMailingControllerSend extends HecMailingController
 	function upload()
 	{
 		$params = JComponentHelper::getParams( 'com_hecmailing' );
+		$conf=array();
+		$message="";
+		$status='ok';
 		$rootdir = realpath(JPATH_ROOT).DS.$params->get('browse_path','images');
 		$list= array();
 		$app=JFactory::getApplication();
@@ -493,19 +527,33 @@ class HecMailingControllerSend extends HecMailingController
 					else 
 						$dest = $rootdir.DIRECTORY_SEPARATOR.$filename;
 					// Upload uploaded file to attchment directory (temp or saved dir)
-					JFile::upload($src, $dest, false,true);
-					$list[$filename]=$filename;
+					if (JFile::upload($src, $dest, false,true))
+					{
+						$list[$filename]=$filename;
+						$message=JText::_("COM_HECMAILING_WEBSERVICE_UPLOADED");
+					}
+					else 
+					{
+						$status='error';
+						$message=JText::_("COM_HECMAILING_WEBSERVICE_UPLOAD_ERROR").":".JFile::get;
+					}
+				} else {
+					$status='error';
+					$message=JText::_("COM_HECMAILING_WEBSERVICE_UPLOAD_EMPTYSOURCE").":".JFile::get;
 				}
+				
 			}
-			$error="";
+			
+			
 		}
 		else
 		{
 			$list[] = array();
-			$error=JText::_("COM_HECMAILING_WEBSERVICE_NOTALLOWED");
+			$status='error';
+			$message=JText::_("COM_HECMAILING_WEBSERVICE_NOTALLOWED");
 		}
 		sort($list);
-		$data = array('dir'=> $dir, 'selected' => $list, 'error'=>$error);
+		$data = array('dir'=> $dir, 'selected' => $list, 'status'=>$status, 'params'=>$conf, 'message'=>$message);
 		// Get the document object.
 		$document =JFactory::getDocument();
 	
@@ -513,7 +561,7 @@ class HecMailingControllerSend extends HecMailingController
 		$document->setMimeEncoding('application/json');
 	
 		// Change the suggested filename.
-		JResponse::setHeader('Content-Disposition','attachment;filename="uploaded.json"');
+		$app->setHeader('Content-Disposition','attachment;filename="uploaded.json"');
 	
 		// Output the JSON data.
 		echo json_encode($data);
@@ -522,13 +570,73 @@ class HecMailingControllerSend extends HecMailingController
 	}
 	
 	
+	function createdir()
+	{
+		$params = JComponentHelper::getParams( 'com_hecmailing' );
+		$conf=array();
+		$message="";
+		$status='ok';
+		$rootdir = realpath(JPATH_ROOT).DS.$params->get('browse_path','images');
+		$list= array();
+		$app=JFactory::getApplication();
+		if ($this->checkWebServiceOrigine())
+		{
+			$dir = $app->input->getString("directory","");
+			$newfolder = $app->input->getString("newfolder","");
+			if ($newfolder!='')
+			{
+				//Set up the source and destination of the file
+				if ($dir!="")
+					$dest = $rootdir.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$newfolder;
+				else
+					$dest = $rootdir.DIRECTORY_SEPARATOR.$newfolder;
+				if (mkdir($dest))
+				{				
+					
+					$message=JText::_("COM_HECMAILING_WEBSERVICE_NEWFOLDER_CREATED");
+				}
+				else 
+				{
+					$status='error';
+					$message=JText::sprintf("COM_HECMAILING_WEBSERVICE_NEWFOLDER_ERROR",$dest);
+				}
+			}
+			else {
+				$status='error';
+				$message=JText::_("COM_HECMAILING_WEBSERVICE_NEWFOLDER_MISSING");
+			}
+		}
+		else
+		{
+			$newfolder="";
+			$status='error';
+			$message=JText::_("COM_HECMAILING_WEBSERVICE_NOTALLOWED");
+		}
+		
+		$data = array('dir'=> $dir, 'selected' => $newfolder, 'status'=>$status, 'params'=>$conf, 'message'=>$message);
+		// Get the document object.
+		$document =JFactory::getDocument();
+		
+		// Set the MIME type for JSON output.
+		$document->setMimeEncoding('application/json');
+		
+		// Change the suggested filename.
+		$app->setHeader('Content-Disposition','attachment;filename="createdfolder.json"');
+		
+		// Output the JSON data.
+		echo json_encode($data);
+		
+		exit;
+		
+	}
 	
 	function getGroupContent()
 	{
+		$app=JFactory::getApplication();
 		if (checkWebServiceOrigine())
 		{
-			$currentGroup = JRequest::getVar('groupid', 0, 'get', 'int');
-			$groupType = JRequest::getVar('grouptype', 0, 'get', 'int');
+			$currentGroup = $app->input->get('groupid', 0, 'get', 'int');
+			$groupType = $app->input->get('grouptype', 0, 'get', 'int');
 			$db =JFactory::getDBO();
 			switch($groupType)
 			{

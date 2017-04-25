@@ -1,12 +1,27 @@
 <?php
-
 /**
- * @version     1.0.0
- * @package     com_kwpressource
- * @copyright   Copyright (C) 2015. Kantar Worldpanel Tous droits réservés.
- * @license     GNU General Public License version 2 ou version ultérieure ; Voir LICENSE.txt
- * @author      Hervé CYR <herve.cyr@kantarworldpanel.com> - http://www.kantarworldpanel.com/fr
- */
+* @version 3.4.0
+* @package hecMailing for Joomla
+* @subpackage : Helper
+* @module helpers.groups.php
+* @copyright Copyright (C) 2008-2011 Hecsoft All rights reserved.
+* @license GNU/GPL
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+ 
 defined('_JEXEC') or die;
 /**
  *  Can send mail to this group 
@@ -20,11 +35,19 @@ define ("HECMAILING_GROUP_RIGHT_CANMANAGE",2);
  *  Can add or remove permission to this group
  */
 define ("HECMAILING_GROUP_RIGHT_CANGRANT",3);
+/*
+* Group Helper
+*/
 class HecMailingGroupsHelper {
     
 	public static $lastError="";
 	
-
+	/**
+	 * @method getRightFromFlagObject : Return object corresponding 
+	 *                              to the authorisation binary flag
+	 * @param int $flag : Binary Flag (1=Can Send, 2=Can Manage, 3=Can Grant)
+	 * @return object { cansend, canmanage, cangrant }
+	 */
 	public static function getRightFromFlagObject($flag, $object=null)
 	{
 		if ($object==null) $object=new stdClass();
@@ -33,20 +56,25 @@ class HecMailingGroupsHelper {
 		$object->cangrant = ($object->flag & 4)!=0;
 		return $object;
 	}
-
+	/**
+	 * @method getRightFromFlagAssoc : Return assoc array corresponding 
+	 *                              to the authorisation binary flag
+	 * @param int $flag : Binary Flag (1=Can Send, 2=Can Manage, 3=Can Grant)
+	 * @return array { 'cansend' =>, 'canmanage'=>, 'cangrant'=> }
+	 */
 	public static function getRightFromFlagAssoc($flag)
 	{
 		return array(	'cansend' => ($row->flag & 1)!=0, 
 						'canmanage' => ($row->flag & 2)!=0,
 						'cangrant' => ($row->flag & 4)!=0);
 	}
-/**
- * @method getGroupeQuery : Return query for a group
- * @param int $groupe : HECMailing Group Id
- * @param string $blockcond1 : First Block condition
- * @param string $blockcond2 : 2nd Block condition
- * @return string
- */
+	/**
+	 * @method getGroupeQuery : Return query for a group
+	 * @param int $groupe : HECMailing Group Id
+	 * @param string $blockcond1 : First Block condition
+	 * @param string $blockcond2 : 2nd Block condition
+	 * @return string
+	 */
   public static function getGroups($published=true, $all=false, $flags=array(HECMAILING_GROUP_RIGHT_CANSEND))
    {
       $db=JFactory::getDBO();
@@ -96,7 +124,7 @@ class HecMailingGroupsHelper {
     * @access	public
     * @param	int Groupe identifier
     * @return true is current user is in the group and false else
-    	*/
+    */
     public static function isInJoomlaGroupe($group)
     {
     	$db=JFactory::getDBO();
@@ -118,7 +146,13 @@ class HecMailingGroupsHelper {
     	if (!$rows = $db->loadRow()) {	return false; 	}
        	return true;
     }
-   
+	  /**
+    * Method to know if current logged user is admin
+    *
+    * @access	public static
+    * @param	string List of admin group name (group1,group2)
+    * @return true is current user is in admin group and false else
+    */
     public static function isAdminUserType($admintype)
     {
     	if(version_compare(JVERSION,'1.6.0','<')){

@@ -1,11 +1,26 @@
 <?php
 /**
- * @version     1.0.0
- * @package     com_kwpmessage
- * @copyright   Copyright (C) 2014. Tous droits réservés.
- * @license     GNU General Public License version 2 ou version ultérieure ; Voir LICENSE.txt
- * @author      Hervé CYR <herve.cyr@kantarworldpanel.com> - 
- */
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Hervé CYR
+* @license   GNU/GPL
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
+*/
 
 defined('JPATH_BASE') or die;
 
@@ -30,6 +45,22 @@ class JFormFieldAttachments extends JFormField
 	 * @since  11.1
 	 */
 	protected static $initialised = false;
+	
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->app=JFactory::getApplication();
+		
+		$this->option=$this->app->input->get('option', '');
+		$this->component_path = Juri::base(true)."/components/".$this->option;
+		$this->fieldpath=$this->component_path."/models/fields/attachments";
+		
+		// Componets parameters
+		$this->params = JComponentHelper::getParams( $this->option );
+	}
+	
+	
 	/**
 	 * Method to get the field input markup.
 	 *
@@ -39,17 +70,34 @@ class JFormFieldAttachments extends JFormField
 	protected function getInput()
 	{
 		$doc = JFactory::getDocument();
+		
+		
 		$lib_add_attachment = JText::_($this->getAttribute("label_attachment"),"JFORMFIELD_ATTACHMENTS_ADD_ATTACHMENT");
 		$lib_browse = JText::_($this->getAttribute("label_browse"), "JFORMFIELD_ATTACHMENTS_ADD_ATTACHMENT");
 		$class=$this->getAttribute("class","jformfield_attachment");
 		$height=$this->getAttribute("browse_height","600");
 		$width=$this->getAttribute("browse_width","600");
-		$cancelimg=Juri::base(true)."/components/com_hecmailing/assets/images/cancel16.png";
-		$folderimg=Juri::base(true)."/components/com_hecmailing/assets/images/folder16.png";
-		$fileimg=Juri::base(true)."/components/com_hecmailing/assets/images/file16.png";
-		$loaderimg=Juri::base(true)."/components/com_hecmailing/assets/images/ajax-loader.gif";
-		$uploadurl=Juri::base(true)."/index.php?option=com_hecmailing&task=send.upload";
-		$browseurl=JUri::base(true)."/index.php?task=send.getdir&option=com_hecmailing";
+		$can_create_folder=$this->getAttribute("can_create_folder","param:can_create_folder:1");
+		
+		// Images
+		$cancelimg=$this->fieldpath."/images/cancel16.png";
+		$folderimg=$this->fieldpath."/images/folder16.png";
+		$fileimg=$this->fieldpath."/images/file16.png";
+		$loaderimg=$this->fieldpath."/images/ajax-loader.gif";
+		$messageboxquestionimg=$this->fieldpath."/images/messagebox_question.png";
+		$messageboxwarningimg=$this->fieldpath."/images/messagebox_warning.png";
+		
+		
+		// Ajax
+		$webservicecontroller=(string)$this->getAttribute("controller","webservice");
+		$basewebserviceurl = Juri::base(true)."/index.php?option=".$this->option."&task=".$webservicecontroller;
+		$uploadurl=$basewebserviceurl.".upload";
+		$browseurl=$basewebserviceurl.".getdir";
+		$createdirurl=$basewebserviceurl.".createdir";
+		
+		
+		
+		
 		if (!self::$initialised)
 		{
 			// Load the modal behavior script.
@@ -57,8 +105,11 @@ class JFormFieldAttachments extends JFormField
 			// Build the script : Based on JFormFieldMedia object of Joomla Core.
 			$script = array();
 			$script[]="";
+			$script[]="function jformfieldattachments_defaultAttr(arg, def) {";
+			$script[]="    return (typeof arg == 'undefined' ? def : arg);";
+			$script[]="}";
 			$script[]="function jformfieldattachments_showBrowse(id) {";
-			$script[]="    jQuery( \"#\"+id+\"_browseDlg\" ).dialog({resizable: false, height:".$height.",width : ".$width.",modal: true, draggable: true});";
+			$script[]="    jQuery( \"#\"+id+\"_browseDlg\" ).dialog({resizable: true, height:".$height.",width : ".$width.",modal: true, draggable: true});";
 			$script[]="    jformfieldattachments_fillList(id);";
 			$script[]="    return false; }";
 			$script[]="function jformfieldattachments_showUpload(id) {";
@@ -75,6 +126,66 @@ class JFormFieldAttachments extends JFormField
 			$script[]="    return false; }";
 			$script[]="function jformfieldattachments_cancelRemoveAttachment(id) {";
 			$script[]="    jQuery( \"#\"+id+\"_confirmeRemoveAttachment\" ).dialog('close');";
+			$script[]="}";
+			$script[]="function jformfieldattachments_showCreateFolder(id) {";
+			$script[]="    jQuery( \"#\"+id+\"_createFolderDlg\" ).dialog({resizable: false, height:120,width : 400,modal: true, draggable: true});";
+			$script[]="    return false;";
+			$script[]="}";
+			$script[]="function jformfieldattachments_errorBox(id,text) {";
+			$script[]="    jQuery('#'+id+'_ErrorMessage .content').html(text);";
+			$script[]="    jQuery('#'+id+'_ErrorMessage').dialog({resizable: false, height:150,width : 300,modal: true, draggable: true});";
+			$script[]="}";
+			$script[]="function jformfieldattachments_displayMessage(id,message, status) {";
+			$script[]="    jQuery('#'+id+'_message span.message_text').html(message);";
+			$script[]="    jQuery('#'+id+'_message span.message_text').removeClass('error warning ok');";
+			$script[]="    jQuery('#'+id+'_message span.message_text').addClass(status);";
+			$script[]="    jQuery('#'+id+'_message span.message_icon').removeClass('icon-info icon-warning-2');";
+			$script[]="    if(message!='') {";
+			$script[]="        jQuery('#'+id+'_message').show();";
+			$script[]="    } else {";
+			$script[]="        jQuery('#'+id+'_message').hide();";
+			$script[]="    }";
+			$script[]="    if (status=='error') {";
+			$script[]="        jQuery('#'+id+'_message span.message_icon').addClass('icon-warning-2');";
+			
+			$script[]="    } else {";
+			$script[]="        jQuery('#'+id+'_message span.message_icon').addClass('icon-info');";
+			$script[]="    }";
+			$script[]="    if(status!='ok') {";
+			$script[]="        jformfieldattachments_errorBox(id,message);";
+			$script[]="    }";
+			$script[]="}";
+			$script[]="function jformfieldattachments_confirmCreateFolder(id) {";
+			$script[]="    var newfolderobj=jQuery('#'+id+'_createFolderText');";
+			$script[]="    var newfolder=newfolderobj.val();";
+			$script[]="    jQuery( \"#\"+id+\"_createFolderDlg\" ).dialog('close');";
+			$script[]="    var lurl ='".$createdirurl."';";
+			$script[]="    var dir=document.getElementById(id+'_browseCurrentDir').innerHTML;";
+			$script[]="    formData= { directory : dir, newfolder: newfolder};";
+			$script[]="    try {";
+			$script[]="        jQuery.ajax({";
+			$script[]="        type: 'POST',";
+			$script[]="        url: lurl,";
+			$script[]="        data: formData,";
+			$script[]="        dataType: 'json',";
+			$script[]="        success: function (data, textStatus, jqXHR){";
+			$script[]="            selected=data.selected;";
+			$script[]="            var newdir=dir;";
+			$script[]="            if (selected!='') { newdir+='/'+selected; }";
+			$script[]="            jformfieldattachments_fillList(id,newdir, {},data.message,data.status );";
+			//$script[]="            jformfieldattachments_displayMessage(id,data.message,data.status);";
+			$script[]="        },";
+			$script[]="        error: function (msg,status) {";
+			//$script[]="            jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status);";
+			$script[]="            jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status,'error');";
+			$script[]="	       }});";
+			$script[]="    } catch(ex) {";
+			//$script[]="        jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex);";
+			$script[]="        jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex,'error');";
+			$script[]="    }";
+			$script[]="    return false; }";
+			$script[]="function jformfieldattachments_cancelCreateFolder(id) {";
+			$script[]="    jQuery( \"#\"+id+\"_createFolderDlg\" ).dialog('close');";
 			$script[]="}";
 			$script[]="function jformfieldattachments_hideBrowse(id) {jQuery( \"#\"+id+\"_browseDlg\" ).dialog('close'); return false;}";
 			$script[]="// Add attachment row (file input)";
@@ -174,15 +285,22 @@ class JFormFieldAttachments extends JFormField
 			$script[]="    jformfieldattachments_selectFile();";
 			$script[]="}";
 			$script[]="var jformfieldattachments_curdir='';";
-			$script[]="function jformfieldattachments_errorBox(id,text) {";
-			$script[]="    jQuery('#'+id+'__ErrorMessage .content').html(text);";
-			$script[]="    jQuery('#'+id+'__ErrorMessage').dialog({resizable: false, height:150,width : 300,modal: true, draggable: true});";
+			
+			$script[]="function jformfieldattachments_showHide(id,show) {";
+			$script[]="    if(show) {";
+			$script[]="        jQuery(id).show();";
+			$script[]="    } else {";
+			$script[]="        jQuery(id).hide();";
+			$script[]="    };";
 			$script[]="}";
-			$script[]="function jformfieldattachments_fillList(id,dirname, selected) {";
+				
+			$script[]="function jformfieldattachments_fillList(id,dirname, selected, originalmessage, originalstatus) {";
 			$script[]="    if(selected==undefined) selected={};";
 			$script[]="    var dlg = document.getElementById(id+'_browseDlg');";
 			$script[]="    var lst = document.getElementById(id+'_browseListe');";
 			$script[]="    var btn = document.getElementById(id+'_browseButtons');";
+			$script[]="    var originalmessage=jformfieldattachments_defaultAttr(originalmessage, '');";
+			$script[]="    var originalstatus=jformfieldattachments_defaultAttr(originalstatus, false);";
 			$script[]="    jformfieldattachments_resetList(lst);";
 			$script[]="    lst.style.width='100%';";
 			$script[]="    lst.style.height=dlg.clientHeight - 50;";
@@ -207,19 +325,29 @@ class JFormFieldAttachments extends JFormField
 			$script[]="            jformfieldattachments_resetList(lst);";
 			$script[]="            jformfieldattachments_curdir = data.dir;";
 			$script[]="            items= data.list;";
-			$script[]="            if(data.error=='') {";
+			$script[]="            if(data.status=='ok') {";
 			$script[]="                jQuery.each( items, function( i, item ) {";
 			$script[]="                    jformfieldattachments_addElement(id,lst,item.path, item.type == 'dir', (item.path in selected),item.size,item.mtime);";
 			$script[]="                });";
+			$script[]="                if (originalmessage!='') {";
+			$script[]="                    jformfieldattachments_displayMessage(id,originalmessage,originalstatus);";
+			$script[]="                } else {";
+			$script[]="                    jformfieldattachments_displayMessage(id,data.message,'ok');";
+			$script[]="                }";
 			$script[]="            } else {";
-			$script[]="                jformfieldattachments_errorBox(id,data.error);";
+			$script[]="                jformfieldattachments_displayMessage(id,data.message,'error');";
 			$script[]="            }";
+			$script[]="            jformfieldattachments_showHide('#'+id+'_createFolderButton',data.params.cancreatedir);";
+			$script[]="            jformfieldattachments_showHide('#'+id+'_uploadFieldset',data.params.canupload);";
+			
 			$script[]="        },";
 			$script[]="        error: function (msg,status) {";
-    		$script[]="            jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status);";
+    		//$script[]="            jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status);";
+    		$script[]="            jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status,'error');";
 	    	$script[]="	       }});";
 			$script[]="    } catch(ex) {";
-			$script[]="        jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex);";
+			//$script[]="        jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex);";
+			$script[]="        jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex,'error');";
 			$script[]="    }";
 			$script[]="    if (dirname=='')	{";
 			$script[]="        document.getElementById(id+'_browseCurrentDir').innerHTML=dirname;";
@@ -265,12 +393,15 @@ class JFormFieldAttachments extends JFormField
 			$script[]="            jquploadinput.replaceWith(jquploadinput.clone())";
 			$script[]="    		   lst.removeChild(img);";
 			$script[]="            jformfieldattachments_fillList(id,jformfieldattachments_curdir, selected);";
+			$script[]="            jformfieldattachments_displayMessage(id,data.message,data.status);";
 			$script[]="        },";
 			$script[]="        error: function (msg,status) {";
-			$script[]="            jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status);";
+			//$script[]="            jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status);";
+			$script[]="            jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+status,'error');";
 			$script[]="	       }});";
 			$script[]="    } catch(ex) {";
-			$script[]="        jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex);";
+			//$script[]="        jformfieldattachments_errorBox(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex);";
+			$script[]="        jformfieldattachments_displayMessage(id,'".JText::_('JFORMFIELD_ATTACHMENTS_WEBSERVICE_ERROR')." :'+ex,'error');";
 			$script[]="    }";
 			$script[]="}";
 			
@@ -283,12 +414,18 @@ class JFormFieldAttachments extends JFormField
 			$css[]=".jformfieldattachments_browseliste a{	display:block;	cursor:default;	color:#000;	text-decoration:none;	background:#fff; vertical-align:center; width:100%}";
 			$css[]=".jformfieldattachments_browseliste a:hover{ color:white; background-color:blue;}";
 			$css[]=".jformfieldattachments_browsedlg .buttons {	margin-bottom:0px;	height:30px;}";
+			$css[]=".jformfieldattachments_browsedlg .buttons .right {	float:right;}";
 			$css[]=".jformfieldattachments_directory {	padding-left:16px;height:20px;}";
 			$css[]=".jformfieldattachments_file { height:20px; }";
 			$css[]=".jformfieldattachments_browsepath { width:100%;height:20px;background-color:white;border:1px solid #4FBAB3;padding-left:10px;margin-bottom:1px;}";
 			$css[]=".jformfieldattachments_browseliste a .col-size,.jformfieldattachments_browseliste a .col-time { float:right; font-size:80%;}";
 			$css[]=".jformfieldattachments_browseliste a .col-time { width:120px;   }";
 			$css[]=".jformfieldattachments_browseliste a .col-size { width:70px;  }";
+			$css[]=".jformfieldattachments_createFolderDlg input { width:90%;  }";
+			$css[]=".jformfieldattachments_message { display:none; }";
+			$css[]=".jformfieldattachments_message .ok { color:blue; }";
+			$css[]=".jformfieldattachments_message .error { color:red; }";
+			$css[]=".jformfieldattachments_message .warning { color:orange; }";
 			$doc->addStyleDeclaration(implode("", $css));	
 			
 			self::$initialised = true;
@@ -298,18 +435,19 @@ class JFormFieldAttachments extends JFormField
 		
 		$html = array();
 		$html[]="<div id=\"".$this->id."_confirmeRemoveAttachment\" style=\"display:none\" title=\"".JText::_('JFORMFIELD_ATTACHMENTS_REMOVE_ATTACHMENT_TITLE')."\">";
-		$html[]="  <div style=\"float:left\"><img src=\"components/com_hecmailing/assets/images/messagebox_question.png\" /></div><div id=\"".$this->id."_content\" style=\"margin-left:70px;\">";
+		$html[]="  <div><div style=\"float:left\"><img src=\"".$messageboxquestionimg."\" /></div><div id=\"".$this->id."_content\" style=\"margin-left:70px;\">";
 		$html[]="    ".JText::_('JFORMFIELD_ATTACHMENTS_REMOVE_ATTACMENT_DESC');
-		$html[]="  </div><input type=\"hidden\" id=\"".$this->id."_confirmeRemoveAttachment_id\" value=\"\">";
+		$html[]="  </div><input type=\"hidden\" id=\"".$this->id."_confirmeRemoveAttachment_id\" value=\"\"></div>";
 		$html[]="  <div id=\"".$this->id."_browseButtons\" class=\"buttons center\" style=\"margin-top:30px;\">";
 		$html[]="    <button onclick=\"javascript:jformfieldattachments_confirmRemoveAttachment('".$this->id."');return false;\"><span class=\"icon-ok\"></span>".JText::_('JFORMFIELD_ATTACHMENTS_REMOVE')."</button>";
 		$html[]="    <span class=\"icon-close\"></span><button onclick=\"javascript:jformfieldattachments_cancelRemoveAttachment('".$this->id."');return false;\"><img src=\"".JUri::base(true)."/components/com_hecmailing/assets/images/cancel16.png\" >".JText::_('JFORMFIELD_ATTACHMENTS_CANCEL')."</button>";
 		$html[]="  </div>";
 		$html[]="</div>";
 		$html[]="<div id=\"".$this->id."_ErrorMessage\" style=\"display:none\" title=\"".JText::_('JFORMFIELD_ATTACHMENTS_ERROR_TITLE')."\">";
-		$html[]="  <div id=\"".$this->id."_ErrorMessageContent\" class=\"content\" ></div>";
+		$html[]="  <div style=\"min-height:70px\"><div style=\"float:left\"><img src=\"".$messageboxwarningimg."\" /></div>";
+		$html[]="  <div id=\"".$this->id."_ErrorMessageContent\" class=\"content\"  style=\"margin-left:70px;\" ></div></div>";
 		$html[]="  <div id=\"".$this->id."_browseButtons\" class=\"buttons align-center\">";
-		$html[]="    <button onclick=\"javascript:jQuery('#".$this->id."_ErrorMessage').dialog.close();return false;\"><span class=\"icon-close\"></span>".JText::_('JFORMFIELD_ATTACHMENTS_OK')."</button>";
+		$html[]="    <button onclick=\"javascript:jQuery('#".$this->id."_ErrorMessage').dialog('close');return false;\"><span class=\"icon-close\"></span>".JText::_('JFORMFIELD_ATTACHMENTS_OK')."</button>";
 		$html[]="  </div>";
 		$html[]="</div>";
 		$html[]="<div id=\"".$this->id."_browseDlg\" style=\"display:none\" title=\"".JText::_('JFORMFIELD_ATTACHMENTS_BROWSE_FILES_TITLE')."\" class=\"jformfieldattachments_browsedlg\" >";
@@ -318,11 +456,23 @@ class JFormFieldAttachments extends JFormField
    		$html[]="    <div id=\"".$this->id."_browseCurrentDir\" style=\"display:none\">..</div>";
  		$html[]="    <div id=\"".$this->id."_browseListe\" class=\"jformfieldattachments_browseliste\" >.<br>..</div>";
   		$html[]="  </div>";
-  		$html[]="  <div id=\"".$this->id."_browseButtons\" class=\"buttons\">";
+  		$html[]="<div id=\"".$this->id."_createFolderDlg\" style=\"display:none\" title=\"".JText::_('JFORMFIELD_ATTACHMENTS_CREATE_FOLDER_TITLE')."\" class=\"jformfieldattachments_createFolderDlg\" >";
+  		$html[]="  <div style=\"float:left\"><img src=\"".$messageboxquestionimg."\" /></div>";
+  		$html[]="  <div class=\"content\"  style=\"margin-left:70px;\" >";
+  		$html[]="    <input type=\"text\" id=\"".$this->id."_createFolderText\" value=\"\" >";
+  		$html[]="  </div>";
+  		$html[]="  <div id=\"".$this->id."_browseButtons\" class=\"buttons align-center\">";
+  		$html[]="    <button onclick=\"javascript:jformfieldattachments_confirmCreateFolder('".$this->id."');return false;\"><span class=\"icon-ok\"></span>".JText::_('JFORMFIELD_ATTACHMENTS_CREATEFOLDER')."</button>";
+		$html[]="    <span class=\"icon-close\"></span><button onclick=\"javascript:jformfieldattachments_cancelCreateFolder('".$this->id."');return false;\"><img src=\"".JUri::base(true)."/components/com_hecmailing/assets/images/cancel16.png\" >".JText::_('JFORMFIELD_ATTACHMENTS_CANCEL')."</button>";
+  		$html[]="  </div>";
+  		$html[]="</div>";
+  		$html[]="  <div id=\"".$this->id."_message\" class=\"jformfieldattachments_message\"><span class=\"message_icon\"></span><span class=\"message_text\"></span></div>";
+  		$html[]="  <div  class=\"buttons\">";
     	$html[]="    <button onclick=\"javascript:jformfieldattachments_selectFile('".$this->id."');return false;\"><img src=\"".JUri::base(true)."/components/com_hecmailing/assets/images/ok16.png\" >".JText::_('JFORMFIELD_ATTACHMENTS_SELECT')."</button>";
-    	$html[]="    <span class=\"icon-close\"></span><button onclick=\"javascript:jformfieldattachments_hideBrowse('".$this->id."');return false;\"><img src=\"".JUri::base(true)."/components/com_hecmailing/assets/images/cancel16.png\" >".JText::_('JFORMFIELD_ATTACHMENTS_CANCEL')."</button>";
+    	$html[]="    <button onclick=\"javascript:jformfieldattachments_hideBrowse('".$this->id."');return false;\"><img src=\"".JUri::base(true)."/components/com_hecmailing/assets/images/cancel16.png\" >".JText::_('JFORMFIELD_ATTACHMENTS_CANCEL')."</button>";
+    	$html[]="    <button id=\"".$this->id."_createFolderButton\" class=\"right\" onclick=\"javascript:jformfieldattachments_showCreateFolder('".$this->id."');return false;\"><span class=\"icon-new\"></span> ".JText::_('JFORMFIELD_ATTACHMENTS_CREATEFOLDER')."</button>";
     	$html[]="  <br/></div>";
-    	$html[]="  <fieldset><legend>".JText::_('JFORMFIELD_ATTACHMENTS_UPLOAD_LEGEND')."</legend>";
+    	$html[]="  <fieldset id=\"".$this->id."_uploadFieldset\"><legend>".JText::_('JFORMFIELD_ATTACHMENTS_UPLOAD_LEGEND')."</legend>";
     	$html[]="    <form id=\"".$this->id."_fileform\" action=\"".$uploadurl."\" method=\"POST\" ENCTYPE=\"multipart/form-data\">";
     	$html[]="      <input type=\"hidden\"  id=\"".$this->id."_directory\" name=\"".$this->id."_directory\" value=\"\" >";
     	$html[]="      <input type=\"file\" id=\"".$this->id."_uploadfileselect\" name=\"".$this->id."_uploadfileselect[]\" multiple/>";
@@ -361,6 +511,18 @@ class JFormFieldAttachments extends JFormField
 		return implode("\n",$html);
 	}
 	
+	private function startsWith($haystack, $needle) {
+		// search backwards starting from haystack length characters from the end
+		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+	}
+	
+	private function endsWith($haystack, $needle) {
+		// search forward starting from end minus needle length characters
+		return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+	}
+	
+	
+	
 	/**
 	 * Wrapper method for getting attributes from the form element
 	 *
@@ -371,13 +533,24 @@ class JFormFieldAttachments extends JFormField
 	 */
 	public function getAttribute($attr_name, $default = null)
 	{
+			
 		if (!empty($this->element[$attr_name]))
 		{
-			return $this->element[$attr_name];
+			$value= $this->element[$attr_name];
 		}
 		else
 		{
-			return $default;
+			$value= $default;
 		}
+		
+		if ($this->startsWith($value, "param:"))
+		{
+			$tmp = explode(":", $value);
+			$paramname=$tmp[1];
+			if (count($tmp)==3)
+				$default=$tmp[2];
+			$value=$this->params->get($paramname, $default);
+		}
+		return $value;
 	}
 }
