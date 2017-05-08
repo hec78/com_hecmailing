@@ -9,7 +9,7 @@
 	<copyright>(c) Hecsoft 2009-2017</copyright>
 	<license>GNU General Public License</license>
 	<!--  The version string is recorded in the components table -->
-	<version>3.4.3</version>
+	<version>3.4.4</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
 	<scriptfile>install.hecmailing.php</scriptfile>
@@ -36,7 +36,11 @@
 			<file driver="mysql" >sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
-
+	<update> 
+		<schemas> 
+			<schemapath type="mysql">sql/updates/mysql</schemapath> 
+		</schemas> 
+</update>
 	<administration>
 		<!-- Administration Menu Section -->
 		<menu task="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>

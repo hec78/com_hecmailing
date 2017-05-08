@@ -6,14 +6,14 @@
                label="COM_HECMAILING_SENDER" class="required" default="$default_sender"
           />
 		<field name="groupe" type="hecmailinggroups" hint="COM_HECMAILING_GROUP_DESC" description="COM_HECMAILING_GROUP_DESC"
-               label="COM_HECMAILING_GROUP" class="inputbox" onchange="showManageButton(this)" none_value="COM_HECMAILING_GROUP_SELECT" width="100%"
+               label="COM_HECMAILING_GROUP" class="inputbox required" onchange="showManageButton(this)" none_value="COM_HECMAILING_GROUP_SELECT" width="100%"
           />
         <field name="image_incorporee" type="radio" hint="COM_HECMAILING_CONTENT_IMAGE_DESC"
-               label="COM_HECMAILING_CONTENT_IMAGE_LABEL" default="1" >
+               label="COM_HECMAILING_CONTENT_IMAGE_LABEL" default="1" class="required" >
                <option value="0">COM_HECMAILING_CONTENT_IMAGE_EXTERNAL_LINK</option>
                <option value="1">COM_HECMAILING_CONTENT_IMAGE_EMBEDDED</option>
         </field>
-		<field name="message_read_notification" type="list" label="" description="" >
+		<field name="message_read_notification" type="list" label="COM_HECMAILING_USE_READTAG" description="COM_HECMAILING_USE_READTAG_DESC" class="required">
 			<option value="0">COM_HECMAILING_READTAG_POSITION_NONE</option>
 			<option value="1">COM_HECMAILING_READTAG_POSITION_TOP</option>
 			<option value="2">COM_HECMAILING_READTAG_POSITION_BOTTOM</option>
@@ -24,11 +24,11 @@
           />
           <field name="attachment" type="attachments" hint="COM_HECMAILING_ATTACHMENT_DESC" description="COM_HECMAILING_ATTACHMENT_DESC"
                label="COM_HECMAILING_ATTACHMENT" label_attachment="COM_HECMAILING_ADD_ATTACHMENT" label_browse="COM_HECMAILING_BROWSE_SERVER"
-               can_create_folder="0" controller="send" width="800"
+               can_create_folder="0" controller="send" width="800" 
           />
           
           <field name="message_body" type="editor" hint="COM_HECMAILING_BODY_DESC" description="COM_HECMAILING_BODY_DESC"
-               label="COM_HECMAILING_BODY"
+               label="COM_HECMAILING_BODY" class="required"
           />
     </fieldset>
     </fields>

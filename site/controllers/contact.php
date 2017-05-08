@@ -81,13 +81,18 @@ class HecMailingControllerContact extends HecMailingController
 		JPluginHelper::importPlugin('captcha');
 		
 		$res = $dispatcher->trigger('onCheckAnswer',$post->get('g-recaptcha_response',''));
-		if(!$res[0]){
-			$app->enqueueMessage(JText::_('COM_HECMAILING_CONTACT_CAPTCHA_ERR') ,'error');
-			$this->view->setModel($contactmodel,true);
-			$this->view->display();
-			return false ;
+		if (isset($res))
+		{
+			if(count($res)>0)
+			{
+				if(!$res[0]){
+					$app->enqueueMessage(JText::_('COM_HECMAILING_CONTACT_CAPTCHA_ERR') ,'error');
+					$this->view->setModel($contactmodel,true);
+					$this->view->display();
+					return false ;
+				}
+			}
 		}
-		
 		
 		
 		// get DB connection
@@ -132,11 +137,7 @@ class HecMailingControllerContact extends HecMailingController
 		/* Free up memory */
 	  	unset ($headers, $fields);
 	  		
-	    # the response from reCAPTCHA
-		$resp = null;
-		# the error code from reCAPTCHA, if any
-		$error = null;
-		$error	= false;
+	   
 				
   		// set mail fields from POST form
   		$from = $formData->getString('email','');
@@ -184,7 +185,7 @@ class HecMailingControllerContact extends HecMailingController
 			$subject = JMailHelper::cleanSubject($subject);
 			$body	 = JMailHelper::cleanBody($body);
 			$name	 = JMailHelper::cleanAddress($name);
-	    if ($groupe>0)     // Can't send to all users ($groupe>=0 changed with $groupe>0)
+	    	if ($groupe>0)     // Can't send to all users ($groupe>=0 changed with $groupe>0)
 	    	{
 	
 	        	$detail = $model->getMailAdrFromGroupe($groupe,false);
@@ -264,6 +265,9 @@ class HecMailingControllerContact extends HecMailingController
 	      }
 	      else
 	      {
+	      	$msg=JText::_("COM_HECMAILING_CONTACT_SENT");
+	      	$this->setRedirect(JRoute::_('index.php'),$msg,'success');
+	      	$this->redirect();
 	      	return true;
 	      }
 						

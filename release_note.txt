@@ -1,7 +1,7 @@
 ***************************************************************
-*    HEC Mailing version 3.4.2 (J3.x!) release notes          *
+*    HEC Mailing version 3.4.4 (J3.x!) release notes          *
 *-------------------------------------------------------------*
-* by H.Cyr 05 may 2017                                        *
+* by H.Cyr 08 may 2017                                        *
 * @package hecMailing for Joomla                              *
 * @copyright Copyright (C) 2017 Hecsoft All rights reserved.  *
 * @license GNU/GPL                                            *
@@ -9,8 +9,11 @@
 
 CHANGE LOG
  Version  Date          Changes
-  3.4.3   08 may  2017  Fix #14 : Table answer is missing 
-                        Fix #13 : English Translation missing for attachment bug
+  3.4.4   08 may  2017  Fix #20 : Contact doen't work when no Captcha plugin bug
+						Fix #19 : No message when contact sent bug
+						Fix #18 : Contact doesn't work with reCaptcha v1 bug
+						Fix #14 : Table answers not created when update from previous version bug
+  3.4.3   08 may  2017  Fix #13 : English Translation missing for attachment bug
                         Fix #12 : Add Attachment : Javascript issue bug 
 						Enhancement #11 : Remove deprecated view enhancement
 						Fix #10 : Email sent button doesn't work bug

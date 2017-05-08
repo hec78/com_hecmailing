@@ -8,4 +8,11 @@
 			<![CDATA[COM_HECMAILING_CONTACT_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="basic" label="COM_HECMAILING_PARAMTAB_CONTACT_LABEL" description="COM_HECMAILING_PARAMTAB_CONTACT_DESC">
+
+			<field name="contact_title" type="text" label="COM_HECMAILING_CONTACT_TITLE_LABEL" description="COM_HECMAILING_CONTACT_TITLE_DESC"  />
+		</fieldset>
+	</fields>
 </metadata>

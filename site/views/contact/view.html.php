@@ -38,31 +38,32 @@ class hecMailingViewContact extends JViewLegacy
 		//$this->form = $this->get('Form');
 		$data = $app->input->get('jform', '', 'array');
 		$this->form = $model->getForm($data);
-		$captcha_show_logged = $pparams->get('captcha_show_logged','1');
-		
-		if ($captcha_show_logged =='1') 
-			$captcha_show_logged=true;
-		else 
-			$captcha_show_logged=false;
-		$title = $pparams->get('contact_title',JText::_('CONTACT'));
+		$captcha_show_logged = ($pparams->get('captcha_show_logged','1')=='1');
+		$use_captcha = ($pparams->get('captcha_use','1')=='1');
+		$redirect = $pparams->get('contact_redirect','');
+		$title = JText::_($pparams->get('contact_title','COM_HECMAILING_CONTACT'));
 
 		
 		if (!$currentuser->guest)
 		{
 			$email = $currentuser->email;
 			$name = $currentuser->name;
-			$lang = $currentuser->getParam('language', '');
 		}
 		else
 		{
 			$email="";
 			$name="";
-			$lang = $currentuser->getParam('language', '');
 		}
 
+		$defaultCaptcha = $app->get('captcha');
+		if ($app->isClient('site'))
+		{
+			$defaultCaptcha = $app->getParams()->get('captcha', $defaultCaptcha);
+		}
+		
 		$this->title=$title;
 		$this->captcha_show_logged=$captcha_show_logged;
-		
+		$this->showCaptcha = ($use_captcha && (JFactory::getUser()->guest || !$captcha_show_logged) && $defaultCaptcha);
 		$viewLayout = $app->input->get( 'layout', 'default' );
 		$this->_layout = $viewLayout;
 

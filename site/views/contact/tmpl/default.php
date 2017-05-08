@@ -203,7 +203,7 @@ $help_url = 'http://joomla.hecsoft.net/index.php?option=com_content&view=article
 
 <form action="index.php?option=com_hecmailing&task=send_contact" method="post" name="adminForm" id="adminForm" ENCTYPE="multipart/form-data" >
 <input type="hidden" id="required" name="required" value="uword">
-<div class="componentheading"><?php echo $this->title; ?></div>
+<div class="pageheader"><h1><?php echo $this->title; ?></h1></div>
 <div id="component-hecmailing">
 </div>
 
@@ -216,34 +216,22 @@ $help_url = 'http://joomla.hecsoft.net/index.php?option=com_content&view=article
 	    if ($field->hidden):
 	        echo $field->input;
 	    else:
+	    	if ($field->type!="captcha" || $this->showCaptcha):
 	    ?>
 	    <dl class="dl-horizontal">
 	    <dt><?php echo $field->label; ?></dt>
 	    <dd><?php echo $field->input ?></dd>
 	    </dl>
 	    <?php
+	    	endif;
 	    endif;
 	endforeach;
 	?>
 	</div>
 
 
-<?php
-	if ($this->captcha_show_logged=='1')
-	{
-		?>
-		
-	<input type="hidden" name="check_captcha" id="check_captcha" value="1"></td></tr>
-	<?php
-}
-else
-{
-	?>
-	<input type="hidden" name="check_captcha" id="check_captcha" value="0">
-	<?php
-}
-?>
-<div class="center"><input type="button" name="sendContact" value="<?php echo JText::_('COM_HECMAILING_SEND_CONTACT'); ?>" onclick="javascript: checksend();return false;"></input>
+
+<div class="center"><input class="btn btn-primary validate" type="button" name="sendContact" value="<?php echo JText::_('COM_HECMAILING_SEND_CONTACT'); ?>" onclick="javascript: checksend();return false;"></input>
 </div>
 
 

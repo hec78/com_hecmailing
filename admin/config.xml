@@ -94,27 +94,21 @@
 		<field name="attach_input_count" type="text" default="0" size="2" label="COM_HECMAILING_ATTACH_INPUT_COUNT_LABEL" description="COM_HECMAILING_ATTACH_INPUT_COUNT_DESC" />
 		<field name="default_signature" type="editor" default="" label="COM_HECMAILING_SIGNATURE_LABEL" description="COM_HECMAILING_SIGNATURE_DESC" filter="safehtml" />
 	</fieldset>
-	<fieldset name="captcha"
-		label="COM_HECMAILING_PARAMTAB_CAPTCHA_LABEL"
-		description="COM_HECMAILING_PARAMTAB_CAPTCHA_DESC"
+	<fieldset name="contact"
+		label="COM_HECMAILING_PARAMTAB_CONTACT_LABEL"
+		description="COM_HECMAILING_PARAMTAB_CONTACT_DESC"
 	>
-		<field name="captcha_use" type="radio" default="1" label="COM_HECMAILING_USE_CAPTCHA_LABEL" description="COM_HECMAILING_USE_CAPTCHA_DESC">
+		<field name="captcha_use" type="radio" default="1" label="COM_HECMAILING_CONTACT_USE_CAPTCHA_LABEL" description="COM_HECMAILING_CONTACT_USE_CAPTCHA_DESC">
 			<option value="0">COM_HECMAILING_OPTION_NO</option>
 			<option value="1">COM_HECMAILING_OPTION_YES</option>
 		</field>
-		<field name="captcha_private_key" type="text" default="6LexAQwAAAAAAKTT3bwI9SR2mCAfExdLlS-DHfQt" label="COM_HECMAILING_CAPTCHA_PRIVATEKEY_LABEL" description="COM_HECMAILING_CAPTCHA_PRIVATEKEY_DESC" />
-		<field name="captcha_public_key" type="text" default="6LexAQwAAAAAANErhkc2zLD3wmsiZWeU1Cstc50_" label="COM_HECMAILING_CAPTCHA_PUBLICKEY_LABEL" description="COM_HECMAILING_CAPTCHA_PUBLICKEY_DESC" />
-		<field name="captcha_theme" type="list" default="0" label="COM_HECMAILING_CAPTCHA_THEME_LABEL" description="COM_HECMAILING_CAPTCHA_THEME_DESC">
-			<option value="">COM_HECMAILING_CAPTCHA_THEME_STANDARD</option>
-			<option value="red">COM_HECMAILING_CAPTCHA_THEME_RED</option>
-			<option value="white">COM_HECMAILING_CAPTCHA_THEME_WHITE</option>
-			<option value="clean">COM_HECMAILING_CAPTCHA_THEME_CLEAN</option>
-			<option value="blackglass">COM_HECMAILING_CAPTCHA_THEME_BLACK</option>
-		</field>
-		<field name="captcha_show_logged" type="radio" default="1" label="COM_HECMAILING_CAPTCHA_FORLOGGED_LABEL" description="COM_HECMAILING_CAPTCHA_FORLOGGED_DESC">
+		
+		<field name="captcha_show_logged" type="radio" default="1" label="COM_HECMAILING_CONTACT_CAPTCHA_FORLOGGED_LABEL" description="COM_HECMAILING_CONTACT_CAPTCHA_FORLOGGED_DESC">
 			<option value="0">COM_HECMAILING_OPTION_NO</option>
 			<option value="1">COM_HECMAILING_OPTION_YES</option>
 		</field>
+		<field name="contact_redirect" type="menuitem" label="COM_HECMAILING_CONTACT_REDIRECT_LABEL" description="COM_HECMAILING_CONTACT_REDIRECT_DESC" default="" />
+		<field name="contact_title" type="text" label="COM_HECMAILING_CONTACT_TITLE_LABEL" description="COM_HECMAILING_CONTACT_TITLE_DESC" default="COM_HECMAILING_CONTACT" />
 	</fieldset>
 		<fieldset
 		name="permissions"
