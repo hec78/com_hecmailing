@@ -61,7 +61,7 @@
 			<option value="3">COM_HECMAILING_YES_FOR_ALL</option>
 		</field>
 		<field name="send_count" type="text" default="1" label="COM_HECMAILING_SEND_COUNT_LABEL" description="COM_HECMAILING_SEND_COUNT_DESCR"></field>
-		<field name="default_sender" type="radio" default="1" label="COM_HECMAILING_DEFULT_SENDER_LABEL" description="COM_HECMAILING_DEFULT_SENDER_DESC">
+		<field name="default_sender" type="radio" default="1" label="COM_HECMAILING_DEFULT_SENDER_LABEL" description="COM_HECMAILING_DEFULT_SENDER_DESC" >
 			<option value="0">COM_HECMAILING_DEFULT_SENDER_DEFAULT_CONNECTED_USER</option>
 			<option value="1">COM_HECMAILING_DEFULT_SENDER_DEFAULT_WEBSITE</option>
 			<option value="2">COM_HECMAILING_DEFULT_SENDER_DEFAULT_GROUP</option>

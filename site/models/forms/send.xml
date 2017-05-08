@@ -3,7 +3,7 @@
 <fields>
     <fieldset name="basic">
         <field name="from" type="sender" hint="COM_HECMAILING_SENDER_DESC" description="COM_HECMAILING_SENDER_DESC"
-               label="COM_HECMAILING_SENDER" class="required"
+               label="COM_HECMAILING_SENDER" class="required" default="$default_sender"
           />
 		<field name="groupe" type="hecmailinggroups" hint="COM_HECMAILING_GROUP_DESC" description="COM_HECMAILING_GROUP_DESC"
                label="COM_HECMAILING_GROUP" class="inputbox" onchange="showManageButton(this)" none_value="COM_HECMAILING_GROUP_SELECT" width="100%"

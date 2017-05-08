@@ -282,18 +282,19 @@ class hecMailingModelSending extends JModelLegacy
 		   			$body=str_replace("{message_id}",$message->id,$body );
 		   			$body=str_replace("{recipient_id}",$recip->id,$body );
 		   			// Replace HashCode for answers
-		   			foreach($recip->answers as $question)
-		   			{
-		   				$i=$question->answer_index;
-		   				$answer_list=explode(";", $question->answer_list);
-		   				foreach($answer_list as $answer_code)
-		   				{
-			   				$hashcode = crypt($answer->token, $answer_code);
-			   				$var="answer_hashcode_".$i;
-			   				$body=str_replace($var,$hashcode,$body );
-			   				$i++;
-		   				}
-		   			}
+		   			if (isset($recip->answer))
+			   			foreach($recip->answers as $question)
+			   			{
+			   				$i=$question->answer_index;
+			   				$answer_list=explode(";", $question->answer_list);
+			   				foreach($answer_list as $answer_code)
+			   				{
+				   				$hashcode = crypt($answer->token, $answer_code);
+				   				$var="answer_hashcode_".$i;
+				   				$body=str_replace($var,$hashcode,$body );
+				   				$i++;
+			   				}
+			   			}
 		   			
 		   			
 		   		}

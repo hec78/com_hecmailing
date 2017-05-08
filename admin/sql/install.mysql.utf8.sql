@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_message_attachment (
   KEY `fk_message_attachment_message` (`message_id`)
 ) COMMENT='Pieces jointes des messages envoyes';
 
-/*Table structure for table `j3_hecmailing_message_recipient` */
+/*Table structure for table `#__hecmailing_message_recipient` */
 
 
 
@@ -117,5 +117,18 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_message_recipient (
   `timestamp` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date et Heure Soumission, Envoi ou Lecture',
   `params` text COMMENT 'Parametres a utiliser pour le remplacement des variables presentes dans le corps',
   PRIMARY KEY (`id`),
-  KEY `fk_message_recipient_message` (`message_id`),
+  KEY `fk_message_recipient_message` (`message_id`)
 )  COMMENT='Liste des destinataires';
+`message_id`, `recipient_id`,,	`token`,	`question_title`,	`answer_list`
+/*Table structure for table `#__hecmailing_answers` */
+CREATE TABLE IF NOT EXISTS #__hecmailing_answers (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identifiant du recipient',
+  `message_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Identifiant du message (champ id table message)',
+  `recipient_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Identifiant du recipient (champ id table message_recipient)',
+  `question_code` varchar(20) NOT NULL COMMENT 'Question code',
+  `question_title` varchar(80) NOT NULL COMMENT 'Question caption',
+  `token` varchar(35) DEFAULT NULL COMMENT 'Token use for answer',
+  `answer_list` text COMMENT 'Answers',
+  PRIMARY KEY (`id`),
+  KEY `fk_answers` (`message_id`,`recipient_id`)
+)  COMMENT='Answers';

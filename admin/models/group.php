@@ -1,11 +1,26 @@
 <?php
 /**
- * @package     HECMailing
- * @subpackage  com_hecmailing
- *
- * @copyright   Copyright (C) 2005 - 2014 Hecsoft. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version   3.4.2
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Herve CYR
+* @license   GNU/GPL
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
+*/
 
 defined('_JEXEC') or die;
 jimport('joomla.error.log');
@@ -317,7 +332,7 @@ class HecMailingModelGroup extends JModelAdmin
 			if (isset($v))
 			{
 			  
-				$tv = split(";",$v);
+				$tv = explode(";",$v);
 				$t=$tv[0];
 				$n=$tv[1];
 				$l='';
@@ -516,7 +531,7 @@ class HecMailingModelGroup extends JModelAdmin
 				$right_grant=$data['newperm_grant'.$i];
 				if (isset($v))
 				{
-					$tv = split(";",$v);
+					$tv = explode(";",$v);
 					$t=$tv[0];
 					$n=$tv[1];
 					$l='';

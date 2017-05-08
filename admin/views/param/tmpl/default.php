@@ -1,11 +1,26 @@
 <?php
 /**
- * @package     HEC Mailing
- * @subpackage  com_hecmailing
- *
- * @copyright   Copyright (C) 2005 - 2014 HECSoft All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+* @version   3.4.0
+* @package   HEC Mailing for Joomla
+* @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+* @author    Herve CYR
+* @license   GNU/GPL
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
+*/
 
 defined('_JEXEC') or die;
 
@@ -20,11 +35,11 @@ JHTML::_('behavior.tooltip');
 JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
 $cparams = JComponentHelper::getParams ('com_hecmailing');
 $document = JFactory::getDocument();
-$burl = "../";
-$document->addStyleSheet($burl."components/com_hecmailing/css/hecmailing.css");
-$ver =   HecMailingHelper::getComponentVersion();
-$latestProd =    HecMailingHelper::getLatestComponentVersion($this->baseurl.'hecmailing.xml');  
-$latestTest =    HecMailingHelper::getLatestComponentVersion($this->baseurl.'hecmailing_test.xml');  
+
+$document->addStyleSheet(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR."assets/css/hecmailing.css");
+//$ver =   HecMailingHelper::getComponentVersion();
+//$latestProd =    HecMailingHelper::getLatestComponentVersion($this->baseurl.'hecmailing.xml');  
+//$latestTest =    HecMailingHelper::getLatestComponentVersion($this->baseurl.'hecmailing_test.xml');  
 if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -35,44 +50,7 @@ if (!empty( $this->sidebar)) : ?>
 <?php endif;?>
 <table width="100%">
 	<tr valign="top"><td>
-	     <fieldset>
-	       <legend><?php echo JText::_( 'COM_HECMAILING_VERSION' ); ?></legend>
-	       	<table class="admintable">
-	        <tr><td class="key"><label for="name"><?php echo JText::_( 'COM_HECMAILING_VERSION' ); ?>:</label></td>
-	            <td><?php echo $ver; ?></td></tr>
-	       <?php
-	          if ($latestProd > $ver)
-	          {     ?>
-	                 <tr><td class="key"><label for="name"><?php echo JText::_( 'COM_HECMAILING_LATEST_PROD_VERSION' ); ?>:</label></td>
-	                       <td><?php echo $latestProd; ?>
-	                        <a href="index.php?option=com_hecmailing&task=param.upgrade" style="color:red"><?php echo JText::_( 'COM_HECMAILING_UPGRADE_COMPONENT' ); ?></a></td></tr>
-					
-	       <?php
-	          }
-	          else {
-	          	    ?>
-	                 <tr><td class="key"><label for="name"><?php echo JText::_( 'COM_HECMAILING_LATEST_PROD_VERSION' ); ?>:</label></td>
-	                       <td><?php echo $latestProd; ?> <?php echo JText::_( 'COM_HECMAILING_UPTODATE_VERSION' ); ?></td></tr>
-	                <?php
-	          }
-			  if ($latestTest > $ver)
-	          {     ?>
-					<tr><td class="key"><label for="name"><?php echo JText::_( 'COM_HECMAILING_LATEST_TEST_VERSION' ); ?>:</label></td>
-	                       <td><?php echo $latestTest; ?>
-	                        <a href="index.php?option=com_hecmailing&task=param.upgradetest" style="color:red"><?php echo JText::_( 'COM_HECMAILING_UPGRADE_COMPONENT' ); ?></a></td></tr>
-							<?php
-	          }
-	          else {
-	          	    ?>
-	                 <tr><td class="key"><label for="name"><?php echo JText::_( 'COM_HECMAILING_LATEST_TEST_VERSION' ); ?>:</label></td>
-	                       <td><?php echo $latestTest; ?> <?php echo JText::_( 'COM_HECMAILING_UPTODATE_VERSION' ); ?></td></tr>
-	                <?php
-	          }
-	       ?>
-	        </table>
-
-	       </fieldset>
-
+	     
 	       <fieldset>
 
 			<legend><?php echo JText::_( 'COM_HECMAILING_DONATION' ); ?></legend>

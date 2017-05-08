@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<fields>
+    <fieldset name="basic">
+    	<field name="contact" type="hecmailingcontacts" label="COM_HECMAILING_CONTACT_WHO" description="COM_HECMAILING_CONTACT_WHO_HELP" validate="captcha" default="-1" hint="COM_HECMAILING_CONTACT_WHO_HINT" />
+        <field name="email" type="text" hint="COM_HECMAILING_YOUR_EMAIL" description="COM_HECMAILING_YOUR_EMAIL_HELP"
+               label="COM_HECMAILING_YOUR_EMAIL" class="required" default="" tooltip="COM_HECMAILING_YOUR_EMAIL_HELP"
+          />
+          <field name="name" type="text" hint="COM_HECMAILING_YOUR_NAME" description="COM_HECMAILING_YOUR_NAME_HELP"
+               label="COM_HECMAILING_YOUR_NAME" class="required" default=""
+          />
+          <field name="subject" type="text" hint="COM_HECMAILING_CONTACT_SUBJECT" description="COM_HECMAILING_CONTACT_SUBJECT_HELP"
+               label="COM_HECMAILING_CONTACT_SUBJECT" class="required" default=""
+          />
+		
+          
+          <field name="body" type="textarea" hint="COM_HECMAILING_CONTACT_BODY" description="COM_HECMAILING_CONTACT_BODY_HELP"
+               label="COM_HECMAILING_CONTACT_BODY"
+          />
+          <field name="backup_mail" type="checkbox" label="COM_HECMAILING_CONTACT_BACKUP_MAIL" description="COM_HECMAILING_CONTACT_BACKUP_MAIL_HELP" />
+          <field name="check_captcha" type="captcha" validate="captcha" namespace="contact" label="COM_HECMAILING_ANTISPAM" description="COM_HECMAILING_ANTISPAM_HELP" />
+    </fieldset>
+    </fields>
+</form>

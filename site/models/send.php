@@ -49,13 +49,28 @@ class hecMailingModelSend extends JModelForm
   	  parent::__construct(); 
    	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = ($this->params->get('debug') == 1);
-      $this->isLog = false;
       if ($this->isLog)
       {
-        $this->_log = JLog::getInstance('com_hecmailing.log.php');
+      	JLog::addLogger(array(	// Set the name of the log file
+      			'text_file' => 'com_hecmailing.log.php'	));
+      
       }
    } 
 	
+   /**
+    * Method to write text into component log
+    *
+    * @access	public
+    * @param	string Text to write
+    */
+   function Log($text)
+   {
+   	if ($this->isLog)
+   	{
+   		JLog::add($text);
+   		 
+   	}
+   }
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -150,19 +165,7 @@ class hecMailingModelSend extends JModelForm
 	
 
    
-/**
- * Method to write text into component log
- *
- * @access	public
- * @param	string Text to write
- */
-function Log($text)
-{  
-	if ($this->isLog)
-    {
-    	$this->_log->addEntry(array('comment' => $text));
-    }
-}
+
 
 /**
  * @method getGroupeQuery : Return query for a group
@@ -673,25 +676,28 @@ function getMailAdrFromGroupe($groupe)
 	   	}
 	   
 	   	// Process uploaded files
-	   	$files=$files['jform_attachment'];
-	   	for($i=0;$i<count($files['name']);$i++)
+	   	if (isset($files['jform_attachment']))
 	   	{
-	   		// Get uploaded files
-	   		$file = $files['name'][$i];
-	   		$filename = JFile::makeSafe($file);
-	   		$src = $files['tmp_name'][$i];
-	   		if ($src!='')
-	   		{
-	   			//Set up the source and destination of the file
-	   			$dest = $attach_path.DIRECTORY_SEPARATOR.$file;
-	   			// Upload uploaded file to attchment directory (temp or saved dir)
-	   			JFile::upload($src, $path.$dest, false,true);
-	   			$attach[] = array('file'=>$dest, 'type'=>1,'filename'=>$file, 'mime'=>'','cid'=>'');
-	   			
-	   			// Bug #3013589 : Delete Failed message
-	   			//$pj_uploaded[] = $path.DS.$dest;
-	   			$pj_uploaded[] = $path.$dest;
-	   		}
+		   	$files=$files['jform_attachment'];
+		   	for($i=0;$i<count($files['name']);$i++)
+		   	{
+		   		// Get uploaded files
+		   		$file = $files['name'][$i];
+		   		$filename = JFile::makeSafe($file);
+		   		$src = $files['tmp_name'][$i];
+		   		if ($src!='')
+		   		{
+		   			//Set up the source and destination of the file
+		   			$dest = $attach_path.DIRECTORY_SEPARATOR.$file;
+		   			// Upload uploaded file to attchment directory (temp or saved dir)
+		   			JFile::upload($src, $path.$dest, false,true);
+		   			$attach[] = array('file'=>$dest, 'type'=>1,'filename'=>$file, 'mime'=>'','cid'=>'');
+		   			
+		   			// Bug #3013589 : Delete Failed message
+		   			//$pj_uploaded[] = $path.DS.$dest;
+		   			$pj_uploaded[] = $path.$dest;
+		   		}
+		   	}
 	   	}
 	   	// Process hosted files attachment
 	   	$local = array();

@@ -48,11 +48,7 @@ class HecMailingControllerSending extends HecMailingController
 	
 	public function __construct($config = array())
 	{
-		
-	
 		parent::__construct($config);
-			
-		
 	}
 	
 	/**
@@ -108,19 +104,21 @@ class HecMailingControllerSending extends HecMailingController
 			$result["message"]="You can't call this service outside the origine website";
 		}
 		// Get the document object.
-
 		$document =JFactory::getDocument();
 		
 		// Set the MIME type for JSON output.
 		$document->setMimeEncoding('application/json');
 		
 		// Change the suggested filename.
-		JResponse::setHeader('Content-Disposition','attachment;filename="sendreport.json"');
-		
+		//JFactory::getApplication()->setHeader('Content-Disposition','attachment;filename="sendreport.json"');
+		//JFactory::getApplication()->setHeader('Content-Type','application/json; charset=UTF-8');
+		//JResponse::setHeader('Content-Disposition','attachment;filename="sendreport.json"');
+		header('content-disposition: attachment;filename="sendreport.json"');
+		header('content-type: application/json; charset=utf-8');
 		// Output the JSON data.
 		echo json_encode($result);
 		
-		exit;
+		jexit();
 	}
 	
 	

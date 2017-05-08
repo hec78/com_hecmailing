@@ -1,14 +1,29 @@
 ***************************************************************
-*    HEC Mailing version 3.4.1 (J3.x!) release notes          *
+*    HEC Mailing version 3.4.2 (J3.x!) release notes          *
 *-------------------------------------------------------------*
-* by H.Cyr 25 april 2017                                      *
+* by H.Cyr 05 may 2017                                        *
 * @package hecMailing for Joomla                              *
-* @copyright Copyright (C) 2016 Hecsoft All rights reserved.  *
+* @copyright Copyright (C) 2017 Hecsoft All rights reserved.  *
 * @license GNU/GPL                                            *
 ***************************************************************
 
 CHANGE LOG
  Version  Date          Changes
+  3.4.3   08 may  2017  Fix #14 : Table answer is missing 
+                        Fix #13 : English Translation missing for attachment bug
+                        Fix #12 : Add Attachment : Javascript issue bug 
+						Enhancement #11 : Remove deprecated view enhancement
+						Fix #10 : Email sent button doesn't work bug
+						Fix #9 : Default read use Tag not set correctly bug
+                        Fix #8 : Contact form doesn't work bug
+                        Fix #7 : Component Menu Contact doesn't work bug
+                        Fix #6 : English translation doesn't work bug
+                        Fix #5 : Default Sender selection doesn't Work bug
+                        Fix #4 : Error to access to Admin parameter menu bug
+                        Fix #3 : No from address when not connected bug
+                        Fix #1 : Call to undefined function split() when saving new group bug
+  3.4.2   05 may  2017  Fixe split function issue with php 7
+                        Change PHP file headers
   3.4.1   25 apr. 2017  Add create folder feature in attachment windows
                         Rework Admin languages files
 						Fix CanDo issue

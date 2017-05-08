@@ -3,7 +3,7 @@
  * @version   3.4.0
  * @package   HEC Mailing for Joomla
  * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
- * @author    Hervé CYR
+ * @author    Hervï¿½ CYR
  * @license   GNU/GPL
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
 jimport('joomla.event.dispatcher');
+jimport('joomla.utilities.arrayhelper');
 
 /**
  * Kwpmessage model.
@@ -92,8 +93,8 @@ class HecMailingModelMessage extends JModelItem
 			if ($table->load($id))
 			{
 				// Convert the JTable to a clean JObject.
-				$properties  = $table->getProperties(1);
-				$this->_item = ArrayHelper::toObject($properties, 'JObject');
+				$properties  = $table->getProperties(true);
+				$this->_item = Joomla\Utilities\ArrayHelper::toObject($properties, 'JObject');
 				
 				$query = $db->getQuery(true);
 				$query->select('*')->from("#__users")->where("id=".$this->_item->user_id);

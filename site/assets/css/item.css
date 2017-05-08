@@ -15,3 +15,5 @@
     border: none;
     border-top: 1px solid #ddd;
 }
+
+span.tooltip { float:right; margin-left:10px;}

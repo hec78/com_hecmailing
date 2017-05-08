@@ -1,80 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2.0" method="upgrade">
- <name>HEC Mailing</name>
- <!-- The following elements are optional and free of formatting conttraints -->
- <creationDate>Apr. 2017</creationDate>
- <author>Herve CYR</author>
- <authorEmail>contact@hecsoft.net</authorEmail>
- <authorUrl>http://joomla.hecsoft.net</authorUrl>
- <copyright>(c) Hecsoft 2009-2017</copyright>
- <license>GNU General Public License</license>
- <!--  The version string is recorded in the components table -->
- <version>3.4.1</version>
- <!-- The description is optional and defaults to the name -->
- <description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
- <scriptfile>install.hecmailing.php</scriptfile>
- <!-- Site Main File Copy Section -->
- <!-- Note the folder attribute: This attribute describes the folder
-      to copy FROM in the package to install therefore files copied
-      in this section are copied from /site/ in the package -->
-  
- <files folder="site">
-  <filename>controller.php</filename>
-  <filename>hecmailing.php</filename>
-  <filename>release_note.txt</filename>
-  <filename>index.html</filename>
-  <filename>router.php</filename>
-  <folder>assets</folder>
-  <folder>controllers</folder>
-  <folder>helpers</folder>
-  <folder>language</folder>
-  <folder>libraries</folder>
-  <folder>models</folder>
-  <folder>views</folder>
-  
-  
- </files>
- <install>
-     <sql>
+	<name>HEC Mailing</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>Apr. 2017</creationDate>
+	<author>Herve CYR</author>
+	<authorEmail>contact@hecsoft.net</authorEmail>
+	<authorUrl>http://joomla.hecsoft.net</authorUrl>
+	<copyright>(c) Hecsoft 2009-2017</copyright>
+	<license>GNU General Public License</license>
+	<!--  The version string is recorded in the components table -->
+	<version>3.4.3</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
+	<scriptfile>install.hecmailing.php</scriptfile>
+	<!-- Site Main File Copy Section -->
+	<!-- Note the folder attribute: This attribute describes the folder
+	to copy FROM in the package to install therefore files copied
+	in this section are copied from /site/ in the package -->
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>hecmailing.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>language</folder>
+		<folder>libraries</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<install>
+		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 			<file driver="mysql" >sql/install.mysql.utf8.sql</file>
-	</sql>
-</install>
+		</sql>
+	</install>
 
- <administration>
-  <!-- Administration Menu Section -->
-  <menu task="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>
-  <submenu>
-    
-    <menu task="groups" img="components/com_hecmailing/assets/images/hecmailing16x16.png">COM_HECMAILING_GROUPLIST</menu> 
-  <menu task="contact" img="components/com_hecmailing/assets/images/user16.png">COM_HECMAILING_CONTACTS</menu> 
-  <menu task="templates" img="components/com_hecmailing/assets/images/template.png" >COM_HECMAILING_MENUTEMPLATE</menu> 
-    <menu task="param" img="components/com_hecmailing/assets/images/param.png">COM_HECMAILING_PARAMETERS</menu> 
-  </submenu>
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu task="groups" img="components/com_hecmailing/hecmailing16x16.png">COM_HECMAILING</menu>
+		<submenu>
+			<menu task="groups" img="components/com_hecmailing/assets/images/hecmailing16x16.png">COM_HECMAILING_GROUPLIST</menu> 
+			<menu task="contacts" img="components/com_hecmailing/assets/images/user16.png">COM_HECMAILING_CONTACTS</menu> 
+			<menu task="templates" img="components/com_hecmailing/assets/images/template.png" >COM_HECMAILING_MENUTEMPLATE</menu> 
+			<menu task="param" img="components/com_hecmailing/assets/images/param.png">COM_HECMAILING_PARAMETERS</menu> 
+		</submenu>
 
-  <!-- Administration Main File Copy Section -->
-  <files folder="admin">
-   
-   <filename>access.xml</filename>
-   	<filename>config.xml</filename>
-	<filename>controller.php</filename>
-   <filename>hecmailing.php</filename>
-   <filename>index.html</filename>
-   <filename>install.hecmailing.php</filename>
-   <filename>install.php</filename>
-   <filename>update.php</filename>
-   <folder>assets</folder>
-    <folder>controllers</folder>
-      <folder>helpers</folder>
-	<folder>language</folder>
-	<folder>libraries</folder>
-   <folder>models</folder>
-   <folder>sql</folder>
-   <folder>tables</folder>
-   <folder>views</folder>
-   
-  </files>  
- 	 
- </administration>
+		<!-- Administration Main File Copy Section (in admin folder) -->
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>hecmailing.php</filename>
+			<filename>index.html</filename>
+			<filename>install.hecmailing.php</filename>
+			<filename>install.php</filename>
+			<filename>update.php</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>language</folder>
+			<folder>libraries</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>  
+
+	</administration>
+	<updateservers>
+	<server type="extension" name="HEC Mailing" priority="1">http://joomla.hecsoft.net/update/hecmailing.xml</server>
+	</updateservers>
 </extension>
 

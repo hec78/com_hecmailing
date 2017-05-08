@@ -45,6 +45,29 @@ if (!isset($this->message)) $idmessage=false; else $idmessage=$this->message->id
 </style>
 <?php if ($idmessage) { ?>
 <script language="javascript" type="text/javascript">
+function mydump(arr,level) {
+    var dumped_text = "";
+    if(!level) level = 0;
+
+    var level_padding = "";
+    for(var j=0;j<level+1;j++) level_padding += "    ";
+
+    if(typeof(arr) == 'object') {  
+        for(var item in arr) {
+            var value = arr[item];
+
+            if(typeof(value) == 'object') { 
+                dumped_text += level_padding + "'" + item + "' ...\n";
+                dumped_text += mydump(value,level+1);
+            } else {
+                dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+            }
+        }
+    } else { 
+        dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+    }
+    return dumped_text;
+}
 function send()
 {
 	var formData = {idMessage:"<?php echo $idmessage; ?>" , count:"<?php echo $this->count; ?>"}; //Array 
@@ -101,7 +124,8 @@ function send()
 	    	}
     	   },
     	error: function (msg,status) {
-    		jQuery('#label').text('<?php echo JText::_('COM_HECMAILING_SENDING_WEBSERVICE_ERROR'); ?> :'+status+ ' - '+msg);
+        	dumpmsg=mydump(msg);
+    		jQuery('#label').text('<?php echo JText::_('COM_HECMAILING_SENDING_WEBSERVICE_ERROR'); ?> :'+status+ ' - '+dumpmsg);
 	    		clearTimeout();
 	    	}
     });

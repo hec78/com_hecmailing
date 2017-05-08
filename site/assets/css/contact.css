@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+
+
+#contactForm input[type="text"] {
+	width:95%;
+}
+
+#contactForm textarea {
+	width:95%;
+	height:150px;
+}
+
+#contactForm dt
+{
+	height: 36px;
+}
+
+#contactForm dt label {
+	word-wrap: break-word;
+	overflow-wrap : break-word;
+	white-space:normal !important;
+	
+}
+#contactForm dt label:after {content:"*";}
+
+.contactInfoHeader 
+{
+	font-size: 150%;
+    font-weight: bold;
+	font-style: italic;	
+}

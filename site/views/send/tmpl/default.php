@@ -4,7 +4,7 @@
 * @package hecMailing for Joomla
 * @module views.send.tmpl.default.php
 * @subpackage : View Send (Sending mail form)
-* @author : Hervé CYR
+* @author : Hervï¿½ CYR
 * @copyright Copyright (C) 2008-2017 Hecsoft All rights reserved.
 * @license GNU/GPL
 *
@@ -146,7 +146,7 @@ var baseURI = '<?php echo JURI::base( true ); ?>';
 <td>&nbsp;</td>
 <?php  if ($this->show_mail_sent) { ?>
 <td class="button" id="User Toolbar-log">
-  <a href="index.php?option=com_hecmailing&task=log" class="toolbar">
+  <a href="index.php?option=com_hecmailing&task=messages" class="toolbar">
     <span class="icon-32-log" title="<?php echo JText::_('COM_HECMAILING_SHOW LOG')?>"></span><?php echo JText::_('COM_HECMAILING_SHOW_LOG'); ?></a>
 </td>
 <?php  } ?>
@@ -158,6 +158,7 @@ var baseURI = '<?php echo JURI::base( true ); ?>';
 <hr><br>
 <div>
 	<?php
+	
 	// Iterate through the fields and display them.
 	foreach($this->form->getFieldset('basic') as $field):
     // If the field is hidden, only use the input.

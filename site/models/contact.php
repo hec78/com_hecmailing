@@ -30,13 +30,15 @@
 */
 defined('_JEXEC') or die ('restricted access'); 
 jimport('joomla.application.component.model'); 
+jimport('joomla.log.log');
+
 
 /**
  * hecMailing Component Form Model
  *
  * @package		Joomla
  */
-class HecMailingModelContact extends JModelLegacy 
+class HecMailingModelContact extends JModelForm 
 { 
    /**
 	 * User id
@@ -52,12 +54,14 @@ class HecMailingModelContact extends JModelLegacy
    function __construct() 
    { 
   	  parent::__construct(); 
-   	  $this->params = &JComponentHelper::getParams( 'com_hecmailing' );
+   	  $this->params = JComponentHelper::getParams( 'com_hecmailing' );
       $this->isLog = $this->params->get('Log');
-      $this->isLog = true;
+      //$this->isLog = true;
       if ($this->isLog)
       {
-        $this->_log = &JLog::getInstance('com_hecmailing.log.php');
+      	JLog::addLogger(array(	// Set the name of the log file
+      					'text_file' => 'com_hecmailing.log.php'	));
+        
       }
    } 
 
@@ -71,7 +75,8 @@ class HecMailingModelContact extends JModelLegacy
    {  
       if ($this->isLog)
       {
-        $this->_log->addEntry(array('comment' => $text));
+      	JLog::add($text);
+        
       }
    }
 
@@ -178,6 +183,61 @@ class HecMailingModelContact extends JModelLegacy
 		if (!$data = $db->loadObject())  return false;
 		return $data;
 	}
+	
+	/**
+	 * Method to get the contact form.
+	 * The base form is loaded from XML and then an event is fired
+	 *
+	 * @param   array    $data      An optional array of data for the form to interrogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		JFactory::getApplication()->setUserState('com_hecmailing.contact.data', $data);
+		$form = $this->loadForm('com_hecmailing.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+		
+		if (empty($form)){	return false;	}
+		return $form;
+	}
+	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 *
+	 * @since   1.6.2
+	 */
+	protected function loadFormData()
+	{
+		$data = (array) JFactory::getApplication()->getUserState('com_hecmailing.contact.data', array());
+		$currentuser=JFactory::getUser();
+		if (!$currentuser->guest)
+		{
+			if (count($data)>0)
+			{
+				if($data['email']=='')
+					$data['email']= $currentuser->email;
+				if ($data['name']=='')
+					$data['name']= $currentuser->name;
+			}
+			else
+			{
+				$data['email']= $currentuser->email;
+				$data['name']= $currentuser->name;
+			}
+			
+		}
+		
+		
+		$this->preprocessData('com_hecmailing.contact', $data);
+		return $data;
+	}
+	
 } 
 ?> 
 

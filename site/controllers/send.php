@@ -3,7 +3,7 @@
 * @version   3.4.0
 * @package   HEC Mailing for Joomla
 * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
-* @author    Hervé CYR
+* @author    Hervï¿½ CYR
 * @license   GNU/GPL
 *
 * This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@ class HecMailingControllerSend extends HecMailingController
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $view_item = 'form';
+	protected $view_item = 'send';
 	
 	/**
 	 * The URL view list variable.
@@ -56,7 +56,7 @@ class HecMailingControllerSend extends HecMailingController
 		// Check if current user is in authorized joomla groups
 		$adminType = $params->get('usertype','ADMINISTRATOR;SUPER ADMINISTRATOR');
 		
-		$modelbase = $this->getModel("Form","HecMailingModel");
+		$modelbase = $this->getModel("Send","HecMailingModel");
 		
 		// Check if current user is in admin hec Mailing group (groupaccess hec Mailing parameter)
 		$usrgrp = $params->get('groupaccess','MailingGroup');
@@ -674,7 +674,7 @@ class HecMailingControllerSend extends HecMailingController
 		$document->setMimeEncoding('application/json');
 		
 		// Change the suggested filename.
-		JResponse::setHeader('Content-Disposition','attachment;filename="group'.$groupType.'.json"');
+		$app->setHeader('Content-Disposition','attachment;filename="group'.$groupType.'.json"');
 		
 		// Output the JSON data.
 		echo json_encode($data);
