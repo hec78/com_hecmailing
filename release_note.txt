@@ -1,5 +1,5 @@
 ***************************************************************
-*    HEC Mailing version 3.4.4 (J3.x!) release notes          *
+*    HEC Mailing version 3.4.5 (J3.x!) release notes          *
 *-------------------------------------------------------------*
 * by H.Cyr 08 may 2017                                        *
 * @package hecMailing for Joomla                              *
@@ -9,6 +9,7 @@
 
 CHANGE LOG
  Version  Date          Changes
+  3.4.5   18 feb  2018  Fix #22 : Error installing component on a fresh joomla version (version 3.4.4)
   3.4.4   08 may  2017  Fix #20 : Contact doen't work when no Captcha plugin bug
 						Fix #19 : No message when contact sent bug
 						Fix #18 : Contact doesn't work with reCaptcha v1 bug

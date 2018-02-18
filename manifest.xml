@@ -2,14 +2,14 @@
 <extension type="component" version="3.2.0" method="upgrade">
 	<name>HEC Mailing</name>
 	<!-- The following elements are optional and free of formatting conttraints -->
-	<creationDate>Apr. 2017</creationDate>
+	<creationDate>Feb. 2018</creationDate>
 	<author>Herve CYR</author>
 	<authorEmail>contact@hecsoft.net</authorEmail>
 	<authorUrl>http://joomla.hecsoft.net</authorUrl>
-	<copyright>(c) Hecsoft 2009-2017</copyright>
+	<copyright>(c) Hecsoft 2009-2018</copyright>
 	<license>GNU General Public License</license>
 	<!--  The version string is recorded in the components table -->
-	<version>3.4.4</version>
+	<version>3.4.5</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Composant d'envoi de mail (Liste de diffusion) et de contact/ Mailing list and Contact component</description>
 	<scriptfile>install.hecmailing.php</scriptfile>

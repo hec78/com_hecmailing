@@ -1,3 +1,25 @@
+/*
+ * @version   3.4.5
+ * @package   HEC Mailing for Joomla
+ * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
+ * @author    Herve CYR
+ * @license   GNU/GPL
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+*/
 CREATE TABLE IF NOT EXISTS #__hecmailing_groupdetail (
 	grp_id_groupe int(11) NOT NULL COMMENT 'Id du groupe',
 	gdet_cd_type tinyint(4) NOT NULL COMMENT 'Type de detail (1 : UserName, 2 : UserId, 3 : UserType, 4 : E-mail)',
@@ -114,12 +136,12 @@ CREATE TABLE IF NOT EXISTS #__hecmailing_message_recipient (
   `name` varchar(200) DEFAULT NULL COMMENT 'Nom d''affichage de l''utilsateur',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Status d''envoi : 0 A Envoyer, 1 Envoyé, 9 Erreur Envoi,8 Domaine Exclus',
   `error` text COMMENT 'Message d''erreur',
-  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date et Heure Soumission, Envoi ou Lecture',
+  `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date et Heure Soumission, Envoi ou Lecture',
   `params` text COMMENT 'Parametres a utiliser pour le remplacement des variables presentes dans le corps',
   PRIMARY KEY (`id`),
   KEY `fk_message_recipient_message` (`message_id`)
 )  COMMENT='Liste des destinataires';
-`message_id`, `recipient_id`,,	`token`,	`question_title`,	`answer_list`
+
 /*Table structure for table `#__hecmailing_answers` */
 CREATE TABLE IF NOT EXISTS #__hecmailing_answers (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identifiant du recipient',
