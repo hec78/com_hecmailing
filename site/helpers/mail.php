@@ -1,9 +1,9 @@
 <?php
 /**
- * @version   3.4.0
+ * @version   3.4.6
  * @package   HEC Mailing for Joomla
  * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
- * @author    Hervé CYR
+ * @author    Hervï¿½ CYR
  * @license   GNU/GPL
  *
  * This program is free software; you can redistribute it and/or modify
@@ -60,9 +60,9 @@ class HecMailingMailFrontendHelper {
 	{
 		$types=array("jpg"=>"image/jpeg", "php"=>"", ""=>"image/jpeg");
 		$image_list=array();
-		$doc=new DOMDocument();
+		$doc=new DOMDocument('1.0', 'utf-8');
 		//$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-		$doc->loadHTML($html);
+		$doc->loadHTML(utf8_decode($html));
 		$xml=simplexml_import_dom($doc); // just to make xpath more simple
 		$images=$xml->xpath('//img');
 		$num=1;
@@ -106,9 +106,9 @@ class HecMailingMailFrontendHelper {
 	
 	public static function AddSitePrefixForImagesFromHTML($html)
 	{
-		$doc=new DOMDocument();
+	    $doc=new DOMDocument('1.0', 'utf-8');
 		//$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-		$doc->loadHTML($html);
+	    $doc->loadHTML(utf8_decode($html));
 		$xml=simplexml_import_dom($doc); // just to make xpath more simple
 		$images=$xml->xpath('//img');
 		$num=1;
@@ -257,7 +257,7 @@ class HecMailingMailFrontendHelper {
 		
 		
 		
-		La réunion de préparation aura lieu le Jeudi 5 Janv. 2017 :
+		La rï¿½union de prï¿½paration aura lieu le Jeudi 5 Janv. 2017 :
 		
 		{answer question="ReunionMeetingIndoor2017" code="Oui" }Je participerai{/answer}
 		
@@ -321,5 +321,10 @@ class HecMailingMailFrontendHelper {
 		$obj->questions = $question_list;
 		return $obj;
 	}
+	public static function transformSpecialChars($text) 
+	{ 
+	    $text = htmlentities($text, ENT_NOQUOTES, "UTF-8"); 
+	    $text = htmlspecialchars_decode($text); 
+	    return $text; }
 }
 ?>

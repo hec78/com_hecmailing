@@ -1,14 +1,18 @@
 ***************************************************************
-*    HEC Mailing version 3.4.5 (J3.x!) release notes          *
+*    HEC Mailing version 3.4.6 (J3.x!) release notes          *
 *-------------------------------------------------------------*
-* by H.Cyr 08 may 2017                                        *
+* by H.Cyr 08 mar 2018                                        *
 * @package hecMailing for Joomla                              *
-* @copyright Copyright (C) 2017 Hecsoft All rights reserved.  *
+* @copyright Copyright (C) 2018 Hecsoft All rights reserved.  *
 * @license GNU/GPL                                            *
 ***************************************************************
 
 CHANGE LOG
  Version  Date          Changes
+  3.4.6   10 mar 2018   Fix #27 : Go to contact admin list when publish/unpublish a template
+                        Fix #26 : Problem with characters with accent when sending email
+						Fix #25 : The email count in Group management list is not good
+						Fix #23 : Text COM_HECMAILING_TEMPLATE_DELETED was not translated
   3.4.5   18 feb  2018  Fix #22 : Error installing component on a fresh joomla version (version 3.4.4)
   3.4.4   08 may  2017  Fix #20 : Contact doen't work when no Captcha plugin bug
 						Fix #19 : No message when contact sent bug

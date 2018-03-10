@@ -1,6 +1,6 @@
 <?php 
 /**
-* @version   3.4.0
+* @version   3.4.6
 * @package   HEC Mailing for Joomla
 * @copyright Copyright (C) 1999-2017 Hecsoft All rights reserved.
 * @author    Hervé CYR
@@ -646,7 +646,7 @@ function getMailAdrFromGroupe($groupe)
 	   	if (isset($formdata['message_body']))	$body = $formdata['message_body']; else $body='';
 	   	if (isset($formdata['groupe'])) $groupe	= $formdata['groupe'];
 	   	$sendcount = intval($params->get('send_count', 1));
-	   
+	    
 	   	// Get attachments
 	   	$attach = array();
 	   	
@@ -726,10 +726,11 @@ function getMailAdrFromGroupe($groupe)
 	   	}
 	   
 	   	// Clean the email data
+	   	
 	   	$subject = JMailHelper::cleanSubject($subject);
 	   	$body	 = JMailHelper::cleanBody($body);
 	   	$sender	 = JMailHelper::cleanAddress($sender);
-	   
+	   	
 	   	$inline=array();
 	   	$bodytolog = $body;
 	   
@@ -759,6 +760,8 @@ function getMailAdrFromGroupe($groupe)
 	   
 	   	// Process hyperlink : Replace relative url by absolute url for link with relative path (without http://)
 	   	$body=HecMailingMailFrontendHelper::AddSitePrefixForLinksFromHTML($body);
+	   	
+	   	$body = HecMailingMailFrontendHelper::transformSpecialChars($body);
 	   	
 	   	$errors=0;
 	   	$lstmailok=array();
