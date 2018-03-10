@@ -152,7 +152,7 @@ class HecMailingModelGroups extends JModelList
 		$query->from($db->quoteName('#__hecmailing_groups') . ' AS g');
 
 		// Add the number of item for each groupe.
-		$query->select('COUNT(DISTINCT gd.grp_id_groupe) AS grp_nb_item')
+		$query->select('COUNT(*) AS grp_nb_item')
 			->join('LEFT OUTER', $db->quoteName('#__hecmailing_groupdetail') . ' AS gd ON g.grp_id_groupe=gd.grp_id_groupe ')
 			->group('g.grp_id_groupe');
 

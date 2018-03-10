@@ -92,14 +92,14 @@ class HecMailingControllerTemplates extends JControllerAdmin
 				else
 					$msg = JText::_("COM_HECMAILING_CONTACTS_UNPUBLISHED");
 			}
-			$link=  JRoute::_('index.php?option=com_hecmailing&view=contacts',FALSE);
+			$link=  JRoute::_('index.php?option=com_hecmailing&view=templates',FALSE);
 			$app->redirect ($link, $msg);
 		}
 		else
 		{
 			$msg = JText::sprintf("COM_HECMAILING_CONTACT_NOTPUBLISHED", $model->error);
 			$app->enqueueMessage($msg,'error');
-			$link=  JRoute::_('index.php?option=com_hecmailing&view=contacts',FALSE);
+			$link=  JRoute::_('index.php?option=com_hecmailing&view=templates',FALSE);
 			$app->redirect ($link, $msg);
 		}
 	}
